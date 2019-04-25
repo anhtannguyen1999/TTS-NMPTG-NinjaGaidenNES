@@ -1,0 +1,5 @@
+﻿  ViewPort.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(62): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)
