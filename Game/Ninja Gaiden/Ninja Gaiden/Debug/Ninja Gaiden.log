@@ -1,0 +1,3 @@
+﻿  main.cpp
+d:\gamedev-intro-tutorials-master\ninja gaiden\ninja gaiden\main.cpp(51): warning C4060: switch statement contains no 'case' or 'default' labels
+  Ninja Gaiden.vcxproj -> D:\gamedev-intro-tutorials-master\Ninja Gaiden\Debug\Ninja Gaiden.exe
