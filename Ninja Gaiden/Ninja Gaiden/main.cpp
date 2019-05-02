@@ -12,13 +12,11 @@
 
 #include"Ninja.h"
 
+#include "SceneManager.h"
 
 CGame *game;
 
-CNinja *ninja;
-
-CTileMap * tileMap;
-CViewPort *viewPort;
+CSceneManager *sceneManager;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -33,62 +31,32 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
-	{
-	/*case DIK_UP:
-		ninja->SetState(NINJA_STATE_RUN_LEFT);
-		break;
-	case DIK_SPACE:
-		ninja->SetState(SIMON_STATE_HIT);
-		break;*/
-	}
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
-{
-	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-	/*switch (KeyCode)
-	{
-	case DIK_RIGHT:
-		viewPort->SetState(VIEW_PORT_STATE_STOPMOVEHORIZONTAL);
-		break;
-	case DIK_LEFT:
-		viewPort->SetState(VIEW_PORT_STATE_STOPMOVEHORIZONTAL);
-		break;
-	case DIK_UP:
-		viewPort->SetState(VIEW_PORT_STATE_STOPMOVEVERTICAL);
-		break;
-	case DIK_DOWN:
-		viewPort->SetState(VIEW_PORT_STATE_STOPMOVEVERTICAL);
-		break;
-	}*/
+{	
 }
 
 void CSampleKeyHander::KeyState(BYTE *states)
 {
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		ninja->SetState(NINJA_STATE_RUN_RIGHT);
-		//viewPort->SetState(VIEW_PORT_STATE_MOVERIGHT);
+		sceneManager->KeyDown(RIGHT_KEY);
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) 
 	{
-		ninja->SetState(NINJA_STATE_RUN_LEFT);
-		//viewPort->SetState(VIEW_PORT_STATE_MOVELEFT);
+		sceneManager->KeyDown(LEFT_KEY);
 	}
 	else if (game->IsKeyDown(DIK_UP))
 	{
-		//viewPort->SetState(VIEW_PORT_STATE_MOVETOP);
+		sceneManager->KeyDown(UP_KEY);
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		//viewPort->SetState(VIEW_PORT_STATE_MOVEDOWN);
+		sceneManager->KeyDown(DOWN_KEY);
 	}
-	//else if(game->IsKeyDown(DIK_DOWN))
-		//ninja->SetState();
 	else
-		ninja->SetState(NINJA_STATE_IDLE);
+		sceneManager->KeyDown(NON_KEY);
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -104,17 +72,11 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
-	load textures, sprites, animations and player object
-*/
 void LoadResources()
 {
-	ninja = new CNinja();
-	objects.push_back(ninja);
-	if (tileMap == NULL)
-		tileMap = new CTileMap(L"ReSource\\Map1-Matrix.txt", L"ReSource\\Map1-Tiles.png");
-	if (viewPort == NULL)
-		viewPort = CViewPort::GetInstance();
+	
+	sceneManager = new CSceneManager();
+	sceneManager->LoadScene(GAME_STAGE_31);
 
 }
 
@@ -124,21 +86,9 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	// We know that Simon is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-	float ninjaX = 0, ninjaY = 0;
-	ninja->GetPosition(ninjaX,ninjaY);
-	viewPort->Update(dt, ninjaX, ninjaY, tileMap->GetMapWidth(),tileMap->GetMapHeight());
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
+	
+	sceneManager->Update(dt);
 
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt,&coObjects);
-	}
 }
 
 /*
@@ -157,8 +107,9 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		tileMap->Render();
-
+		//New
+		/*tileMap->Render();*/
+		sceneManager->Render();
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
 
@@ -265,7 +216,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
-
 
 	LoadResources();
 

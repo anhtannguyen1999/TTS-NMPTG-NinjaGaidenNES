@@ -1,5 +1,26 @@
 ﻿  ViewPort.cpp
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(62): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  TileMap.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(97): warning C4018: '<': signed/unsigned mismatch
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(104): warning C4018: '<': signed/unsigned mismatch
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(112): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(113): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  Textures.cpp
+  Sprites.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\sprites.cpp(19): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\sprites.cpp(66): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+  SceneManager.cpp
+  Ninja.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(27): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
+  main.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\main.cpp(113): warning C4018: '<': signed/unsigned mismatch
+  GameSceneStage31.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(23): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+  GameScene.cpp
+  GameObject.cpp
+  Game.cpp
+  debug.cpp
+  Generating Code...
   Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
   Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)

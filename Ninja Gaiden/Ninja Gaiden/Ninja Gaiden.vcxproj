@@ -23,6 +23,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameSceneStage31.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ninja.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameSceneStage31.h" />
     <ClInclude Include="Ninja.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sprites.h" />

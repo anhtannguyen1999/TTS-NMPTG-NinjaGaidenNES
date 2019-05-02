@@ -34,3 +34,16 @@
 #define VIEW_PORT_HEIGHT 224
 #define SPACE_FROM_VIEW_PORT_TO_TOP 20 
 #define MAP1_WIDTH 2048
+
+//Key
+#define NON_KEY 0
+#define UP_KEY 1
+#define DOWN_KEY 2
+#define LEFT_KEY 3
+#define RIGHT_KEY 4
+
+//Scene
+#define GAME_STAGE_31 1
+#define GAME_STAGE_32 2
+#define GAME_STAGE_33 3
+
