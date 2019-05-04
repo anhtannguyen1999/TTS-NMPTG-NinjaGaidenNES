@@ -27,18 +27,25 @@ namespace CatMap
             string matrixLine = "";
             Int32.TryParse(tbxWidth.Text,out width);
             Int32.TryParse(tbxHeight.Text, out height);
-            
-            
+
+
             //Load image
-            Image img = Image.FromFile(@"InOut\map.png");
+            //string 
+            if(!File.Exists(@"InOut\" + tbxIn_Cut.Text + ".png"))
+            {
+                MessageBox.Show(@"Missing Inout\" + tbxIn_Cut.Text + @".png");
+                return;
+            }
+
+            Image img = Image.FromFile(@"InOut\"+tbxIn_Cut.Text+".png");
             if (img == null)
-                MessageBox.Show(@"Missing Inout\map.png");
+                MessageBox.Show(@"Missing Inout\" + tbxIn_Cut.Text + @".png");
             imgWidth = img.Width;
             imgHeight = img.Height;
 
-            if(File.Exists(@"InOut\matrix.txt"))
+            if(File.Exists(@"InOut\"+tbxOut2_Cut.Text + ".txt"))
             {
-                File.Delete(@"InOut\matrix.txt");
+                File.Delete(@"InOut\" + tbxOut2_Cut.Text + ".txt");
             }
             if (File.Exists(@"InOut\matrix_tmp.txt"))
             {
@@ -50,6 +57,7 @@ namespace CatMap
             Bitmap cloned;
             Bitmap tileSet=null;
             Rectangle rect;
+
             //Crop image
             for (int y=0;y<imgHeight;y+=height)
             {
@@ -90,11 +98,11 @@ namespace CatMap
             }
             //First line
             string line;
-            WriteLineToFileWithUTF8(@"InOut\matrix.txt", lstTile.Count.ToString()+" "+imgHeight/height+" "+imgWidth/width);
+            WriteLineToFileWithUTF8(@"InOut\" + tbxOut2_Cut.Text + ".txt", lstTile.Count.ToString()+" "+imgHeight/height+" "+imgWidth/width);
             System.IO.StreamReader file = new System.IO.StreamReader(@"InOut\matrix_tmp.txt");
             while ((line = file.ReadLine()) != null)
             {
-                WriteLineToFileWithUTF8(@"InOut\matrix.txt", line);
+                WriteLineToFileWithUTF8(@"InOut\" + tbxOut2_Cut.Text + ".txt", line);
             }
             file.Close();
 
@@ -102,17 +110,14 @@ namespace CatMap
             {
                 File.Delete(@"InOut\matrix_tmp.txt");
             }
-            
-            MessageBox.Show("Done!");
-
             //Save tileSet
-            if (File.Exists(@"InOut\tileSet.png"))
+            if (File.Exists(@"InOut\"+tbxOut1_Cut.Text + ".png"))
             {
-                File.Delete(@"InOut\tileSet.png");
+                File.Delete(@"InOut\" + tbxOut1_Cut.Text + ".png");
             }
-            tileSet.Save(@"InOut\tileSet.png", System.Drawing.Imaging.ImageFormat.Png);
+            tileSet.Save(@"InOut\" + tbxOut1_Cut.Text + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
-
+            MessageBox.Show("Done!");
         }
 
         #region Mix
@@ -131,20 +136,25 @@ namespace CatMap
             Int32.TryParse(tbxHeight.Text, out height);
 
             //Load tile map image
-            Image img = Image.FromFile(@"InOut\tileSet.png");
+            if (!File.Exists(@"InOut\" + tbxIn1_Mix.Text + ".png"))
+            {
+                MessageBox.Show(@"Missing Inout\" + tbxIn1_Mix.Text + ".png");
+                return;
+            }
+            Image img = Image.FromFile(@"InOut\"+tbxIn1_Mix.Text + ".png");
             if (img == null)
             {
-                MessageBox.Show(@"Missing Inout\tileSet.png");
+                MessageBox.Show(@"Missing Inout\" + tbxIn1_Mix.Text + ".png");
                 return;
             }
               
             //Load matrix
-            if (!File.Exists(@"InOut\matrix.txt"))
+            if (!File.Exists(@"InOut\"+tbxIn2_Mix.Text + ".txt"))
             {
-                MessageBox.Show(@"Missing Inout\matrix");
+                MessageBox.Show(@"Missing Inout\" + tbxIn2_Mix.Text + "");
                 return;
             }
-            System.IO.StreamReader file = new System.IO.StreamReader(@"InOut\matrix.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(@"InOut\" + tbxIn2_Mix.Text + ".txt");
             line = file.ReadLine();//First line
 
             string[] row;
@@ -175,7 +185,7 @@ namespace CatMap
             }
             file.Close();
             //Save file
-            gameMap.Save(@"InOut\gameMap_Mixed.png", System.Drawing.Imaging.ImageFormat.Png);
+            gameMap.Save(@"InOut\"+tbxOut_Mix.Text + ".png", System.Drawing.Imaging.ImageFormat.Png);
             MessageBox.Show("Done!");
 
         }
@@ -183,7 +193,7 @@ namespace CatMap
         #endregion
 
         #region Function
-
+        //Them bitmap vao duoi file bitmap
         public Bitmap AppendBitmap(Bitmap source, Bitmap target, int spacing)
         {
             if (source != null && target != null)
@@ -208,7 +218,8 @@ namespace CatMap
             else
                 return source;
         }
-        //
+
+        //Them bitmap vao duoi file bitmap tai toa do
         public Bitmap AppendBitmapAt(Bitmap source, Bitmap target, int xPos,int yPos)
         {
             if (source != null && target != null)
@@ -239,6 +250,8 @@ namespace CatMap
             else
                 return source;
         }
+
+        //So sanh bitmap
         private bool Equals(Bitmap bmp1, Bitmap bmp2)
         {
             
@@ -259,6 +272,7 @@ namespace CatMap
             return true;
             
         }
+
         private void WriteLineToFileWithUTF8(string filePath, string txt)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Append))
@@ -269,6 +283,7 @@ namespace CatMap
                 }
             }
         }
+
         private void tbxWidth_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))

@@ -24,3 +24,6 @@ E:\HocTap\HK4\NMPTG\TrenTruong\Deadline\BT5_CatMap2\CatMap\CatMap\obj\Debug\CatM
 E:\HocTap\HK4\NMPTG\TrenTruong\Deadline\BT5_CatMap2\CatMap\CatMap\obj\Debug\CatMap.Form1.resources
 E:\HocTap\HK4\NMPTG\TrenTruong\Deadline\BT5_CatMap2\CatMap\CatMap\obj\Debug\CatMap.Properties.Resources.resources
 E:\HocTap\HK4\NMPTG\TrenTruong\Deadline\BT5_CatMap2\CatMap\CatMap\obj\Debug\CatMap.csproj.GenerateResource.Cache
+E:\HocTap\HK4\NMPTG\Github\TTS-NMPTG-NinjaGaidenNES\1_MapEditer\CatMap\CatMap\bin\Debug\CatMap.exe.config
+E:\HocTap\HK4\NMPTG\Github\TTS-NMPTG-NinjaGaidenNES\1_MapEditer\CatMap\CatMap\obj\Debug\CatMap.exe
+E:\HocTap\HK4\NMPTG\Github\TTS-NMPTG-NinjaGaidenNES\1_MapEditer\CatMap\CatMap\obj\Debug\CatMap.pdb
