@@ -24,32 +24,6 @@ void CSceneManager::LoadScene(int sceneID)
 		break;
 	default:
 		break;
-	/*case GAME_LEVEL_1:
-		delete(gameScene);
-		gameState = new GamePlayStateOne();
-		if (!gameState->Initialize(gDevice))
-			return;
-		gameState->state = stateID;
-		this->stateID = stateID;
-		break;
-	case GAME_LEVEL_2:
-		delete(gameState);
-		gameState = new GamePlayStateTwo();
-		if (!gameState->Initialize(gDevice))
-			return;
-		gameState->state = stateID;
-		this->stateID = stateID;
-		break;
-	case GAME_LEVEL_3:
-		delete(gameState);
-		gameState = new GamePlayStateThree();
-		if (!gameState->Initialize(gDevice))
-			return;
-		gameState->state = stateID;
-		this->stateID = stateID;
-		break;
-	default:
-		break;*/
 	}
 }
 

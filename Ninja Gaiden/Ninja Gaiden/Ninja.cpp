@@ -11,29 +11,39 @@ CNinja::~CNinja()
 void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
-
-	// Simple fall down
-
-	//vy += NINJA_GRAVITY*dt;
-
+	preY = y;
+	y += dy;
 	x += dx;
 
-	y += dy;
-	
-	if (y > 120.0)//chạm đất
+	if (onGround)//chạm đất
 	{
 		canJump = true;
-		y = 120;
+		//if(preY>y) //Neu bay xuong thi y=0
+			vy = 0;
 		if (isJump != -1)
 			isJump = 0;
-		else
-			y = 135;
+		//DebugOut(L"Ninja Cham dat\n");
+		
 	}
-	//DebugOut(L"Ninja: %f , %f \n", x, y); 
+	else
+	{
+		// Simple fall down
+		vy -= NINJA_GRAVITY*dt;
+		//DebugOut(L"Ninja Khong Cham dat\n");
+	}
+	if (this->y < 8) //xet cho khoi rot gay bug thoi 9
+	{
+		//this->y = 8;
+		SetPosition(30, 100);
+		vy = 0; dy = 0;
+	}
+	
+	DebugOut(L"%d \n", onGround);
 }
 
 void CNinja::Render()
 {
+	
 	int ani = NINJA_ANI_IDLE_RIGHT;
 
 	{
@@ -105,9 +115,9 @@ void CNinja::Render()
 	pos.x = this->x;
 	pos.y = this->y;
 	pos.z = 0;
-	pos = viewPort->SetPositionInViewPort(pos); //Nhân lại thành tọa độ trong viewport
+	pos = camera->SetPositionInViewPort(pos); //Nhân lại thành tọa độ trong viewport
 	animations[ani]->Render(pos.x, pos.y, alpha);
-
+	this->RenderBoundingBox();
 }
 
 //Hàm để set trạng thái khi nhấn phím thôi. Hàm render mới chính
@@ -119,6 +129,7 @@ void CNinja::SetState(int state)
 	{
 	case NINJA_STATE_IDLE:
 		vx = 0;
+		dy = 0;
 		break;
 	case NINJA_STATE_RUN_RIGHT:
 		vx = NINJA_SPEED;
@@ -132,14 +143,15 @@ void CNinja::SetState(int state)
 		if (isJump == 1)
 			isJump = 0;
 		break;
-	//case NINJA_STATE_JUMP:
-	//	if (canJump)
-	//	{
-	//		vy = -ninjaJumpForce;
-	//	}
-	//	isJump = 1;
-	//	canJump = false;
-	//	break;
+	case NINJA_STATE_JUMP:
+		if (canJump)
+		{
+			vy = +ninjaJumpForce;
+		}
+		onGround = false;
+		isJump = 1;
+		canJump = false;
+		break;
 	//case NINJA_STATE_SITDOWN:
 	//	vx = 0;
 	//	isJump = -1;
@@ -151,18 +163,19 @@ void CNinja::SetState(int state)
 	}
 }
 
+
 void CNinja::LoadResource()
 {
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 	CTextures * textures = CTextures::GetInstance();
-	textures->Add(ID_TEX_NINJA, L"textures\\NinjaTex.png", D3DCOLOR_XRGB(255, 163, 177));
+	textures->Add(ID_TEX_NINJA, L"textures\\NinjaTex.png", D3DCOLOR_XRGB(255, 163, 177));//D3DCOLOR_XRGB(255, 163, 177)
 	LPDIRECT3DTEXTURE9 texNinja = textures->Get(ID_TEX_NINJA);
 
 	D3DXVECTOR2 zero = D3DXVECTOR2(0, 0);
 	D3DXVECTOR2 scaleNguoc = D3DXVECTOR2(-1, 1);
 
-	sprites->Add(101, 2, 4, 19+2, 34+4, texNinja, zero, zero, zero, 0);		// idle right
+	sprites->Add(101, 2, 4, 19 + 2, 34 + 4, texNinja, zero, zero, zero, 0);		// idle right
 	sprites->Add(102, 2, 4, 19 + 2, 34 + 4, texNinja, zero, zero, scaleNguoc, 0);		// idle left
 
 	sprites->Add(111, 338, 5, 338 + 22, 5 + 33, texNinja, zero, zero, zero, 0);	//Run Right 1
@@ -199,10 +212,56 @@ void CNinja::LoadResource()
 	this->AddAnimation(101);	//ani 1 = run
 	this->AddAnimation(102);	//ani 2 = idle left
 	this->AddAnimation(103);	//ani 3 = run left
-	this->SetPosition(50.0f, 0);
-
+								//this->SetPosition(50.0f, 0);
 }
 
 
 
+#pragma region Collision
+
+void CNinja::GetBoundingBox(float &x, float &y, float &width, float &height)
+{
+	x = this->x;
+	y = this->y;
+	width = NINJA_WIDTH_TMP;
+	height = NINJA_HEIGHT_TMP;
+}
+unsigned short int CNinja::isCollitionObjectWithObject(CGameObject * obj)
+{
+	LPCOLLISIONEVENT e = SweptAABBEx(obj); // kt va chạm giữa 2 object bằng sweptAABB
+	if (e->t != 0)
+	{
+		if (e->t > 0 && e->t <= 1.0f)
+		{
+			if (e->ny > 0)
+			{
+				//DebugOut(L"Cham duoi chan ninja\n");
+				SAFE_DELETE(e);
+				return OBJ_COLLISION_BOTTOM;
+			}
+			else if (e->ny < 0)
+			{
+				//DebugOut(L"Cham dau ninja\n");
+				SAFE_DELETE(e);
+				return OBJ_COLLISION_TOP;
+			}
+			
+			if (e->nx > 0)
+			{
+				//DebugOut(L"Cham ben trai ninja\n");
+				SAFE_DELETE(e);
+				return OBJ_COLLISION_LEFT;
+			}
+			if (e->nx <0)
+			{
+				//DebugOut(L"Cham ben phai ninja\n");
+				SAFE_DELETE(e);
+				return OBJ_COLLISION_RIGHT;
+			}
+		}
+	}
+	return checkAABB(obj);
+}
+
+#pragma endregion
 

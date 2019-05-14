@@ -41,7 +41,9 @@ void CGameScene::KeyDown(unsigned short int const &key)
 		ninja->SetState(NINJA_STATE_RUN_RIGHT);
 		break;
 	}
-
+	case DIK_SPACE:
+		ninja->SetState(NINJA_STATE_JUMP);
+		break;
 	default:
 		ninja->SetState(NINJA_STATE_IDLE);
 		break;

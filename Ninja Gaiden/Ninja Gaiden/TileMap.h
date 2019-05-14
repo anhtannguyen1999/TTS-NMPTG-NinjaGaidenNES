@@ -9,14 +9,14 @@
 #include "Sprites.h"
 #include "Debug.h"
 #include "Textures.h"
-#include "ViewPort.h"
+#include "Camera.h"
 //using namespace std;
 #include "define.h"
 typedef vector<vector <int>> Matrix;
 typedef vector<int> Row;
 class CTileMap
 {
-	CViewPort *viewPort = CViewPort::GetInstance();
+	CCamera *camera = CCamera::GetInstance();
 	CSprites * sprites = CSprites::GetInstance();
 	Matrix matrix;
 	unordered_map<int, CSprite*> tiles;

@@ -8,7 +8,7 @@
 #include "Textures.h"
 
 #include"TileMap.h"
-#include "ViewPort.h"
+#include "Camera.h"
 
 #include"Ninja.h"
 
@@ -31,6 +31,14 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		sceneManager->KeyDown(DIK_SPACE);
+		break;
+	default:
+		break;
+	}
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)

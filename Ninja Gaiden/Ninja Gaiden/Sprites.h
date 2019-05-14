@@ -26,6 +26,8 @@ public:
 		D3DXVECTOR2 rotationCenter, D3DXVECTOR2 translation, D3DXVECTOR2 scale, float rotation);
 
 	void Draw(float x, float y, int alpha = 255);
+
+	void Draw(float x, float y, float w, float h, int alpha);
 	
 };
 

@@ -96,14 +96,14 @@ void CTileMap::Render() //render đọc từ 0 lên, trái qua phải ma trận=
 	D3DXVECTOR3 pos;
 	for (int i = 0; i <matrix.size(); i++) //size: 11 dòng -row
 	{
-		//if (i * MAPTILE_SIZE >= viewPort->GetY() -MAPTILE_SIZE && i * MAPTILE_SIZE <= viewPort->GetY() + viewPort->GetHeight() +MAPTILE_SIZE )//Nếu vùng nằm trong height viewport thì mới được vẽ
+		//if (i * MAPTILE_SIZE >= camera->GetY() -MAPTILE_SIZE && i * MAPTILE_SIZE <= camera->GetY() + camera->GetHeight() +MAPTILE_SIZE )//Nếu vùng nằm trong height viewport thì mới được vẽ
 		
 		{
 			Row curRow = matrix[i];
 
 			for (int j = 0; j < curRow.size(); j++) //size: 128 collumn mỗi dòng
 			{
-				if (j * MAPTILE_SIZE >= viewPort->GetX() - MAPTILE_SIZE && j * MAPTILE_SIZE <= viewPort->GetX() + viewPort->GetWidth())//Nếu vùng nằm trong width viewport thì mới được vẽ
+				if (j * MAPTILE_SIZE >= camera->GetX() - MAPTILE_SIZE && j * MAPTILE_SIZE <= camera->GetX() + camera->GetWidth())//Nếu vùng nằm trong width viewport thì mới được vẽ
 				{
 					if (curRow[j] != 0)
 					{
@@ -112,11 +112,11 @@ void CTileMap::Render() //render đọc từ 0 lên, trái qua phải ma trận=
 						pos.x = j * MAPTILE_SIZE;
 						pos.y = (matrix.size() - i +1) * MAPTILE_SIZE;
 						pos.z = 0;
-						pos = viewPort->SetPositionInViewPort(pos); //Nhân lại tọa độ viewport
-						sprites->Get(ID_TILES_MAP1 + number)->Draw(pos.x, pos.y);
+						pos = camera->SetPositionInViewPort(pos); //Nhân lại tọa độ viewport
+						sprites->Get(ID_TILES_MAP1 + number)->Draw(pos.x, pos.y+5);
 
 						//Vẽ từ trên xuống (4 cái biên sẽ vẽ doi ra 1 khúc (k nhìn thấy trên viewport nhưng vẫn vẽ cho khỏi nháy))
-						//sprites->Get(ID_TILES_MAP1 + number)->Draw(j * MAPTILE_SIZE - viewPort->GetX(), i * MAPTILE_SIZE+MAPTILE_SIZE - viewPort->GetY());
+						//sprites->Get(ID_TILES_MAP1 + number)->Draw(j * MAPTILE_SIZE - camera->GetX(), i * MAPTILE_SIZE+MAPTILE_SIZE - camera->GetY());
 
 					}
 				}

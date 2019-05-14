@@ -1,12 +1,6 @@
 ﻿#pragma once
-#include "ViewPort.h"
-
-//#include <fstream>
-//#include <vector>
-
-//#include "Grid.h"
-//#include "Sound.h"
-//#include "Item.h"
+#include "Camera.h"
+#include "Grid.h"
 #include "Ninja.h"
 
 
@@ -15,11 +9,12 @@ class CGameScene
 {
 protected:
 	std::vector<CGameObject*> *listObject;
-	CViewPort *viewPort = CViewPort::GetInstance();
+	CCamera *camera = CCamera::GetInstance();
 	bool isChangingScene;
 	bool canUseKeyboard;
 	static CNinja* ninja;
 	D3DXVECTOR3 ninjaCheckpoint;
+	
 public:
 	CGameScene();
 	~CGameScene();
@@ -32,10 +27,7 @@ public:
 	virtual void SetIsChangingScene(bool status) { isChangingScene = status; }
 
 	//hàm check, lưu vị trí khi ninja đi qua check point
-	void CheckPoint(DWORD dt, CNinja* ninja, std::vector<CGameObject*> *list)
-	{
-		//...
-	}
+
 	void KeyDown(unsigned short int const &key);
 	void KeyUp(unsigned short int const &key);
 };

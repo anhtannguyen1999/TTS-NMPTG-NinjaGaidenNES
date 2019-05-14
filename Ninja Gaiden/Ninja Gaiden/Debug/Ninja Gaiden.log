@@ -1,26 +1,59 @@
-﻿  ViewPort.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(62): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\viewport.cpp(63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+﻿  Camera.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\camera.cpp(65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\camera.cpp(66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  Compiling...
+  main.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\main.cpp(121): warning C4018: '<': signed/unsigned mismatch
   TileMap.cpp
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(97): warning C4018: '<': signed/unsigned mismatch
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(104): warning C4018: '<': signed/unsigned mismatch
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(112): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\tilemap.cpp(113): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-  Textures.cpp
-  Sprites.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\sprites.cpp(19): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\sprites.cpp(66): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
   SceneManager.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Ninja.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(27): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
-  main.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\main.cpp(113): warning C4018: '<': signed/unsigned mismatch
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(23): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
+  Ground.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ground.cpp(5): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ground.cpp(6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ground.cpp(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ground.cpp(21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Grid.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\grid.cpp(60): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\grid.cpp(63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\grid.cpp(26): warning C4101: 'direction': unreferenced local variable
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\grid.cpp(105): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   GameSceneStage31.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(23): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(41): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(98): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(102): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gamescenestage31.cpp(108): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   GameScene.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   GameObject.cpp
-  Game.cpp
-  debug.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(196): warning C4305: '=': truncation from '__int64' to 'float'
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(198): warning C4305: '=': truncation from '__int64' to 'float'
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(211): warning C4305: '=': truncation from '__int64' to 'float'
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(213): warning C4305: '=': truncation from '__int64' to 'float'
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(331): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(332): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
   Generating Code...
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.cpp(67): warning C4715: 'CGameObject::checkAABB': not all control paths return a value
   Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
   Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)

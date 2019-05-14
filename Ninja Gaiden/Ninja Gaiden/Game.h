@@ -53,7 +53,30 @@ public:
 
 	static CGame * GetInstance();
 
+	//static void SweptAABB2(float mx, float my, float mw, float mh, float vx, float vy, float sx, float sy, float sw, float sh, float &t, float &nx, float &ny);
+
+	//bool checkAABB(float b1left, float b1top, float b1right, float b1bottom, float b2left, float b2top, float b2right, float b2bottom);
+
 	~CGame();
+
+	////SweptAABB
+	static void SweptAABB(
+		float ml,			// move left 
+		float mt,			// move top
+		float mr,			// move right 
+		float mb,			// move bottom
+		float dx,			// 
+		float dy,			// 
+		float sl,			// static left
+		float st,
+		float sr,
+		float sb,
+		float &t,
+		float &nx,
+		float &ny);
+
+	
+
 };
 
 
