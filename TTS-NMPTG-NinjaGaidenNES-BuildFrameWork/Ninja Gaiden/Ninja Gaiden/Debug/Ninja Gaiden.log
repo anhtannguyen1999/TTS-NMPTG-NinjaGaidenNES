@@ -1,0 +1,19 @@
+﻿  GameObject.cpp
+  GameScene.cpp
+  GameSceneStage31.cpp
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\gamescenestage31.cpp(23): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+  Ninja.cpp
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\ninja.cpp(27): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
+  SceneManager.cpp
+  TileMap.cpp
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\tilemap.cpp(97): warning C4018: '<': signed/unsigned mismatch
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\tilemap.cpp(104): warning C4018: '<': signed/unsigned mismatch
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\tilemap.cpp(112): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\tilemap.cpp(113): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  ViewPort.cpp
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\viewport.cpp(62): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\viewport.cpp(63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+d:\gamedev-intro-tutorials-master\tts-nmptg-ninjagaidennes-buildframework\ninja gaiden\ninja gaiden\main.cpp(113): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Ninja Gaiden.vcxproj -> D:\gamedev-intro-tutorials-master\TTS-NMPTG-NinjaGaidenNES-BuildFrameWork\Ninja Gaiden\Debug\Ninja Gaiden.exe
