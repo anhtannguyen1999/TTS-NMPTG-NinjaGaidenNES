@@ -36,6 +36,15 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		sceneManager->KeyDown(DIK_SPACE);
 		break;
+	case DIK_A:
+		sceneManager->KeyDown(A_KEY);
+		break;
+	case DIK_L:
+		sceneManager->KeyDown(L_KEY);
+		break;
+	case DIK_D:
+		sceneManager->KeyDown(D_KEY);
+		break;
 	default:
 		break;
 	}
@@ -43,6 +52,18 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {	
+	switch (KeyCode)
+	{
+	case DIK_UP:
+		sceneManager->KeyUp(UP_KEY);
+		break;
+	case DIK_DOWN:
+		sceneManager->KeyUp(DOWN_KEY);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void CSampleKeyHander::KeyState(BYTE *states)

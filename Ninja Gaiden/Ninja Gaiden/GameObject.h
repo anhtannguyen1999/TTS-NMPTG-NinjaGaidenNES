@@ -101,7 +101,7 @@ public:
 		float &ny);
 	//Tính toán khả năng va chạm và trả ra mảng coEvent
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
-	void RenderBoundingBox();
+	void RenderBoundingBox(int alpha=70);
 	virtual void GetBoundingBox(float &x, float &y, float &width, float &height)=0;
 	#pragma endregion
 };

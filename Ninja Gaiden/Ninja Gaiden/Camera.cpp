@@ -28,11 +28,19 @@ CCamera * CCamera::GetInstance()
 
 void CCamera::Update(DWORD dt, int const &ninjaX, int const &ninjaY, int const &mapWidth, int const &mapHeight)
 {
-	
 	//Truyền thống=> đôi lúc sẽ giật
-	x = ninjaX-CAMERA_WIDTH/2;
+	//x = ninjaX - CAMERA_WIDTH / 2
 	//y = ninjaY+CAMERA_HEIGHT/2;
 
+	//chỉnh cam mượt hơn xíu bằng xét khoảng
+	if (ninjaX>=x+CAMERA_WIDTH / 2+10)
+	{
+		x = ninjaX - CAMERA_WIDTH / 2-10;
+	}
+	else if(ninjaX<=x + CAMERA_WIDTH / 2 - 20)
+	{
+		x = ninjaX - CAMERA_WIDTH / 2 + 20;
+	}
 	if (x < 0)
 	{
 		x = 0;

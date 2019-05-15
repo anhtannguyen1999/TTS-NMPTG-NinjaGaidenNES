@@ -20,3 +20,8 @@ void CGround::GetBoundingBox(float &x, float &y, float &width, float &height)
 	width = this->width;
 	height = this->height;
 }
+
+void CGround::Render()
+{
+	this->RenderBoundingBox(180);
+}

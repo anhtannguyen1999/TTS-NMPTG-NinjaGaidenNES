@@ -321,7 +321,7 @@ void CGameObject::CalcPotentialCollisions(
 }
 */
 
-void CGameObject::RenderBoundingBox()
+void CGameObject::RenderBoundingBox(int alpha)
 {
 	float x, y, w, h;
 	GetBoundingBox(x, y, w, h);
@@ -337,7 +337,7 @@ void CGameObject::RenderBoundingBox()
 	LPDIRECT3DTEXTURE9 texBoxCollision = textures->Get(ID_TEX_BOX);
 
 	CSprites * sprites = CSprites::GetInstance();
-	sprites->Get(ID_SPRITE_BOXCOLLISION)->Draw(pos.x, pos.y,w,h, 150);
+	sprites->Get(ID_SPRITE_BOXCOLLISION)->Draw(pos.x, pos.y,w,h, alpha);
 }
 
 

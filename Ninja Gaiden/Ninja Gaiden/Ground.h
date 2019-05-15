@@ -11,6 +11,6 @@ public:
 	~CGround();
 	void GetBoundingBox(float & x, float & y, float & width, float & height);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL) {};
-	void Render() { /*this->RenderBoundingBox();*/ };
+	void Render();
 };
 

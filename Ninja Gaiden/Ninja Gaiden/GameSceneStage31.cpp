@@ -92,22 +92,24 @@ void CGameSceneStage31::CheckCollisionNinjaWithGround()
 				float objX, objY, objW, objH;
 				gameObj->GetBoundingBox(objX, objY, objW, objH);
 				
-				if (collisionCheck == OBJ_COLLISION_LEFT)
-				{
-					ninja->SetSpeedX(0);
-					ninja->SetPositionX(objX +objW);
-				}
-				else if (collisionCheck == OBJ_COLLISION_RIGHT)
-				{
-					ninja->SetPositionX(objX - NINJA_WIDTH_TMP);
-					ninja->SetSpeedX(0);
-				}
-				else if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+				if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 				{
 					grounded = true;
-					ninja->SetPositionY(objY+NINJA_HEIGHT_TMP);
+					if (ninja->y - NINJA_HEIGHT_TMP>objY - 15) //cham 1 it o tren moi tinh
+						ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
 					//ninja->SetSpeedY(0);
 				}
+
+				//else if (collisionCheck == OBJ_COLLISION_LEFT)
+				//{
+				//	//ninja->SetSpeedX(0);
+				//	//ninja->SetPositionX(objX +objW);
+				//}
+				//else if (collisionCheck == OBJ_COLLISION_RIGHT)
+				//{
+				//	//ninja->SetPositionX(objX - NINJA_WIDTH_TMP);
+				//	//ninja->SetSpeedX(0);
+				//}
 				//else if (collisionCheck == OBJ_COLLISION_TOP){}
 			}
 		}

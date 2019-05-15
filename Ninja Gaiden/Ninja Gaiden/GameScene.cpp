@@ -21,32 +21,45 @@ void CGameScene::Update(DWORD dt)
 
 void CGameScene::KeyDown(unsigned short int const &key)
 {
+	
 	switch (key)
 	{
-	case UP_KEY:
-	{
-		break;
-	}
-	case DOWN_KEY:
-	{
-		break;
-	}
-	case LEFT_KEY:
-	{
-		ninja->SetState(NINJA_STATE_RUN_LEFT);
-		break;
-	}
-	case RIGHT_KEY:
-	{
-		ninja->SetState(NINJA_STATE_RUN_RIGHT);
-		break;
-	}
-	case DIK_SPACE:
-		ninja->SetState(NINJA_STATE_JUMP);
-		break;
-	default:
-		ninja->SetState(NINJA_STATE_IDLE);
-		break;
+		case UP_KEY:
+		{
+			ninja->SetState(NINJA_STATE_UP);
+			break;
+		}
+		case DOWN_KEY:
+		{
+			ninja->SetState(NINJA_STATE_DOWN);
+			break;
+		}
+		case LEFT_KEY:
+		{
+			ninja->SetState(NINJA_STATE_RUN_LEFT);
+			break;
+		}
+		case RIGHT_KEY:
+		{
+			ninja->SetState(NINJA_STATE_RUN_RIGHT);
+			break;
+		}
+		case DIK_SPACE:
+			ninja->SetState(NINJA_STATE_JUMP);
+			break;
+		case A_KEY:
+			ninja->SetState(NINJA_STATE_HIT);
+			break;
+		case L_KEY:
+			ninja->SetState(NINJA_STATE_ONWALL);
+			break;
+		case D_KEY:
+			ninja->SetState(NINJA_STATE_ATTACKED);
+			
+			break;
+		default:
+			ninja->SetState(NINJA_STATE_IDLE);
+			break;
 	}
 	
 }
@@ -57,10 +70,12 @@ void CGameScene::KeyUp(unsigned short int const &key)
 	{
 	case UP_KEY:
 	{
+		//ninja->SetIsUp(false);
 		break;
 	}
 	case DOWN_KEY:
 	{
+//		ninja->SetIsDown(false);
 		break;
 	}
 	case LEFT_KEY:
