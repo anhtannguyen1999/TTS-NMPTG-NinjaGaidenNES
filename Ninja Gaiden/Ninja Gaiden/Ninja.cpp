@@ -346,6 +346,8 @@ void CNinja::SetState(int state)
 			isSit = 1;
 		vx = 0;
 		isUp = false;
+		if (isOnWall&&onGround)
+			isOnWall = false;
 		break;
 	case NINJA_STATE_UP:
 		isUp = true;

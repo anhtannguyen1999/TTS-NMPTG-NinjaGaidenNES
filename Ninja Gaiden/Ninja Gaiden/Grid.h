@@ -18,7 +18,7 @@ public:
 	void SetFile(string str); // Đọc các object từ file
 	void LoadGrid();
 
-	CGameObject * GetNewObject(int type, int x, int y, int w, int h);
+	CGameObject * CreateNewObject(int type, int x, int y, int w, int h);
 	void Insert(int id, int type, float x, float y, int w, int h); //Thêm object vào grid
 	void GetListObject(vector<CGameObject*>& ListObj, CCamera * camera);// lấy hết các object "còn Alive" trong vùng camera;
 };

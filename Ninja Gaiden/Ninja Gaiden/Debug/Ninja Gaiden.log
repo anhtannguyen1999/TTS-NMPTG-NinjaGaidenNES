@@ -1,7 +1,7 @@
 ﻿  Ninja.cpp
-e:\hoctap\hk4\nmptg\github\tts-nmptg-ninjagaidennes\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\github\tts-nmptg-ninjagaidennes\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\github\tts-nmptg-ninjagaidennes\ninja gaiden\ninja gaiden\ninja.cpp(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\hoctap\hk4\nmptg\github\tts-nmptg-ninjagaidennes\ninja gaiden\ninja gaiden\ninja.cpp(27): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\Github\TTS-NMPTG-NinjaGaidenNES\Ninja Gaiden\Debug\Ninja Gaiden.exe
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\Github\TTS-NMPTG-NinjaGaidenNES\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(27): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)

@@ -83,7 +83,7 @@ void CGrid::LoadGrid()
 
 }
 
-CGameObject * CGrid::GetNewObject(int type, int x, int y, int w, int h)
+CGameObject * CGrid::CreateNewObject(int type, int x, int y, int w, int h)
 {
 	switch (type)
 	{
@@ -102,7 +102,7 @@ void CGrid::Insert(int id, int type, float x, float y, int w, int h)
 	int left = (int)(x / GRID_CELL_WIDTH);
 	int right = (int)((x + w) / GRID_CELL_WIDTH);
 
-	CGameObject * obj = GetNewObject(type, x, y, w, h);
+	CGameObject * obj = CreateNewObject(type, x, y, w, h);
 	if (obj == NULL)
 		return;
 
