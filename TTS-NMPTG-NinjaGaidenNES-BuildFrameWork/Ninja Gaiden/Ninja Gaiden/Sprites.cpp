@@ -72,6 +72,41 @@ void CSprite::Draw(float x, float y, int alpha)
 		D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
 
 	game->GetSpriteHandler()->SetTransform(&oldMatrix); // set lai matrix cu~ de Sprite chi ap dung transfrom voi class nay
+	
+}
+
+void CSprite::Draw(float x, float y,float w,float h, int alpha)
+{
+	D3DXVECTOR3 inPosition(x, y, 0);
+	RECT inSourceRect;
+	inSourceRect.left = left;
+	inSourceRect.top = top;
+	inSourceRect.right = w+2;
+	inSourceRect.bottom = h+5;
+
+	D3DXVECTOR2 inCcale = mScale;
+	D3DXVECTOR2 inTranslation = mTranslation;
+	D3DXVECTOR2 inRotationCenter = mRotationCenter;
+	D3DXVECTOR2 scalingScenter = D3DXVECTOR2(inPosition.x, inPosition.y);
+
+	D3DXMatrixTransformation2D(&mMatrix, &scalingScenter, 0, &inCcale, &inRotationCenter,
+		mRotation, &inTranslation);
+
+	D3DXMATRIX oldMatrix;
+	CGame * game = CGame::GetInstance();
+	game->GetSpriteHandler()->GetTransform(&oldMatrix);
+	game->GetSpriteHandler()->SetTransform(&mMatrix);
+
+	D3DXVECTOR3 center = D3DXVECTOR3((right - left) / 2.0, (bottom - top) / 2.0, 0);
+
+	game->GetSpriteHandler()->Draw(texture,
+		&inSourceRect,
+		&center,
+		&inPosition,
+		D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
+
+	game->GetSpriteHandler()->SetTransform(&oldMatrix); // set lai matrix cu~ de Sprite chi ap dung transfrom voi class nay
+
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex, D3DXVECTOR2 rotationCenter, D3DXVECTOR2 translation, D3DXVECTOR2 scale, float rotation)

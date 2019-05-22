@@ -8,17 +8,21 @@
 #include "Textures.h"
 
 #include"TileMap.h"
-#include "ViewPort.h"
+#include "Camera.h"
 
 #include"Ninja.h"
 
 #include "SceneManager.h"
+
+//CSprites * sprites = CSprites::GetInstance();
+//CAnimations * cani = CAnimations::GetInstance();
 
 CGame *game;
 
 CSceneManager *sceneManager;
 
 vector<LPGAMEOBJECT> objects;
+CNinja*ninja;
 
 class CSampleKeyHander: public CKeyEventHandler
 {
@@ -31,10 +35,39 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		sceneManager->KeyDown(DIK_SPACE);
+		break;
+	case DIK_A:
+		sceneManager->KeyDown(A_KEY);
+		break;
+	case DIK_L:
+		sceneManager->KeyDown(L_KEY);
+		break;
+	case DIK_D:
+		sceneManager->KeyDown(D_KEY);
+		break;
+	default:
+		break;
+	}
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {	
+	switch (KeyCode)
+	{
+	case DIK_UP:
+		sceneManager->KeyUp(UP_KEY);
+		break;
+	case DIK_DOWN:
+		sceneManager->KeyUp(DOWN_KEY);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void CSampleKeyHander::KeyState(BYTE *states)
@@ -75,9 +108,10 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResources()
 {
 	
-	sceneManager = new CSceneManager();
+	//sceneManager = new CSceneManager();
+	sceneManager = CSceneManager::GetInstance();
 	sceneManager->LoadScene(GAME_STAGE_31);
-
+	ninja= CNinja::GetInstance();
 }
 
 /*
@@ -88,6 +122,11 @@ void Update(DWORD dt)
 {
 	
 	sceneManager->Update(dt);
+	//DebugOut(L"NinjaX: %f \n", ninja->x);
+	if (ninja->GetPositionX() >= 2020)
+	{
+		sceneManager->NextScene();
+	}
 
 }
 

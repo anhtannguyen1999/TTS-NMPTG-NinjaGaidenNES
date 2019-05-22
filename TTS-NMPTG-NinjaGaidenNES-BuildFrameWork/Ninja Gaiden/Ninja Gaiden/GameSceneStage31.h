@@ -1,25 +1,14 @@
 #pragma once
 #include "GameScene.h"
 #include "TileMap.h"
+#include "Bullet.h"
+
 class CGameSceneStage31 :public CGameScene
 {
 	CTileMap *tileMap;
-
-	/*CSprite *sprite;
-	Sprite	*castleSprite;
-
-	GameObject *ground;
-	GameObject *cameraObject;
-	GameObject *leftCamera;
-	GameObject *rightCamera;
-
-	QuadTree *quadTree;
-	UI *ui;
-
-	std::vector<GameObject*> *list;
-	std::vector<Item*> *listItem;
-	LPDIRECT3DDEVICE9 gDevice;*/
-
+	CGrid * gridGame;
+	vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
+	vector<CGameObject*> listOtherObj;
 public:
 	CGameSceneStage31();
 	~CGameSceneStage31();
@@ -28,5 +17,9 @@ public:
 	bool GetIsChangingScene();
 	void SetIsChangingScene(bool status);
 	void DestroyAll();
+	void CheckCollision();
+	void CheckCollisionNinjaWithGround();
+	void CheckCollisionNinjaWidthEnemy();
+	void CheckCollisionEnemyWithGroundAndVuKhi();
 };
 
