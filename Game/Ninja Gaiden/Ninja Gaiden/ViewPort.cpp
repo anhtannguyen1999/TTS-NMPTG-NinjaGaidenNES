@@ -1,22 +1,16 @@
-#include "ViewPort.h"
+﻿#include "ViewPort.h"
 
 
-#define MAP1_WIDTH 2048
+
 CViewPort * CViewPort::__instance = NULL;
 
 CViewPort::CViewPort()
 {
-	x = 0;
-	y = 0;
-
-	dx=0;	// dx = vx*dt
-	dy=0;	// dy = vy*dt
-
-	vx=0;
-	vy=0;
-
 	width = VIEW_PORT_WIDTH;//
 	height = VIEW_PORT_HEIGHT;//
+
+	x = 0;	//start point x
+	y = 0+height;	// start point y+ VP.Height
 
 }
 
@@ -32,89 +26,43 @@ CViewPort * CViewPort::GetInstance()
 	return __instance;
 }
 
-void CViewPort::Update(DWORD dt)
+void CViewPort::Update(DWORD dt, int const &ninjaX, int const &ninjaY, int const &mapWidth, int const &mapHeight)
 {
-	dx = vx*dt;
-	dy = vy*dt;
-	
-	if (!(x <0 || x>2048- SCREEN_WIDTH))
-	{
-		x += dx;
-		//y += dy;
-	}
+	x = ninjaX-VIEW_PORT_WIDTH/2;
+	y = ninjaY+VIEW_PORT_HEIGHT/2;
+
 	if (x < 0)
 	{
 		x = 0;
 	}
-	else if (x > 2048-SCREEN_WIDTH)
+	else if (x > mapWidth-SCREEN_WIDTH)
 	{
-		x = 2048- SCREEN_WIDTH;
+		x = mapWidth - SCREEN_WIDTH;
 	}
 
-	if (!(y <0 || y>176 - SCREEN_HEIGHT))
-	{
-		x += dx;
-		//y += dy;
-	}
-	
-	//if (y+176 > SCREEN_HEIGHT)
-	//{
-	//	//y =  SCREEN_HEIGHT-176-32;
-	//}
-	//else 
-	/*if (y < 0)
-	{
-		y = 0;
-	}*/
+	//DebugOut(L"ViewPort: %d , %d \n", x, y);
 
-	//DebugOut(L"%d , %d \n",x,y);
-
-	//int rightBoundary = (int)(MAP1_WIDTH - SCREEN_WIDTH / 2);//??
-	//int leftBoundary = (int)SCREEN_WIDTH / 2;
-	//if (xNinja > leftBoundary && xNinja< rightBoundary)
-	//{
-	//	this->x = xNinja - leftBoundary;
-	//}
 }
 
-void CViewPort::SetState(int state)
-{
-	this->state = state;
-	if (this->state == VIEW_PORT_STATE_MOVELEFT)
-	{
-		vx = -VIEW_PORT_SPEED;
-	}
-	else if (this->state == VIEW_PORT_STATE_MOVERIGHT)
-	{
-		vx = VIEW_PORT_SPEED;
-	}
-	else if (this->state == VIEW_PORT_STATE_MOVETOP)
-	{
-		vy = -VIEW_PORT_SPEED;
-	}
-	else if (this->state == VIEW_PORT_STATE_MOVEDOWN)
-	{
-		vy = VIEW_PORT_SPEED;
-	}
-	else if (this->state == VIEW_PORT_STATE_STOPMOVEHORIZONTAL)
-	{
-		vx = 0;
-	}
-	else if (this->state == VIEW_PORT_STATE_STOPMOVEVERTICAL)
-	{
-		vy = 0;
-	}
-	else//IDLE
-	{
-		vx = 0;
-		vy = 0;
-	}
-	//DebugOut(L"filepath: %f , %f\n", vx, vy);
-}
 void CViewPort::SetData(int x, int y, int width, int height)
 {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
+}
+
+
+
+D3DXVECTOR3 CViewPort::SetPositionInViewPort(D3DXVECTOR3 position)
+{
+	D3DXMATRIX mt;
+	D3DXMatrixIdentity(&mt); //chuyen ma tran mt ve ma tran dong nhat_ Duong cheo=1, con lai =0
+	mt._22 = -1.0f;
+	mt._41 = -this->x;
+	mt._42 = this->y;
+	D3DXVECTOR4 vp_pos; //Toa do moi trong viewport //Dung toa do nay de ve 
+	D3DXVec3Transform(&vp_pos, &position, &mt);//nhan position voi ma tran trung gian de ra toa do moi
+
+	return D3DXVECTOR3(vp_pos.x, vp_pos.y+ SPACE_FROM_VIEW_PORT_TO_TOP, 0); //+SPACE_FROM_VIEW_PORT_TO_TOP cho khỏi mất khúc trên của map
 }

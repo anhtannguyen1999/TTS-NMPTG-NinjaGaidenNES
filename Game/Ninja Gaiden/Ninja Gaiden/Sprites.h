@@ -26,6 +26,8 @@ public:
 		D3DXVECTOR2 rotationCenter, D3DXVECTOR2 translation, D3DXVECTOR2 scale, float rotation);
 
 	void Draw(float x, float y, int alpha = 255);
+
+	void Draw(float x, float y, float w, float h, int alpha);
 	
 };
 
@@ -73,6 +75,7 @@ public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	void Render(float x, float y, int alpha=255);
+	void ResetCurrentFrame() { this->currentFrame = -1; }
 };
 
 typedef CAnimation *LPANIMATION;

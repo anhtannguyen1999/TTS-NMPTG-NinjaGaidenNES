@@ -6,12 +6,13 @@
 #include "debug.h"
 #include "Game.h"
 #include "textures.h"
-
+#include "define.h"
+//#include "Sprites.h"
 CTextures * CTextures::__instance = NULL;
 
 CTextures::CTextures()
 {
-
+	
 }
 
 CTextures *CTextures::GetInstance()
@@ -30,7 +31,7 @@ void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		return;
 	}
 
-	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
+	d3ddv = CGame::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXCreateTextureFromFileEx(
@@ -51,7 +52,8 @@ void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 
 	if (result != D3D_OK)
 	{
-		OutputDebugString(L"[ERROR] CreateTextureFromFile failed\n");
+		OutputDebugString(L"[ERROR] CreateTextureFromFile failed: \n");
+		DebugOut(L"CreateTex ERR id=%d, %s \n", id, filePath);
 		return;
 	}
 
