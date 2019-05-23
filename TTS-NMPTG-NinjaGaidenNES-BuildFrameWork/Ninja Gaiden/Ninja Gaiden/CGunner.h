@@ -2,8 +2,10 @@
 #include "Enemy.h"
 #include "Ninja.h"
 #include <Windows.h>
+#include "Bullet.h"
 class CGunner :public CEnemy
 {
+	vector<CGameObject*> listProjectile;
 	bool onGround = false;
 	int isHit = 0;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)

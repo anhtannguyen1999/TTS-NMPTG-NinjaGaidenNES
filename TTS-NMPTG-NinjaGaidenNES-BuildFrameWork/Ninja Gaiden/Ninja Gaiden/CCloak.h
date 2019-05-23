@@ -5,6 +5,7 @@
 class CCloak :public CEnemy
 {
 	bool onGround = false;
+	vector<CGameObject*> listProjectile;
 	int isHit = 0;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	int startX;

@@ -1,6 +1,6 @@
 #pragma once
 #include "Enemy.h"
-class Bullet :public CEnemy
+class CBullet :public CEnemy
 {
 	//bool onGround = false;
 	int isHit = 0;
@@ -8,8 +8,8 @@ class Bullet :public CEnemy
 	//int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	//int startX;
 public:
-	Bullet(int id, int x, int y,int nx);
-	~Bullet();
+	CBullet(int id, int x, int y, int nx);
+	~CBullet();
 
 	void LoadResource();
 	virtual void Render();

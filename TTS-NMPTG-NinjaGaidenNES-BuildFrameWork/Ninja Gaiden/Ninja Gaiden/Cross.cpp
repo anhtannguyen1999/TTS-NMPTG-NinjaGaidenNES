@@ -1,26 +1,27 @@
-#include "Bullet.h"
+#include "Cross.h"
+#include "Ninja.h"
 
 
-
-Bullet::Bullet(int id, int x, int y,int nx)
+Cross::Cross(int id, int x, int y, int nx)
 {
 	this->id = id;
 	LoadResource();
 	//this->typeEnemy = 0;
 	this->x = x;
-	this->y = y+7;
+	this->y = y + 7;
 	this->dame = 1;
 	this->hp = 1;
 	this->width = 12;
 	this->height = 10;
 	this->nx = nx;
+	vy = 0.5f;
 	if (nx >= 1)
 	{
-		vx = 0.05f;
+		vx = 0.2f;
 	}
 	else
 	{
-		vx = -0.05f;
+		vx = -0.2f;
 	}
 	//vy = 0;
 	//vx = -0.05f;
@@ -28,17 +29,23 @@ Bullet::Bullet(int id, int x, int y,int nx)
 }
 
 
-Bullet::~Bullet()
+Cross::~Cross()
 {
 }
 
-void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Cross::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-
-	/*if (daChamDat == 0)
-		y += dy;*/
 	
+
+	if (vy >= -0.5f&& timer % 3 == 0)
+	{
+		vy = vy - 0.1f;
+	}
+	timer++;
+	/*if (daChamDat == 0)
+	y += dy;*/
+	y += dy;
 	x += dx;
 
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
@@ -47,20 +54,20 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 
-void Bullet::LoadResource()
+void Cross::LoadResource()
 {
 	//Khong can add hinh vi da add trong class texture lucs khoi tao roi
 	//Xem trong cai LoadResource cua S
 
 	CAnimations * animations = CAnimations::GetInstance();
 
-	this->AddAnimation(206);// right
-	this->AddAnimation(207);//left
+	this->AddAnimation(216);// right
+	this->AddAnimation(217);//left
 	animations = NULL;
 
 }
 
-void Bullet::Render()
+void Cross::Render()
 {
 	int ani;
 	if (nx > 0)
@@ -77,20 +84,20 @@ void Bullet::Render()
 }
 
 
-void Bullet::GetBoundingBox(float & x, float & y, float & width, float & height)
+void Cross::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
 	if (this->nx >= 1)
 	{
 		x = this->x - 5;
 	}
 	else x = this->x + 5;
-	y = this->y-11;
+	y = this->y - 11;
 	width = this->width;
 	height = this->height;
 }
 
-void Bullet::BeAttack(int satThuong)
+void Cross::BeAttack(int satThuong)
 {
 	hp = 0;
-	Bullet::~Bullet();
+	Cross::~Cross();
 }

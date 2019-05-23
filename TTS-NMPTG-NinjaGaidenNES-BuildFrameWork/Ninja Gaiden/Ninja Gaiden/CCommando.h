@@ -6,6 +6,7 @@ class CCommando :public CEnemy
 {
 	bool onGround = false;
 	int isHit = 0;
+	vector<CGameObject*> listProjectile;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	int startX;
 	int timer = 0;

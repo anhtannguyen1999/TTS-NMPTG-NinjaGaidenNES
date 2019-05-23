@@ -1,5 +1,5 @@
 #include "CCloak.h"
-
+#include "Cross.h"
 
 
 CCloak::CCloak(int id, int x, int y)
@@ -29,6 +29,10 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CNinja *ninja = CNinja::GetInstance();
 	CGameObject::Update(dt);
 
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		listProjectile[i]->Update(dt, &listProjectile);
+	}
 	if (daChamDat == 0)
 		y += dy;
 	/*if (ninja->GetPositionX() - this->x >= 0)
@@ -55,11 +59,12 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	x += dx;
-	//if (timer >= 300 && timer <= 320)
-	//{
-	//	Bullet *bullet = new Bullet(3, this->x, this->y, this->nx);
-	//	/*bullet->Render();*/
-	//}
+	if (timer == 300 )
+	{
+		Cross *cross = new Cross(3, this->x, this->y, this->nx);
+		listProjectile.push_back(cross);
+		/*bullet->Render();*/
+	}
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
 }
 
@@ -84,6 +89,12 @@ void CCloak::LoadResource()
 void CCloak::Render()
 {
 	int ani;
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+
+		listProjectile[i]->Render();
+		//DebugOut(L"Render sucess");
+	}
 	/*int ani2;*/
 	if (nx > 0)
 	{

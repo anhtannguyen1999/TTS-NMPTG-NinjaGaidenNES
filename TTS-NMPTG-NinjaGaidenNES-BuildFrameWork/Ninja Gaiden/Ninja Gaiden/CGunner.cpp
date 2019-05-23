@@ -1,6 +1,7 @@
 #include "CGunner.h"
 #include"Bullet.h"
 
+#include"GameSceneStage31.h"
 
 CGunner::CGunner(int id,int x, int y)
 {
@@ -29,6 +30,10 @@ void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CNinja *ninja = CNinja::GetInstance();
 	CGameObject::Update(dt);
 	
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		listProjectile[i]->Update(dt,&listProjectile);
+	}
 	if (daChamDat==0)
 		y += dy;
 	if (ninja->GetPositionX() - this->x >= 0)
@@ -41,9 +46,10 @@ void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		timer = 0;
 	}
-	if (timer >=300&&timer <=320)
+	if (timer ==300)
 	{
-		Bullet *bullet = new Bullet(3, this->x, this->y, this->nx);
+		Bullet *bullet = new Bullet(2, this->x, this->y, this->nx);
+		listProjectile.push_back(bullet);
 		/*bullet->Render();*/
 	}
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
@@ -69,6 +75,12 @@ void CGunner::LoadResource()
 
 void CGunner::Render()
 {
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+
+		listProjectile[i]->Render();
+		DebugOut(L"Render sucess");
+	}
 	int ani;
 	/*int ani2;*/
 	if (nx > 0)
@@ -101,6 +113,7 @@ void CGunner::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
+	
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
 	this->RenderBoundingBox();
 }

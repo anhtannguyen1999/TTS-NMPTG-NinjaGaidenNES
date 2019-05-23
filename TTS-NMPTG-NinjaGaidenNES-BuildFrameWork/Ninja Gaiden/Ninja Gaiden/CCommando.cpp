@@ -1,5 +1,5 @@
 #include "CCommando.h"
-
+#include "Cbullet.h"
 
 
 CCommando::CCommando(int id, int x, int y)
@@ -31,6 +31,10 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (daChamDat == 0)
 		y += dy;
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		listProjectile[i]->Update(dt, &listProjectile);
+	}
 	/*if (ninja->GetPositionX() - this->x >= 0)
 	{
 	nx = 1;
@@ -45,16 +49,32 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (this->x > startX)//Neu nam o bien ben phai thi quay dau di ve ben trai
 		{
-			vx = -0.1f;
+			vx = -0.05f;
 			nx = -1;
 		}
 		else
 		{
-			vx = 0.1f;
+			vx = 0.05f;
 			nx = 1;
 		}
 	}
 	x += dx;
+	if (timer == 300)
+	{
+		CBullet *Cbu = new CBullet(3, this->x, this->y, this->nx);
+		listProjectile.push_back(Cbu);
+	}
+	if (timer == 320)
+	{
+		CBullet *Cbu1 = new CBullet(3, this->x, this->y, this->nx);
+		listProjectile.push_back(Cbu1);
+	}
+	if (timer == 340)
+	{
+		CBullet *Cbu2 = new CBullet(3, this->x, this->y, this->nx);
+		listProjectile.push_back(Cbu2);
+	}
+
 	//if (timer >= 300 && timer <= 320)
 	//{
 	//	Bullet *bullet = new Bullet(3, this->x, this->y, this->nx);
@@ -84,13 +104,20 @@ void CCommando::LoadResource()
 void CCommando::Render()
 {
 	int ani;
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+
+		listProjectile[i]->Render();
+		//DebugOut(L"Render sucess");
+	}
 	/*int ani2;*/
 	if (nx > 0)
 	{
 		ani = 0; //right
-		if (timer >= 300 && timer <= 320)
+		if (timer >= 300 && timer <= 340)
 		{
 			ani = 1;
+			vx = 0;
 		}
 	}
 	else
@@ -104,9 +131,10 @@ void CCommando::Render()
 				t = 0;
 				}
 				}*/
-		if (timer >= 300 && timer <= 320)
+		if (timer >= 300 && timer <= 340)
 		{
 			ani = 3;
+			vx = 0;
 		}
 	}
 	D3DXVECTOR3 pos;

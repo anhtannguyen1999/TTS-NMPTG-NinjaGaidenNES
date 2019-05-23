@@ -1,14 +1,14 @@
-#include "Bullet.h"
+#include "CBullet.h"
 
 
 
-Bullet::Bullet(int id, int x, int y,int nx)
+CBullet::CBullet(int id, int x, int y, int nx)
 {
 	this->id = id;
 	LoadResource();
 	//this->typeEnemy = 0;
 	this->x = x;
-	this->y = y+7;
+	this->y = y + 7;
 	this->dame = 1;
 	this->hp = 1;
 	this->width = 12;
@@ -16,11 +16,11 @@ Bullet::Bullet(int id, int x, int y,int nx)
 	this->nx = nx;
 	if (nx >= 1)
 	{
-		vx = 0.05f;
+		vx = 0.1f;
 	}
 	else
 	{
-		vx = -0.05f;
+		vx = -0.1f;
 	}
 	//vy = 0;
 	//vx = -0.05f;
@@ -28,17 +28,17 @@ Bullet::Bullet(int id, int x, int y,int nx)
 }
 
 
-Bullet::~Bullet()
+CBullet::~CBullet()
 {
 }
 
-void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
 
 	/*if (daChamDat == 0)
-		y += dy;*/
-	
+	y += dy;*/
+
 	x += dx;
 
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
@@ -47,20 +47,20 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 
-void Bullet::LoadResource()
+void CBullet::LoadResource()
 {
 	//Khong can add hinh vi da add trong class texture lucs khoi tao roi
 	//Xem trong cai LoadResource cua S
 
 	CAnimations * animations = CAnimations::GetInstance();
 
-	this->AddAnimation(206);// right
-	this->AddAnimation(207);//left
+	this->AddAnimation(244);// right
+	this->AddAnimation(245);//left
 	animations = NULL;
 
 }
 
-void Bullet::Render()
+void CBullet::Render()
 {
 	int ani;
 	if (nx > 0)
@@ -77,20 +77,20 @@ void Bullet::Render()
 }
 
 
-void Bullet::GetBoundingBox(float & x, float & y, float & width, float & height)
+void CBullet::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
 	if (this->nx >= 1)
 	{
 		x = this->x - 5;
 	}
 	else x = this->x + 5;
-	y = this->y-11;
+	y = this->y - 11;
 	width = this->width;
 	height = this->height;
 }
 
-void Bullet::BeAttack(int satThuong)
+void CBullet::BeAttack(int satThuong)
 {
 	hp = 0;
-	Bullet::~Bullet();
+	CBullet::~CBullet();
 }
