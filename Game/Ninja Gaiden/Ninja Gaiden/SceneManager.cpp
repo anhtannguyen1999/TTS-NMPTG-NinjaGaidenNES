@@ -489,6 +489,45 @@ void CSceneManager::LoadResourceForEnemies()
 	animations->Add(225, ani);
 	#pragma endregion
 
+	#pragma region Load resource cho cross
+
+	sprites->Add(280, 523, 8, 536, 24, texEnemy, zero, zero, zero, 0);		// cross right
+	sprites->Add(281, 523, 8, 536, 24, texEnemy, zero, zero, scaleNguoc, 0);// cross left
+
+	ani = new CAnimation(100);	// cross right
+	ani->Add(280);
+	animations->Add(216, ani);
+
+	ani = new CAnimation(100);	// cross left
+	ani->Add(281);
+	animations->Add(217, ani);
+	#pragma endregion
+
+	#pragma region Load resource cho Bullet of Commando
+	sprites->Add(298, 194, 67, 206, 73, texEnemy, zero, zero, zero, 0); //C-bullet
+	sprites->Add(299, 194, 67, 206, 73, texEnemy, zero, zero, scaleNguoc, 0);//C-bullet
+	ani = new CAnimation(100);	// C-bullet right
+	ani->Add(298);
+	animations->Add(244, ani);
+
+	ani = new CAnimation(100);	// C-bullet left
+	ani->Add(299);
+	animations->Add(245, ani);
+	#pragma endregion
+
+	#pragma region Load resource cho bullet gunner
+	sprites->Add(230, 460, 65, 475, 78, texEnemy, zero, zero, zero, 0);  // bullet right
+	sprites->Add(231, 460, 65, 475, 78, texEnemy, zero, zero, scaleNguoc, 0);// bullet left
+
+	ani = new CAnimation(100); //bullet right
+	ani->Add(230);
+	animations->Add(206, ani);
+
+	ani = new CAnimation(100); //bullet left
+	ani->Add(231);
+	animations->Add(207, ani);
+	#pragma endregion
+
 }
 
 void CSceneManager::LoadOtherResource()

@@ -2,6 +2,8 @@
 #include "Enemy.h"
 #include "Ninja.h"
 #include <Windows.h>
+#include"BulletGunner.h"
+
 class CGunner :public CEnemy
 {
 	bool onGround = false;
@@ -10,6 +12,8 @@ class CGunner :public CEnemy
 //	int startX;
 	int timer = 0;
 public:
+	vector<CGameObject*> listProjectile;
+
 	CGunner(int id, int x, int y);
 	~CGunner();
 
@@ -20,6 +24,8 @@ public:
 	void GetBoundingBox(float &x, float &y, float &width, float &height);
 	void SetOnGround(bool onGround) { this->onGround = onGround; if (onGround&&daChamDat<10) daChamDat++; }
 	virtual void BeAttack(int satThuong);
+
+	void RefreshListBullet();
 
 };
 

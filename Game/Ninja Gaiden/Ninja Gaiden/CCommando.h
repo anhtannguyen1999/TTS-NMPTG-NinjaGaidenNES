@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Ninja.h"
 #include <Windows.h>
+#include "BulletCommando.h"
 class CCommando :public CEnemy
 {
 	bool onGround = false;
@@ -12,6 +13,8 @@ class CCommando :public CEnemy
 	int firstY = -1; //Diem Y cham dat
 
 public:
+	vector<CGameObject*> listProjectile;
+
 	CCommando(int id, int x, int y);
 	~CCommando();
 
@@ -22,7 +25,7 @@ public:
 	void GetBoundingBox(float &x, float &y, float &width, float &height);
 	void SetOnGround(bool onGround) { this->onGround = onGround; if (onGround&&daChamDat<10) daChamDat++; }
 	virtual void BeAttack(int satThuong);
-
+	void RefreshListBullet();
 };
 
 

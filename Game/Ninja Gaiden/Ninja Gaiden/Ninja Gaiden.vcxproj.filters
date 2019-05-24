@@ -96,9 +96,6 @@
     <ClCompile Include="Panther.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="CCloak.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
@@ -109,6 +106,15 @@
       <Filter>Enemies</Filter>
     </ClCompile>
     <ClCompile Include="CRunner.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Cross.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletCommando.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletGunner.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,9 +185,6 @@
     <ClInclude Include="Panther.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="CCloak.h">
       <Filter>Enemies</Filter>
     </ClInclude>
@@ -192,6 +195,15 @@
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="CRunner.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Cross.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletCommando.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletGunner.h">
       <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>

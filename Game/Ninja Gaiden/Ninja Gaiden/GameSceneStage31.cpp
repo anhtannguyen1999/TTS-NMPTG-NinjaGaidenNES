@@ -185,13 +185,25 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 			}
 			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_CLOAK)
 			{
-				CCloak* Cloak = dynamic_cast<CCloak*>(gameObj);
-				if (Cloak) //c != nullptr //downcast thành công
+				CCloak* cloak = dynamic_cast<CCloak*>(gameObj);
+				if (cloak) //c != nullptr //downcast thành công
 				{
 					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
 					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 					{
-						ninja->BeAttacked(Cloak->GetDame(), gameObj->x);
+						ninja->BeAttacked(cloak->GetDame(), gameObj->x);
+					}
+					//Xet va cham voi cross
+					for (UINT i = 0; i < cloak->listProjectile.size(); i++)
+					{
+						CCross* cross = dynamic_cast<CCross*>(cloak->listProjectile[i]);
+						cloak->RefreshListCross();
+						collisionCheck = ninja->isCollitionObjectWithObject(cross);
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							ninja->BeAttacked(cross->GetDame(), cross->x);
+							
+						}
 					}
 				}
 			}
@@ -205,17 +217,41 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 					{
 						ninja->BeAttacked(Commando->GetDame(), gameObj->x);
 					}
+					//Xet va cham voi dan cua commando
+					for (UINT i = 0; i < Commando->listProjectile.size(); i++)
+					{
+						CBulletCommando* BCom = dynamic_cast<CBulletCommando*>(Commando->listProjectile[i]);
+						Commando->RefreshListBullet();
+						collisionCheck = ninja->isCollitionObjectWithObject(BCom);
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							ninja->BeAttacked(BCom->GetDame(), BCom->x);
+
+						}
+					}
 				}
 			}
 			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_GUNNER)
 			{
-				CGunner* CGunner1 = dynamic_cast<CGunner*>(gameObj);
-				if (CGunner1) //c != nullptr //downcast thành công
+				CGunner* gunner = dynamic_cast<CGunner*>(gameObj);
+				if (gunner) //c != nullptr //downcast thành công
 				{
 					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
 					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 					{
-						ninja->BeAttacked(CGunner1->GetDame(), gameObj->x);
+						ninja->BeAttacked(gunner->GetDame(), gameObj->x);
+					}
+					//Xet va cham voi dan cua gunner
+					for (UINT i = 0; i < gunner->listProjectile.size(); i++)
+					{
+						CBulletGunner* BGun = dynamic_cast<CBulletGunner*>(gunner->listProjectile[i]);
+						gunner->RefreshListBullet();
+						collisionCheck = ninja->isCollitionObjectWithObject(BGun);
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							ninja->BeAttacked(BGun->GetDame(), BGun->x);
+
+						}
 					}
 				}
 			}
@@ -339,6 +375,24 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 
 					}
 					Cloak->SetOnGround(grounded);
+
+					//Xet va cham cross vs ninjaSWORD 
+					Cloak->RefreshListCross();
+					for (UINT i = 0; i < Cloak->listProjectile.size(); i++)
+					{
+						CCross* cross = dynamic_cast<CCross*>(Cloak->listProjectile[i]);
+						//unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(cross);
+						//if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						//{
+						//	ninja->BeAttacked(cross->GetDame(), cross->x);
+						//}
+						if (ninja->ninjaSword->GetActive() && cross->isCollitionObjectWithObject(ninja->ninjaSword))
+						{
+							cross->BeAttack(1);
+							//Sau nay xet neu khong phai la boss nua
+							ninja->ninjaSword->DanhChetEnemy();
+						}
+					}
 				}
 			}
 			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_COMMANDO)
@@ -354,7 +408,7 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
 						{
 							unsigned short int collisionCheck = Commando->isCollitionObjectWithObject(gameObj);
-							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+							if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 							{
 								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 								{
@@ -365,32 +419,39 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 
 					}
 					Commando->SetOnGround(grounded);
+					//Xet va cham bullet commando vs ninjaSWORD 
+					Commando->RefreshListBullet();
+					for (UINT i = 0; i < Commando->listProjectile.size(); i++)
+					{
+						CBulletCommando* BCom = dynamic_cast<CBulletCommando*>(Commando->listProjectile[i]);
+						
+						if (ninja->ninjaSword->GetActive() && BCom->isCollitionObjectWithObject(ninja->ninjaSword))
+						{
+							BCom->BeAttack(1);
+							ninja->ninjaSword->DanhChetEnemy();
+						}
+					}
 				}
 			}
-			//else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_GUNNER)
-			//{
-			//	CGunner* CGunner1 = dynamic_cast<CGunner*>(enemy);
-			//	if (CGunner1) //c != nullptr //downcast thành công
-			//	{
-			//		bool grounded = false;
-			//		for (UINT i = 0; i < listBackgroundObj.size(); i++)
-			//		{
-			//			CGameObject * gameObj = listBackgroundObj[i];
-			//			if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-			//			{
-			//				unsigned short int collisionCheck = CGunner1->isCollitionObjectWithObject(gameObj);
-			//				if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-			//				{
-			//					if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-			//					{
-			//						grounded = true;
-			//					}
-			//				}
-			//			}
-			//		}
-			//		CGunner1->SetOnGround(grounded);
-			//	}
-			//}
+			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_GUNNER)
+			{
+				CGunner* gunner = dynamic_cast<CGunner*>(enemy);
+				if (gunner) //c != nullptr //downcast thành công
+				{
+					//Xet va cham bullet Gunner vs ninjaSWORD 
+					gunner->RefreshListBullet();
+					for (UINT i = 0; i < gunner->listProjectile.size(); i++)
+					{
+						CBulletGunner* BGun = dynamic_cast<CBulletGunner*>(gunner->listProjectile[i]);
+
+						if (ninja->ninjaSword->GetActive() && BGun->isCollitionObjectWithObject(ninja->ninjaSword))
+						{
+							BGun->BeAttack(1);
+							ninja->ninjaSword->DanhChetEnemy();
+						}
+					}
+				}
+			}
 			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_RUNNER)
 			{
 				CRunner* CRunner1 = dynamic_cast<CRunner*>(enemy);

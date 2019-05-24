@@ -28,8 +28,14 @@ CCloak::CCloak(int id, int x, int y)
 
 CCloak::~CCloak()
 {
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		SAFE_DELETE(listProjectile[i]);
+	}
 }
 
+
+float vxCross = 0;
 void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//CNinja *ninja = CNinja::GetInstance();
@@ -68,41 +74,42 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	#pragma endregion
 
-
+	#pragma region Ban dan- cross
 	timer++;
-	if (timer == 400)
+	//DebugOut(L"timer: %d \n", timer);
+	if (timer >= 130)
 	{
 		timer = 0;
 	}
 
-	//if (daChamDat == 0)
-	//	y += dy;
-	///*if (ninja->GetPositionX() - this->x >= 0)
-	//{
-	//	nx = 1;
-	//}
-	//else nx = -1;*/
-	//
-	//if (!onGround&&daChamDat != 0)//neu no di ra ngoai cai bien cua no
-	//{
-	//	if (this->x > rootX)//Neu nam o bien ben phai thi quay dau di ve ben trai
-	//	{
-	//		vx = -0.1f;
-	//		nx = -1;
-	//	}
-	//	else
-	//	{
-	//		vx = 0.1f;
-	//		nx = 1;
-	//	}
-	//}
-	//x += dx;
-	//if (timer >= 300 && timer <= 320)
-	//{
-	//	Bullet *bullet = new Bullet(3, this->x, this->y, this->nx);
-	//	/*bullet->Render();*/
-	//}
-	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
+	if (timer == 100) //Neu timmer= 100 thi ban dan
+	{
+		vxCross = (rand() % 5 + 1)*0.03f;
+		CCross *cross = new CCross(3, this->x, this->y, this->nx, vxCross);
+		listProjectile.push_back(cross);
+	}
+
+	int soLuongCrossThem = (rand() % 10<6)?0: (rand() % 10<9)?1 :2;//random so luong cross them 60% la khong them, 30% them 1, 10% them 2
+	if (timer == 110 && soLuongCrossThem >0) // Neu them hon 0 cross // tu 1-2 cross
+	{
+		CCross *cross = new CCross(3, this->x, this->y, this->nx, vxCross);
+		listProjectile.push_back(cross);
+	}
+	if (timer == 120 && soLuongCrossThem >1) // Neu them hon 1 cross//them hon 2 cross
+	{
+		CCross *cross = new CCross(3, this->x, this->y, this->nx, vxCross);
+		listProjectile.push_back(cross);
+	}
+
+	#pragma endregion
+
+	//update Cross
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		if(listProjectile[i]!=NULL)
+			listProjectile[i]->Update(dt, &listProjectile);
+	}
+
 }
 
 
@@ -138,7 +145,7 @@ void CCloak::Render()
 	if (nx > 0)
 	{
 		ani = 0; //right
-		if (timer >= 300 && timer <= 320)
+		if (timer >= 100 && timer <= 120)
 		{
 			ani = 1;
 		}
@@ -154,7 +161,7 @@ void CCloak::Render()
 				t = 0;
 				}
 				}*/
-		if (timer >= 300 && timer <= 320)
+		if (timer >= 100 && timer <= 120)
 		{
 			ani = 3;
 		}
@@ -166,6 +173,14 @@ void CCloak::Render()
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
+
+	//Render dan
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		if (listProjectile[i] != NULL)
+			listProjectile[i]->Render();
+	}
+
 	this->RenderBoundingBox();
 }
 
@@ -211,7 +226,7 @@ void CCloak::Render()
 void CCloak::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
 	x = this->x;
-	y = this->y;
+	y = this->y-5;
 	width = this->width;
 	height = this->height;
 }
@@ -219,6 +234,36 @@ void CCloak::GetBoundingBox(float & x, float & y, float & width, float & height)
 void CCloak::BeAttack(int satThuong)
 {
 	hp = 0;
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		SAFE_DELETE(listProjectile[i]);
+	}
+	listProjectile.clear();
 	ResetVeTrangThaiDau();
-	//CCloak::~CCloak();
+}
+
+void CCloak::ClearListCross()
+{
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		SAFE_DELETE(listProjectile[i]);
+	}
+	listProjectile.clear();
+}
+
+void CCloak::RefreshListCross()
+{
+
+	int i = 0;
+	while (i < listProjectile.size())//Neu hp=0 thi huy
+	{
+		if (listProjectile[i]->GetHP() == 0) {
+			listProjectile.erase(listProjectile.begin()+i);
+			i--;
+		}
+		i++;
+	}
+
+	//DebugOut(L"Size: %d \n", listProjectile.size());
+
 }

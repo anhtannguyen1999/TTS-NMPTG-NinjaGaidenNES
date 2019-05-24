@@ -1,6 +1,4 @@
 #include "CGunner.h"
-#include"Bullet.h"
-
 
 CGunner::CGunner(int id,int x, int y)
 {
@@ -42,17 +40,23 @@ void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		nx = 1;
 	}
 	else nx = -1;
+	//ban dan
 	timer++;
-	if (timer == 400)
+	if (timer >= 150)
 	{
 		timer = 0;
 	}
-	if (timer >=300&&timer <=320)
+	if (timer == 95)
 	{
-		//ban dan
-		//Bullet *bullet = new Bullet(3, this->x, this->y, this->nx);
-		/*bullet->Render();*/
+		CBulletGunner *bullet = new CBulletGunner(2, this->x, this->y, this->nx);
+		listProjectile.push_back(bullet);
 	}
+	//update dan
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		listProjectile[i]->Update(dt, &listProjectile);
+	}
+	//DebugOut(L"So dan: %d \n", listProjectile.size());
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
 }
 
@@ -71,17 +75,23 @@ void CGunner::LoadResource()
 	this->AddAnimation(205);//left
 	this->AddAnimation(225);
 	animations = NULL;
-	
 }
 
 void CGunner::Render()
 {
+	//Render dan
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+
+		listProjectile[i]->Render();
+		//DebugOut(L"Render sucess");
+	}
 	int ani;
 	/*int ani2;*/
 	if (nx > 0)
 	{
 		ani = 0; //right
-		if (timer >= 300&&timer <=320)
+		if (timer >= 100&&timer <=120)
 		{
 			ani = 1;
 		}
@@ -97,7 +107,7 @@ void CGunner::Render()
 				t = 0;
 			}
 		}*/
-		if (timer >= 300&&timer<=320)
+		if (timer >= 100&&timer<=120)
 		{
 			ani = 3;
 		}
@@ -112,45 +122,6 @@ void CGunner::Render()
 	this->RenderBoundingBox();
 }
 
-//void CGunner::RenderShoot()
-//{
-//	int ani;
-//	/*int ani2;*/
-//	if (nx > 0)
-//	{
-//		ani = 1; //right
-//				 /*for (int t = 0; t < 2000000; t++)
-//				 {
-//				 if (t == 199999)
-//				 {
-//				 ani = 1;
-//				 t = 0;
-//				 }
-//				 }*/
-//	}
-//	else
-//	{
-//		ani = 3;//left
-//				/*for (int t = 0; t < 2000000; t++)
-//				{
-//				if (t == 199999)
-//				{
-//				ani = 3;
-//				t = 0;
-//				}
-//				}*/
-//	}
-//	D3DXVECTOR3 pos;
-//	pos.x = this->x;
-//	pos.y = this->y;
-//	pos.z = 0;
-//	pos = camera->SetPositionInViewPort(pos);
-//	animations[ani]->Render(pos.x, pos.y, ALPHA);
-//	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
-//	this->RenderBoundingBox();
-//}
-
-
 void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
 	x = this->x;
@@ -162,6 +133,23 @@ void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height
 void CGunner::BeAttack(int satThuong)
 {
 	hp = 0;
+	for (UINT i = 0; i < listProjectile.size(); i++)
+	{
+		SAFE_DELETE(listProjectile[i]);
+	}
+	listProjectile.clear();
 	ResetVeTrangThaiDau();
 	//CGunner::~CGunner();
+}
+void CGunner::RefreshListBullet()
+{
+	int i = 0;
+	while (i < listProjectile.size())//Neu hp=0 thi huy
+	{
+		if (listProjectile[i]->GetHP() == 0) {
+			listProjectile.erase(listProjectile.begin() + i);
+			i--;
+		}
+		i++;
+	}
 }

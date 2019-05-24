@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp" />
-    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletCommando.cpp" />
+    <ClCompile Include="BulletGunner.cpp" />
     <ClCompile Include="CCloak.cpp" />
     <ClCompile Include="CCommando.cpp" />
     <ClCompile Include="CGunner.cpp" />
+    <ClCompile Include="Cross.cpp" />
     <ClCompile Include="CRunner.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -49,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bat.h" />
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletCommando.h" />
+    <ClInclude Include="BulletGunner.h" />
     <ClInclude Include="CCloak.h" />
     <ClInclude Include="CCommando.h" />
     <ClInclude Include="CGunner.h" />
+    <ClInclude Include="Cross.h" />
     <ClInclude Include="CRunner.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
