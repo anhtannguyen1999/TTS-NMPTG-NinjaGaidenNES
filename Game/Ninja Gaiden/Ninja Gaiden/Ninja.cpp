@@ -22,20 +22,31 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 
 	CGameObject::Update(dt);
-	preY = y;
+	//preY = y;
 	
 	y += dy;
 	//Nếu đang đánh(đánh ở trạng thái đứng chứ k phải nhảy hay ngồi) thì dừng lại trục x.
 	//Nếu đang leo tường thì dừng lại trục x
-	if(!(isHit!=0 && !isJump && !isSit) && !isOnWall && canMove)
-		x += dx;
+	if (!(isHit != 0 && !isJump && !isSit) && !isOnWall && canMove)
+	{
+		//Neu khong (bi khoa ben trai va di ve ben trai) va tuong tu ben phai
+		if (!(dx >= 0 && !canMoveRight) && !(dx <= 0 && !canMoveLeft))
+		{
+			x += dx;
+		}
+		
+	}
+		
 
 	if (onGround)//chạm đất
 	{
 		if (!isJump)//Neu dang cham dat va khong dang nhay
 		{
-			vy = 0;
-			dy = 0;
+			if (vy < 0)
+			{
+				vy = 0;
+				dy = 0;
+			}
 		}
 		//isOnWall = false;
 		canJump = true;
@@ -54,17 +65,18 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//DebugOut(L"Ninja Khong Cham dat\n");
 		
 	}
-	if (this->y < 8) //xet cho khoi rot gay bug thoi 9
+	if (this->y < 8) //xet cho khoi rot gay bug thoi 9 // Rot xuong thi ve vach xuat phat
 	{
 		//this->y = 8;
-		SetPosition(30, 100);
+		SetPosition(1726, 200);
 		vy = 0; dy = 0;
 	}
 	CalNinjaSword();
 	//DebugOut(L"%d \n", hp);
 	//DebugOut(L"x= %f\n", x);
 
-	ninjaSword->Update(dt);
+	ninjaSword->Update(dt);		
+	
 }
 
 
@@ -376,6 +388,15 @@ void CNinja::Attacked(int & ani)
 		attacked = 0;
 	
 }
+void CNinja::SetOnGround(bool onGround)
+{
+	this->onGround = onGround;
+	
+}
+void CNinja::SetOnWall(bool onWall)
+{
+	this->isOnWall = onWall;
+}
 void CNinja::CalNinjaSword()
 {
 	if (this->attacked > 0 && this->attacked <= 20) //Neu bi danh thi thoi
@@ -444,6 +465,8 @@ void CNinja::SetState(int state)
 		isSit = false;
 		isUp = false;
 		isDown = false;
+		//new
+		//canMoveLeft = true;
 		break;
 	case NINJA_STATE_RUN_LEFT:
 		vx = -NINJA_SPEED;
@@ -452,11 +475,22 @@ void CNinja::SetState(int state)
 		isSit = false;
 		isUp = false;
 		isDown = false;
+		//canMoveRight = true;
 		break;
 	case NINJA_STATE_JUMP:
 		if (canJump)
 		{
-			vy = +ninjaJumpForce;
+			if (isOnWall)
+				vy = +NINJA_JUMP_FORCE_ONWALL;
+			else
+				vy = +NINJA_JUMP_FORCE;
+		}
+		//Neu dang o tren tuong va vx=0
+		//Hoac neu dang o tren tuong va vx cung huong nx thi k cho nhay
+		if(isOnWall&&(vx==0||(vx>0&&nx>0||vx<0&&nx<0)))
+		{
+			vy = 0;
+			dy = 0;
 		}
 		onGround = false;
 		isJump = 1;
@@ -464,6 +498,8 @@ void CNinja::SetState(int state)
 		isSit = false;
 		canClimbUpDown = false;
 		isOnWall = false;
+		canClingOnClimbWall = true; //Neu nhay thi cho phep bam len tuong
+		//DebugOut(L"True\n");
 		break;
 	case NINJA_STATE_HIT:
 		isHit = 1;
@@ -471,21 +507,42 @@ void CNinja::SetState(int state)
 		break;
 	case NINJA_STATE_DOWN:
 		isDown = true;
-		if(isJump==0&&!isOnWall)
-			isSit = 1;
+		if (isJump == 0 && !isOnWall)
+		{
+			isSit = true;
+		}
 		vx = 0;
 		isUp = false;
-		if (isOnWall&&onGround)
-			isOnWall = false;
+		if (isOnWall&&onGround) // Neu cham dat thi k cho bam len tuong nua
+		{
+			//isOnWall = false;
+			canClingOnClimbWall = false;
+		}
 		break;
 	case NINJA_STATE_UP:
 		isUp = true;
 		isDown = false;
-
 		break;
-	case NINJA_STATE_ONWALL:
-		
+	case NINJA_STATE_ON_CLIMBING_WALL:
+		if (!canClingOnClimbWall)
+		{
+			isOnWall = false;
+			break;
+		}
 		canClimbUpDown = true;
+		isOnWall = true;
+		if (isJump)
+			isJump = false;
+		canJump = true;
+		//vx = 0;
+		break;
+	case NINJA_STATE_ON_CLING_WALL:
+		if (onGround)
+		{
+			isOnWall = false;
+			break;
+		}
+		canClimbUpDown = false;
 		isOnWall = true;
 		if (isJump)
 			isJump = false;
@@ -500,7 +557,22 @@ void CNinja::SetState(int state)
 			if (!isOnWall)
 				vy = 0;
 		}
-		
+		break;
+	case NINJA_STATE_STOP_RIGHT:
+		if (canMoveRight)
+			canMoveRight = false;
+		break;
+	case NINJA_STATE_STOP_LEFT:
+		if (canMoveLeft)
+			canMoveLeft = false;
+		break;
+	case NINJA_STATE_ACTIVE_RIGHT:
+		if (!canMoveRight)
+			canMoveRight = true;
+		break;
+	case NINJA_STATE_ACTIVE_LEFT:
+		if (!canMoveLeft)
+			canMoveLeft = true;
 		break;
 	}
 }

@@ -117,6 +117,9 @@
     <ClCompile Include="BulletGunner.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="BulletGunner.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

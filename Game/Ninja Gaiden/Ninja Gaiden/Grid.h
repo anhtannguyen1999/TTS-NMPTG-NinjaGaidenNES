@@ -14,6 +14,7 @@
 #include "CCommando.h"
 #include "CGunner.h"
 #include "CRunner.h"
+#include "Wall.h"
 using namespace std;
 
 class CGrid
@@ -27,8 +28,8 @@ public:
 	void SetFile(string str); // Đọc các object từ file
 	void LoadGrid();
 
-	CGameObject * CreateNewObject(int id,int type, int x, int y, int w, int h,int miniType);
-	void Insert(int id, int type, float x, float y, int w, int h,int miniType); //Thêm object vào grid
+	CGameObject * CreateNewObject(int id,int type, int x, int y, int w, int h,int miniType,int other);
+	void Insert(int id, int type, float x, float y, int w, int h,int miniType,int other); //Thêm object vào grid
 	void GetListObject(vector<CGameObject*>& listBackgroundObj, vector<CGameObject*> & listOtherObj, CCamera * camera);// lấy hết các object "còn Alive" trong vùng camera;
 	//void ActiveObj()
 };

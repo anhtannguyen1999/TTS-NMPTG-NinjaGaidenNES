@@ -17,7 +17,7 @@ public:
 	void SetIsChangingScene(bool status);
 	void DestroyAll();
 	void CheckCollision();
-	void CheckCollisionNinjaWithGround();
+	void CheckCollisionNinjaWithBackGroundObj();
 	void CheckCollisionNinjaWidthEnemy();
 	void CheckCollisionEnemyWithGroundAndVuKhi();
 };

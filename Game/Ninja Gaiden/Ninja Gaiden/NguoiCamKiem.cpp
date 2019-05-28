@@ -91,6 +91,10 @@ void CNguoiCamKiem::LoadResource()
 
 void CNguoiCamKiem::Render()
 {
+	if (hp > 1)
+	{
+		//Code
+	}
 	int ani;
 	if (nx > 0)
 		ani = 0; //right

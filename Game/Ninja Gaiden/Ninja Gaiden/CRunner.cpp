@@ -12,7 +12,7 @@ CRunner::CRunner(int id, int x, int y)
 	this->dame = 1;
 	this->hp = 1;
 	this->width = 24;
-	this->height = 35;
+	this->height = 30;
 	nx = -1;
 	vy = -0.2f;
 	vx = -0.1f;

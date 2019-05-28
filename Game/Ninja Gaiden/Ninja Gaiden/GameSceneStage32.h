@@ -18,5 +18,7 @@ public:
 	void DestroyAll();
 	void CheckCollision();
 	void CheckCollisionNinjaWithGround();
+	void CheckCollisionNinjaWidthEnemy();
+	void CheckCollisionEnemyWithGroundAndVuKhi();
 };
 

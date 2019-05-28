@@ -74,13 +74,13 @@ void CGameSceneStage31::DestroyAll()
 void CGameSceneStage31::CheckCollision()
 {
 	CheckCollisionNinjaWidthEnemy();
-	CheckCollisionNinjaWithGround();
+	CheckCollisionNinjaWithBackGroundObj();
 	CheckCollisionEnemyWithGroundAndVuKhi();
 }
-
-void CGameSceneStage31::CheckCollisionNinjaWithGround()
+void CGameSceneStage31::CheckCollisionNinjaWithBackGroundObj()
 {
-	bool grounded = false;
+	bool grounded = false,// walled = false, 
+		 stopLeft = false, stopRight = false;
 	//DebugOut(L"Obj collision Size: %d\n", listObj.size());
 	CGameObject * gameObj;
 	for (UINT i = 0; i < listBackgroundObj.size(); i++)
@@ -88,39 +88,93 @@ void CGameSceneStage31::CheckCollisionNinjaWithGround()
 		gameObj = listBackgroundObj[i];
 		if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
 		{
+			CGround* ground = dynamic_cast<CGround*>(gameObj);
 			unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-			if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+			if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 			{
 				if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 				{
 					ninja->vx *= 0.1;
-					ninja->vy = -0.1f;
+					if(ninja->vy<0)
+						ninja->vy = -0.1f; //cham la bat nguoc
 
 					float objX, objY, objW, objH;
 					gameObj->GetBoundingBox(objX, objY, objW, objH);
-					if(ninja->vy<0)// Nếu có rơi xuống thì bố mới tin va chạm với đất nhé!!!Thân
-						grounded = true;
-					if (ninja->y - NINJA_HEIGHT_TMP > objY - 16) //cham 1 it o tren moi tinh
+
+					//cham 1 it o tren moi tinh
+					// &&Nếu có rơi xuống thì mới tin va chạm với đất nhé!!!
+					if (ninja->y - NINJA_HEIGHT_TMP > objY - 10&& ninja->vy<0)  
+					{
 						ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
+						grounded = true;
+					}
+						
 				}
 				//DebugOut(L"%d \n", collisionCheck);
-				//else if (collisionCheck == OBJ_COLLISION_LEFT)
-				//{
-				//	//ninja->SetSpeedX(0);
-				//	//ninja->SetPositionX(objX +objW);
-				//}
-				//else if (collisionCheck == OBJ_COLLISION_RIGHT)
-				//{
-				//	//ninja->SetPositionX(objX - NINJA_WIDTH_TMP);
-				//	//ninja->SetSpeedX(0);
-				//}
+				else if (collisionCheck == OBJ_COLLISION_LEFT&&ground->GetMiniTypeGround() == GROUND_MINITYPE_NOT_MOVE_HORIZONTAL)// Them dieu kien loai ground vao
+				{
+					stopLeft = true;
+				}
+				else if (collisionCheck == OBJ_COLLISION_RIGHT&&ground->GetMiniTypeGround() == GROUND_MINITYPE_NOT_MOVE_HORIZONTAL)
+				{
+					stopRight = true;
+				}
 				//else if (collisionCheck == OBJ_COLLISION_TOP){}
 			}
 		}
 
+		//else if (listBackgroundObj[i]->GetType() == TYPE_WALL)
+		//{
+		//	CWall* wall = dynamic_cast<CWall*>(gameObj);
+		//	unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+		//	if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+		//	{
+		//		walled = true;
+		//		//DebugOut(L"%d \n", collisionCheck);
+		//		if (wall->GetMiniTypeWall() == WALL_MINITYPE_CAN_CLIMB)// Them dieu kien loai ground vao
+		//		{
+		//			ninja->SetState(NINJA_STATE_ON_CLIMBING_WALL);
+		//			if (ninja->y - NINJA_WIDTH_TMP> wall->y)
+		//			{
+		//				ninja->SetPositionY(wall->y + NINJA_WIDTH_TMP);
+		//			}
+		//			//DebugOut(L"Cham tuong\n");
+		//		}
+		//		else if (wall->GetMiniTypeWall() == WALL_MINITYPE_NOT_CLIMB)
+		//		{
+		//			ninja->SetState(NINJA_STATE_ON_CLING_WALL);
+		//		}
+		//		if (collisionCheck == OBJ_COLLISION_LEFT)
+		//		{
+		//			//ninja->nx = -1;
+		//			//stopLeft = true;
+		//			ninja->SetPositionX(wall->GetRightX());
+		//		}
+		//		else if (collisionCheck == OBJ_COLLISION_RIGHT)
+		//		{
+		//			//ninja->nx = 1;
+		//			//stopRight = true;
+		//			ninja->SetPositionX(wall->x-NINJA_WIDTH_TMP);
+		//		}
+		//		
+		//			
+		//	}
+		//}
+
 	}
 	ninja->SetOnGround(grounded);
-
+	/*if (!walled)
+	{
+		ninja->SetOnWall(false);
+	}*/
+	if (stopLeft)
+		ninja->SetState(NINJA_STATE_STOP_LEFT);
+	else
+		ninja->SetState(NINJA_STATE_ACTIVE_LEFT);
+	if (stopRight)
+		ninja->SetState(NINJA_STATE_STOP_RIGHT);
+	else
+		ninja->SetState(NINJA_STATE_ACTIVE_RIGHT);
 }
 void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 {

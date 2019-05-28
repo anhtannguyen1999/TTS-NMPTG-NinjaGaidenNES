@@ -38,10 +38,11 @@
 */
 
 //Ninja
-#define NINJA_GRAVITY 0.0011f//0.001f
-#define NINJA_SPEED 0.1f
+#define NINJA_GRAVITY 0.00088f //0.0011f
+#define NINJA_SPEED 0.1f //0.1f
 #define NINJA_CLIMB_SPEED 0.05f
-#define NINJA_JUMP_FORCE 0.35f//0.35f
+#define NINJA_JUMP_FORCE 0.31f //0.3//0.35f
+#define NINJA_JUMP_FORCE_ONWALL 0.2f
 #define NINJA_STATE_IDLE			100
 #define NINJA_STATE_RUN_RIGHT	110
 #define NINJA_STATE_RUN_LEFT	111
@@ -49,8 +50,13 @@
 #define NINJA_STATE_DOWN 130 //Co the la leo xuong hoac ngoi xuong
 #define NINJA_STATE_HIT 140
 #define NINJA_STATE_UP 150
-#define NINJA_STATE_ONWALL 160
+#define NINJA_STATE_ON_CLING_WALL 160
+#define NINJA_STATE_ON_CLIMBING_WALL 161
 #define NINJA_STATE_ATTACKED 170
+#define NINJA_STATE_STOP_RIGHT 180
+#define NINJA_STATE_STOP_LEFT 181
+#define NINJA_STATE_ACTIVE_RIGHT 182
+#define NINJA_STATE_ACTIVE_LEFT 183
 
 #define NINJA_ANI_BASE_NUMBER 100
 #define NINJA_ANI_IDLE_RIGHT 0		//OK
@@ -124,6 +130,7 @@
 //Type obj
 #define TYPE_GROUND 1
 #define TYPE_ENEMY 2
+#define TYPE_WALL 3
 
 //Minitype
 #define ENEMY_MINITYPE_NGUOICAMKIEM 1
@@ -135,6 +142,14 @@
 #define ENEMY_MINITYPE_RUNNER 12
 #define ENEMY_MINITYPE_CLOAK 13 //ok
 #define ENEMY_MINITYPE_COMMANDO 14 //OK
+#define GROUND_MINITYPE_CAN_MOVE_HORIZONTAL 0
+#define GROUND_MINITYPE_NOT_MOVE_HORIZONTAL 1
+#define WALL_MINITYPE_NOT_CLIMB 0
+#define WALL_MINITYPE_CAN_CLIMB 1
+#define WALL_MINITYPE_NOT_CLIMB_DEACTIVATE_LEFT 2 //khong cho treo ben trai=> cham ben trai thi xuyen qua luon
+#define WALL_MINITYPE_NOT_CLIMB_DEACTIVATE_RIGHT 3
+//#define WALL_MINITYPE_CAN_CLIMB_ONLY_LEFT 4 //Khong can vi cai can climp thi chi co ben trai thoi
+//#define WALL_MINITYPE_CAN_CLIMB_ONLY_RIGHT 5
 //ID = type *100+count;
 
 	//TYPE ENEMY
@@ -144,6 +159,7 @@
 	//
 	//
 	//
+
 //Collision
 #define OBJ_NO_COLLISION 0
 #define OBJ_COLLISION_CENTER 1 //Co va cham ma chua biet huong

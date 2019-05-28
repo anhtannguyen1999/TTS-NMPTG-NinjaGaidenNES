@@ -7,11 +7,14 @@ class CNinja : public CGameObject
 {
 	static CNinja *__instance;
 	bool canMove = true;
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
 	bool canJump = true;
 	bool isJump = false;
 	bool isSit = false;
 	bool canClimbUpDown = false; //Co 2 loai wall, 1 loai cho leo 1 loai k cho leo
 	bool isOnWall = false;
+	bool canClingOnClimbWall = true;// khi nhay xong co the bam len tuong, khi ngoi xuong thi k the
 	bool isUp = false;//is KeyUp
 	bool isDown = false;
 	int isHit = 0;
@@ -20,8 +23,6 @@ class CNinja : public CGameObject
 	//int resetAttackedTime = 0;
 	//bool canBeAttacked = true;
 	//bool isSpecialHit = isUp&&isHit
-	
-	float ninjaJumpForce = NINJA_JUMP_FORCE;
 	bool onGround = false;
 	int preY = 0;
 
@@ -31,7 +32,7 @@ public:
 	CNinja() : CGameObject()
 	{
 		this->LoadResource();
-		this->x =10;
+		this->x = 2000;
 		this->y = 100;
 		this->hp = 20;
 		this->id = 0;
@@ -50,8 +51,9 @@ public:
 	void Stand(int &ani); //Stand Idle, Stand Hit, Stand Throw, Run
 	void Attacked(int &ani);
 
-	void SetOnGround(bool onGround) { this->onGround = onGround; }
+	void SetOnGround(bool onGround);
 	bool GetOnGround() { return this->onGround; }
+	void SetOnWall(bool onWall);
 
 	bool GetIsDeadth() { return this->hp <= 0; };
 

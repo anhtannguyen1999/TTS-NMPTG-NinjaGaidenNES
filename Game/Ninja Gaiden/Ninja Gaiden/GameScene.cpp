@@ -49,7 +49,7 @@ void CGameScene::KeyDown(unsigned short int const &key)
 			ninja->SetState(NINJA_STATE_HIT);
 			break;
 		case L_KEY:
-			ninja->SetState(NINJA_STATE_ONWALL);
+			ninja->SetState(NINJA_STATE_ON_CLIMBING_WALL);
 			break;
 		case D_KEY:
 			ninja->SetState(NINJA_STATE_ATTACKED);

@@ -23,7 +23,7 @@ void CGrid::LoadGrid()
 		for (int j = 0; j < GRID_CELL_MAX_COLUMN; j++)
 			cells[i][j].clear();
 
-	int id, type, w, h, n, miniType;//miniType là type trong type...VD Type enemy gồm nhiều miniType như Người cầm kiếm, dơi, báo...
+	int id, type, w, h, n, miniType, other=0;//miniType là type trong type...VD Type enemy gồm nhiều miniType như Người cầm kiếm, dơi, báo...
 	float x, y;
 
 	string firstLine;
@@ -70,6 +70,8 @@ void CGrid::LoadGrid()
 					break;
 				case 6:
 					miniType = stoi(number);
+				case 7:
+					other = stoi(number);
 				default:
 					break;
 				}
@@ -77,7 +79,7 @@ void CGrid::LoadGrid()
 				j++;
 			}
 			//doc tung cai va insert no vao
-			Insert(id, type, x, y, w, h,miniType);
+			Insert(id, type, x, y, w, h,miniType,other);
 			j = 0;
 		}
 		fileGrid.close();
@@ -85,13 +87,15 @@ void CGrid::LoadGrid()
 
 }
 
-CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int h,int miniType)
+CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int h,int miniType, int other)
 {
 	switch (type)
 	{
 
 	case TYPE_GROUND:
-		return new CGround(x,y,w,h);
+		return new CGround(x,y,w,h,miniType);
+	case TYPE_WALL:
+		return new CWall(x, y, w, h, miniType);
 	case TYPE_ENEMY:
 	{
 		switch (miniType)
@@ -123,14 +127,14 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 }
 
 //Tạo obj và thêm 
-void CGrid::Insert(int id, int type, float x, float y, int w, int h,int miniType)
+void CGrid::Insert(int id, int type, float x, float y, int w, int h,int miniType,int other)
 {
 	int top = (int)(y / GRID_CELL_HEIGHT);
 	int bottom = (int)((y - h) / GRID_CELL_HEIGHT);
 	int left = (int)(x / GRID_CELL_WIDTH);
 	int right = (int)((x + w) / GRID_CELL_WIDTH);
 
-	CGameObject * obj = CreateNewObject(id, type, x, y, w, h, miniType);
+	CGameObject * obj = CreateNewObject(id, type, x, y, w, h, miniType,other);
 	if (obj == NULL)
 		return;
 
@@ -162,14 +166,19 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 				{
 					if(cells[i][j].at(k)->typeObj==TYPE_GROUND)
 						listBackgroundObj.push_back(cells[i][j].at(k));
+
+					else if(cells[i][j].at(k)->typeObj == TYPE_WALL)
+						listBackgroundObj.push_back(cells[i][j].at(k));
+
 					else if(cells[i][j].at(k)->typeObj == TYPE_ENEMY)
 						listOtherObj.push_back(cells[i][j].at(k));
 				}
 				else//Neu HP=0
 				{
-					//Neu ninja thuoc vung cach enemy 1/2 camera thi them no vao
-					if ((ninja->x > cells[i][j].at(k)->x - CAMERA_WIDTH / 2+15&& ninja->x < cells[i][j].at(k)->x - CAMERA_WIDTH / 2+20) //Khoang ninja so voi obj ben phai
-						|| ((ninja->x > cells[i][j].at(k)->x + CAMERA_WIDTH / 2 -25&& ninja->x < cells[i][j].at(k)->x + CAMERA_WIDTH / 2-20 ) &&ninja->nx== cells[i][j].at(k)->rootNX))//Khoang ninja so voi obj ben trai
+					//Neu ninja thuoc vung cach enemy 1/2 camera va ninja di ve phia ben phai thi them no vao
+					if (	((ninja->x > cells[i][j].at(k)->x - CAMERA_WIDTH / 2+15&& ninja->x < cells[i][j].at(k)->x - CAMERA_WIDTH / 2+20) //Khoang ninja so voi obj ben phai
+							|| (ninja->x > cells[i][j].at(k)->x + CAMERA_WIDTH / 2 -25&& ninja->x < cells[i][j].at(k)->x + CAMERA_WIDTH / 2-20))//Khoang ninja so voi obj ben trai
+						)	//&& (ninja->nx >0/*== cells[i][j].at(k)->rootNX*/)) //va nịna di ve ben phai thi active
 					{
 						//cells[i][j].at(k)->ResetVeTrangThaiDau();
 						cells[i][j].at(k)->SetHP(1);

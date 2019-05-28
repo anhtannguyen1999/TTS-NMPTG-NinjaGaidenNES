@@ -70,6 +70,8 @@ void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			moveLeft = false;
 		else 
 			moveLeft = true;
+		x = rootX; 
+		y = rootY;
 	}
 	this->GiaoDongQuanhNinja();
 	CGameObject::Update(dt);
@@ -81,6 +83,10 @@ void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 	
 	//DebugOut(L"Hawk\n");
+	if (hp <= 0)
+	{
+		this->BeAttack(1);
+	}
 }
 
 void CHawk::GetBoundingBox(float & x, float & y, float & width, float & height)
