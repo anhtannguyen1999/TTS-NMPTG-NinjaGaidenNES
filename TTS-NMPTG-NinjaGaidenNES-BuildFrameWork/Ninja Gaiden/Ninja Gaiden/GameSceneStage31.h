@@ -1,7 +1,6 @@
 #pragma once
 #include "GameScene.h"
 #include "TileMap.h"
-#include "Bullet.h"
 
 class CGameSceneStage31 :public CGameScene
 {

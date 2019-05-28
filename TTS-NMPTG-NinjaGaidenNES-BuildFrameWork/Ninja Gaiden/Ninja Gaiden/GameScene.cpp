@@ -53,7 +53,6 @@ void CGameScene::KeyDown(unsigned short int const &key)
 			break;
 		case D_KEY:
 			ninja->SetState(NINJA_STATE_ATTACKED);
-			
 			break;
 		default:
 			ninja->SetState(NINJA_STATE_IDLE);

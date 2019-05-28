@@ -165,6 +165,8 @@ void CSceneManager::LoadResouceForNinja()
 	sprites->Add(176, 156, 75, 156 + 26 + 26, 110, texNinja, zero, zero, scaleNguoc, 0);
 	sprites->Add(177, 156 + 26 + 26, 75, 156 + 26 + 26 + 26 + 26, 110, texNinja, zero, zero, scaleNguoc, 0);
 
+
+
 	//animation là 1 mảng
 	ani = new CAnimation(100);	// idle right
 	ani->Add(101);
@@ -317,22 +319,72 @@ void CSceneManager::LoadResourceForEnemies()
 	sprites->Add(204, 212 + 30, 50, 241 + 30, 93, texEnemy, zero, zero, scaleNguoc, 0);
 	sprites->Add(205, 212 + 60 + 8, 50, 300, 93, texEnemy, zero, zero, scaleNguoc, 0);
 
-	sprites->Add(210, 0, 59, 21, 93, texEnemy, zero, zero, zero, 0);		// runner right
-	sprites->Add(211, 23, 59, 42, 93, texEnemy, zero, zero, zero, 0);
+	ani = new CAnimation(100);	// merc right
+	ani->Add(200);
+	ani->Add(201);
+	ani->Add(202);
+	animations->Add(200, ani);
 
-	sprites->Add(212, 0, 59, 21, 93, texEnemy, zero, zero, scaleNguoc, 0);		// runner left
-	sprites->Add(213, 23, 59, 42, 93, texEnemy, zero, zero, scaleNguoc, 0);
+	ani = new CAnimation(100);//merc left
+	ani->Add(203);
+	ani->Add(204);
+	ani->Add(205);
+	animations->Add(201, ani);
 
+	#pragma endregion
 
-	sprites->Add(220, 388, 66, 416, 93, texEnemy, zero, zero, zero, 0);		// gunner right
-	sprites->Add(221, 417, 66, 460, 93, texEnemy, zero, zero, zero, 0);
+	#pragma region Load resource cho Panther
+	sprites->Add(240, 310, 77, 348, 93, texEnemy, zero, zero, zero, 0);		// panther right
+	sprites->Add(241, 352, 77, 381, 93, texEnemy, zero, zero, zero, 0);
 
-	sprites->Add(222, 388, 66, 416, 93, texEnemy, zero, zero, scaleNguoc, 0);		// gunner left
-	sprites->Add(223, 417, 66, 460, 93, texEnemy, zero, zero, scaleNguoc, 0);
+	sprites->Add(242, 310, 77, 348, 93, texEnemy, zero, zero, scaleNguoc, 0);		// panther left
+	sprites->Add(243, 352, 77, 381, 93, texEnemy, zero, zero, scaleNguoc, 0);
+	ani = new CAnimation(150); //panther right
+	ani->Add(240);
+	ani->Add(241);
+	animations->Add(208, ani);
 
-	sprites->Add(230, 462, 69, 473, 74, texEnemy, zero, zero, zero, 0);  // bullet right
+	ani = new CAnimation(150); //panther left
+	ani->Add(242);
+	ani->Add(243);
+	animations->Add(209, ani);
+	#pragma endregion
+	#pragma region Load resource cho Enemy Bat
+	sprites->Add(250, 323, 57, 343, 73, texEnemy, zero, zero, zero, 0);		// bat right
+	sprites->Add(251, 345, 57, 365, 73, texEnemy, zero, zero, zero, 0);
 
-	sprites->Add(231, 462, 69, 473, 74, texEnemy, zero, zero, scaleNguoc, 0);// bullet left
+	sprites->Add(252, 323, 57, 343, 73, texEnemy, zero, zero, scaleNguoc, 0);		// bat left
+	sprites->Add(253, 345, 57, 365, 73, texEnemy, zero, zero, scaleNguoc, 0);
+	ani = new CAnimation(100); //bat right
+	ani->Add(250);
+	ani->Add(251);
+	animations->Add(210, ani);
+
+	ani = new CAnimation(100); //bat left
+	ani->Add(252);
+	ani->Add(253);
+	animations->Add(211, ani);
+	#pragma endregion
+
+	#pragma region Load resource cho enemy Hawk
+	sprites->Add(260, 477, 59, 495, 94, texEnemy, zero, zero, zero, 0);		// hawk right
+	sprites->Add(261, 504, 59, 523, 85, texEnemy, zero, zero, zero, 0);
+
+	sprites->Add(262, 477, 59, 495, 94, texEnemy, zero, zero, scaleNguoc, 0);		// hawk left
+	sprites->Add(263, 504, 59, 523, 85, texEnemy, zero, zero, scaleNguoc, 0);
+
+	ani = new CAnimation(100); //hawk right
+	ani->Add(260);
+	ani->Add(261);
+	animations->Add(212, ani);
+
+	ani = new CAnimation(100); //hawk left
+	ani->Add(262);
+	ani->Add(263);
+	animations->Add(213, ani);
+	#pragma endregion
+
+	#pragma region Load resource cho cloak
 
 	sprites->Add(270, 411, 2, 439, 47, texEnemy, zero, zero, zero, 0);		// cloak right
 	sprites->Add(271, 446, 2, 476, 47, texEnemy, zero, zero, zero, 0);
@@ -341,6 +393,27 @@ void CSceneManager::LoadResourceForEnemies()
 	sprites->Add(273, 411, 2, 439, 47, texEnemy, zero, zero, scaleNguoc, 0);		// cloak left
 	sprites->Add(274, 446, 2, 476, 47, texEnemy, zero, zero, scaleNguoc, 0);
 	sprites->Add(275, 493, 2, 515, 47, texEnemy, zero, zero, scaleNguoc, 0);
+	ani = new CAnimation(100);	// cloak right
+	ani->Add(270);
+	ani->Add(271);
+	animations->Add(214, ani);
+
+	ani = new CAnimation(100);	// cloak right throw
+	ani->Add(272);
+	animations->Add(234, ani);
+
+	ani = new CAnimation(100);	// cloak left
+	ani->Add(273);
+	ani->Add(274);
+	animations->Add(215, ani);
+
+	ani = new CAnimation(100);	// cloak left throw
+	ani->Add(275);
+	animations->Add(235, ani);
+
+	#pragma endregion
+
+	#pragma region Load resource Commando
 
 	sprites->Add(290, 57, 59, 80, 93, texEnemy, zero, zero, zero, 0);		// Commando right
 	sprites->Add(291, 81, 59, 104, 93, texEnemy, zero, zero, zero, 0);
@@ -354,21 +427,40 @@ void CSceneManager::LoadResourceForEnemies()
 	sprites->Add(296, 131, 59, 162, 93, texEnemy, zero, zero, scaleNguoc, 0);		// Commando shoot left
 	sprites->Add(297, 162, 59, 190, 93, texEnemy, zero, zero, scaleNguoc, 0);
 
-	sprites->Add(298, 194, 67, 206, 73, texEnemy, zero, zero, zero, 0); //C-bullet
+	ani = new CAnimation(100);	// commando right
+	ani->Add(290);
+	ani->Add(291);
+	animations->Add(240, ani);
 
-	sprites->Add(299, 194, 67, 206, 73, texEnemy, zero, zero, scaleNguoc, 0);//C-bullet
+	ani = new CAnimation(100);	// commando left
+	ani->Add(292);
+	ani->Add(293);
+	animations->Add(241, ani);
 
-	ani = new CAnimation(100);	// merc right
-	ani->Add(200);
-	ani->Add(201);
-	ani->Add(202);
-	animations->Add(200, ani);
+	ani = new CAnimation(100);	// commando shoot right
+	ani->Add(294);
+	ani->Add(295);
+	animations->Add(242, ani);
 
-	ani = new CAnimation(100);//merc left
-	ani->Add(203);
-	ani->Add(204);
-	ani->Add(205);
-	animations->Add(201, ani);
+	ani = new CAnimation(100);	// commando shoot left
+	ani->Add(296);
+	ani->Add(297);
+	animations->Add(243, ani);
+	#pragma endregion
+
+	#pragma region Load resource for gunner and runner
+	sprites->Add(210, 0, 59, 21, 93, texEnemy, zero, zero, zero, 0);		// runner right
+	sprites->Add(211, 23, 59, 42, 93, texEnemy, zero, zero, zero, 0);
+
+	sprites->Add(212, 0, 59, 21, 93, texEnemy, zero, zero, scaleNguoc, 0);		// runner left
+	sprites->Add(213, 23, 59, 42, 93, texEnemy, zero, zero, scaleNguoc, 0);
+
+
+	sprites->Add(220, 388, 66, 416, 93, texEnemy, zero, zero, zero, 0);		// gunner right
+	sprites->Add(221, 417, 66, 460, 93, texEnemy, zero, zero, zero, 0);
+
+	sprites->Add(222, 388, 66, 416, 93, texEnemy, zero, zero, scaleNguoc, 0);		// gunner left
+	sprites->Add(223, 417, 66, 460, 93, texEnemy, zero, zero, scaleNguoc, 0);
 
 	ani = new CAnimation(100); //runner right
 	ani->Add(210);
@@ -395,53 +487,25 @@ void CSceneManager::LoadResourceForEnemies()
 	ani = new CAnimation(200); //gunner left shoot
 	ani->Add(223);
 	animations->Add(225, ani);
+	#pragma endregion
 
-	ani = new CAnimation(200); //bullet right
-	ani->Add(230);
-	animations->Add(206, ani);
+	#pragma region Load resource cho cross
 
-	ani = new CAnimation(200); //bullet left
-	ani->Add(231);
-	animations->Add(207, ani);
+	sprites->Add(280, 523, 8, 536, 24, texEnemy, zero, zero, zero, 0);		// cross right
+	sprites->Add(281, 523, 8, 536, 24, texEnemy, zero, zero, scaleNguoc, 0);// cross left
 
-	ani = new CAnimation(100);	// cloak right
-	ani->Add(270);
-	ani->Add(271);
-	animations->Add(214, ani);
+	ani = new CAnimation(100);	// cross right
+	ani->Add(280);
+	animations->Add(216, ani);
 
-	ani = new CAnimation(100);	// cloak right throw
-	ani->Add(272);
-	animations->Add(234, ani);
+	ani = new CAnimation(100);	// cross left
+	ani->Add(281);
+	animations->Add(217, ani);
+	#pragma endregion
 
-	ani = new CAnimation(100);	// cloak left
-	ani->Add(273);
-	ani->Add(274);
-	animations->Add(215, ani);
-
-	ani = new CAnimation(100);	// cloak left throw
-	ani->Add(275);
-	animations->Add(235, ani);
-
-	ani = new CAnimation(100);	// commando right
-	ani->Add(290);
-	ani->Add(291);
-	animations->Add(240, ani);
-
-	ani = new CAnimation(100);	// commando left
-	ani->Add(292);
-	ani->Add(293);
-	animations->Add(241, ani);
-
-	ani = new CAnimation(100);	// commando shoot right
-	ani->Add(294);
-	ani->Add(295);
-	animations->Add(242, ani);
-
-	ani = new CAnimation(100);	// commando shoot left
-	ani->Add(296);
-	ani->Add(297);
-	animations->Add(243, ani);
-
+	#pragma region Load resource cho Bullet of Commando
+	sprites->Add(298, 194, 67, 206, 73, texEnemy, zero, zero, zero, 0); //C-bullet
+	sprites->Add(299, 194, 67, 206, 73, texEnemy, zero, zero, scaleNguoc, 0);//C-bullet
 	ani = new CAnimation(100);	// C-bullet right
 	ani->Add(298);
 	animations->Add(244, ani);
@@ -449,6 +513,19 @@ void CSceneManager::LoadResourceForEnemies()
 	ani = new CAnimation(100);	// C-bullet left
 	ani->Add(299);
 	animations->Add(245, ani);
+	#pragma endregion
+
+	#pragma region Load resource cho bullet gunner
+	sprites->Add(230, 460, 65, 475, 78, texEnemy, zero, zero, zero, 0);  // bullet right
+	sprites->Add(231, 460, 65, 475, 78, texEnemy, zero, zero, scaleNguoc, 0);// bullet left
+
+	ani = new CAnimation(100); //bullet right
+	ani->Add(230);
+	animations->Add(206, ani);
+
+	ani = new CAnimation(100); //bullet left
+	ani->Add(231);
+	animations->Add(207, ani);
 	#pragma endregion
 
 }
@@ -459,5 +536,46 @@ void CSceneManager::LoadOtherResource()
 	textures->Add(ID_TEX_BOX, L"textures\\BoxCollision.png", D3DCOLOR_XRGB(255, 163, 177));
 	LPDIRECT3DTEXTURE9 texBoxCollision = textures->Get(ID_TEX_BOX);
 	CSprites * sprites = CSprites::GetInstance();
+	D3DXVECTOR2 zero = D3DXVECTOR2(0, 0);
+	//D3DXVECTOR2 scaleNguoc = D3DXVECTOR2(-1, 1);
+	LPANIMATION ani;
+	CAnimations * animations = CAnimations::GetInstance();
+	
 	sprites->Add(ID_SPRITE_BOXCOLLISION, 2, 4, 19 + 2, 34 + 4, texBoxCollision, D3DXVECTOR2(0, 0), D3DXVECTOR2(0, 0), D3DXVECTOR2(0, 0), 0);
+
+	textures->Add(ID_TEX_CONTAINERANDEFFECT, L"textures\\ContainerAndEffectTex.png", D3DCOLOR_XRGB(255, 163, 177));
+	//hieu ung no khi danh
+	LPDIRECT3DTEXTURE9 effectTex = textures->Get(ID_TEX_CONTAINERANDEFFECT);
+	sprites->Add(301, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(0.9f, 0.8f), 0);
+	sprites->Add(303, 317, 1, 349, 41, effectTex, zero, zero, zero, 0);
+	sprites->Add(304, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.2f, 1), 0);
+	sprites->Add(302, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.4f, 1.2f), 0);
+
+	sprites->Add(310, 79, 50, 96, 70, effectTex, zero, zero, zero, 0);// butterfly 
+	sprites->Add(311, 96, 50, 114, 70, effectTex, zero, zero, zero, 0);
+
+	sprites->Add(312, 114, 50, 135, 70, effectTex, zero, zero, zero, 0);// bird 
+	sprites->Add(313, 136, 50, 157, 70, effectTex, zero, zero, zero, 0);
+
+	sprites->Add(320, 169, 8, 189, 26, effectTex, zero, zero, zero, 0);
+
+	ani = new CAnimation(25); //hieu ung no khi danh
+	ani->Add(301);
+	ani->Add(302);
+	ani->Add(303);
+	animations->Add(301, ani);
+
+	ani = new CAnimation(50);//butterfly
+	ani->Add(310);
+	ani->Add(311);
+	animations->Add(310,ani);
+	
+	ani = new CAnimation(50);//bird
+	ani->Add(312);
+	ani->Add(313);
+	animations->Add(311, ani);
+
+	ani = new CAnimation(100);//Bag 1
+	ani->Add(320);
+	animations->Add(320, ani);
 }
