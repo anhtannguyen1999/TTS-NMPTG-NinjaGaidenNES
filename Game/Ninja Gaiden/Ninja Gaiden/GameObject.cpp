@@ -334,7 +334,6 @@ void CGameObject::RenderBoundingBox(int alpha)
 
 	CSprites * sprites = CSprites::GetInstance();
 	sprites->Get(ID_SPRITE_BOXCOLLISION)->Draw(pos.x, pos.y,w,h, alpha);
-
 }
 
 unsigned short int CGameObject::isCollitionObjectWithObject(CGameObject * obj)
@@ -386,16 +385,6 @@ unsigned short int CGameObject::isCollitionObjectWithObject(CGameObject * obj)
 	SAFE_DELETE(e);
 	return OBJ_NO_COLLISION;
 	//return checkAABB(obj);
-}
-
-void CGameObject::ResetVeTrangThaiDau()
-{
-	this->x = this->rootX;
-	this->y = this->rootY;
-	this->nx = this->rootNX;
-	this->vx = this->rootVX;
-	this->vy = this->rootVY;
-	
 }
 
 #pragma endregion

@@ -39,8 +39,6 @@ public:
 	int id; //Luu id obj ninja id=0
 	float x;
 	float y;
-	float rootX, rootY, rootVX, rootVY; //Diem ban dau
-	int rootNX;
 
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
@@ -57,8 +55,6 @@ public:
 	int hp; //Máu
 	int typeObj=0;
 	vector<LPANIMATION> animations;
-
-
 
 	//LPDIRECT3DTEXTURE9 texBoxCollision;
 	CCamera *camera = CCamera::GetInstance();
@@ -108,9 +104,8 @@ public:
 	void RenderBoundingBox(int alpha=70);
 	virtual void GetBoundingBox(float &x, float &y, float &width, float &height)=0;
 	unsigned short int isCollitionObjectWithObject(CGameObject * obj);// kiểm tra bằng AABB và Sweept AABB
-	void SetHP(int HP) { this->hp = HP; }
 
-	void ResetVeTrangThaiDau();
+
 	#pragma endregion
 };
 

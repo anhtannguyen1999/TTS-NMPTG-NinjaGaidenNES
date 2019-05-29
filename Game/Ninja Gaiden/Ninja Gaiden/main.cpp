@@ -110,7 +110,7 @@ void LoadResources()
 	
 	//sceneManager = new CSceneManager();
 	sceneManager = CSceneManager::GetInstance();
-	sceneManager->LoadScene(GAME_STAGE_31);
+	sceneManager->LoadScene(GAME_STAGE_33);
 	ninja= CNinja::GetInstance();
 }
 
@@ -123,7 +123,11 @@ void Update(DWORD dt)
 	
 	sceneManager->Update(dt);
 	//DebugOut(L"NinjaX: %f \n", ninja->x);
-	if (ninja->GetPositionX() >= 2020)
+	if (ninja->GetPositionX() >= 2020 && sceneManager->GetIDScence()==GAME_STAGE_31 )
+	{
+		sceneManager->NextScene();
+	}
+	if (ninja->GetPositionX() >= 3020 && sceneManager->GetIDScence() == GAME_STAGE_32)
 	{
 		sceneManager->NextScene();
 	}

@@ -27,15 +27,16 @@ class CNinja : public CGameObject
 
 public:
 	static CNinja * GetInstance();
-	CNinjaSword *ninjaSword=CNinjaSword::GetInstance();
+	CNinjaSword *ninjaSword;
 	CNinja() : CGameObject()
-	{
+	{ 
+
 		this->LoadResource();
-		this->x =10;
+		this->x =2000;
 		this->y = 100;
 		this->hp = 20;
 		this->id = 0;
-		//ninjaSword = new CNinjaSword();
+		ninjaSword = new CNinjaSword();
 	}
 	~CNinja();
 	void LoadResource();

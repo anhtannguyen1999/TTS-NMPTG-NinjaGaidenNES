@@ -5,10 +5,10 @@
 #define MAIN_WINDOW_TITLE L"NinjaGame"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
-#define SCREEN_WIDTH 320
+#define SCREEN_WIDTH 260
 #define SCREEN_HEIGHT 250
 
-#define MAX_FRAME_RATE 240
+#define MAX_FRAME_RATE 120
 
 #define ALPHA 255
 //*************************************
@@ -26,9 +26,6 @@
 	18x
 	19x
 
-	Enemy: 2xx
-
-	efect: 3xx, no khi bi danh 301
 
 */
 //Ani
@@ -82,7 +79,6 @@
 #define ID_TEX_NINJA 1
 #define ID_TEX_BOX 2 //box collision
 #define ID_TEX_ENEMY 3
-#define ID_TEX_CONTAINERANDEFFECT 4
 
 #define ID_TILES_MAP1 10000
 
@@ -94,7 +90,7 @@
 #define MAPTILE_SIZE 16
 
 //Camera
-#define CAMERA_WIDTH 320
+#define CAMERA_WIDTH 260
 #define CAMERA_HEIGHT 224
 #define SPACE_FROM_CAMERA_TO_TOP 20 
 #define CAMERA_SPEED NINJA_SPEED
@@ -127,14 +123,9 @@
 
 //Minitype
 #define ENEMY_MINITYPE_NGUOICAMKIEM 1
-#define ENEMY_MINITYPE_HAWK 2
 #define ENEMY_MINITYPE_BAT 3
 #define ENEMY_MINITYPE_PANTHER 4
-#define ENEMY_MINITYPE_CROSS 5
-#define ENEMY_MINITYPE_GUNNER 11
-#define ENEMY_MINITYPE_RUNNER 12
-#define ENEMY_MINITYPE_CLOAK 13 //ok
-#define ENEMY_MINITYPE_COMMANDO 14 //OK
+#define ENEMY_MINITYPE_BOSS 5
 //ID = type *100+count;
 
 	//TYPE ENEMY

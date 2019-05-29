@@ -98,20 +98,14 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 		{
 		case ENEMY_MINITYPE_NGUOICAMKIEM:
 			return new CNguoiCamKiem(id,x, y);
-		case ENEMY_MINITYPE_HAWK:
-			return new CHawk(id, x, y);
 		case ENEMY_MINITYPE_BAT:
+			
 			return new CBat(id, x, y);
 		case ENEMY_MINITYPE_PANTHER:
 			return new CPanther(id, x, y);
-		case ENEMY_MINITYPE_CLOAK:
-			return new CCloak(id, x, y);
-		case ENEMY_MINITYPE_COMMANDO:
-			return new CCommando(id, x, y);
-		case ENEMY_MINITYPE_GUNNER:
-			return new CGunner(id, x, y);
-		case ENEMY_MINITYPE_RUNNER:
-			return new CRunner(id, x, y);
+		case ENEMY_MINITYPE_BOSS:
+			return new CBoss(id, x, y);
+		
 		}
 
 		return NULL;
@@ -164,19 +158,6 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 						listBackgroundObj.push_back(cells[i][j].at(k));
 					else if(cells[i][j].at(k)->typeObj == TYPE_ENEMY)
 						listOtherObj.push_back(cells[i][j].at(k));
-				}
-				else//Neu HP=0
-				{
-					//Neu ninja thuoc vung cach enemy 1/2 camera thi them no vao
-					if ((ninja->x > cells[i][j].at(k)->x - CAMERA_WIDTH / 2+15&& ninja->x < cells[i][j].at(k)->x - CAMERA_WIDTH / 2+20) //Khoang ninja so voi obj ben phai
-						|| ((ninja->x > cells[i][j].at(k)->x + CAMERA_WIDTH / 2 -25&& ninja->x < cells[i][j].at(k)->x + CAMERA_WIDTH / 2-20 ) &&ninja->nx== cells[i][j].at(k)->rootNX))//Khoang ninja so voi obj ben trai
-					{
-						//cells[i][j].at(k)->ResetVeTrangThaiDau();
-						cells[i][j].at(k)->SetHP(1);
-						if (cells[i][j].at(k)->typeObj == TYPE_ENEMY)
-							listOtherObj.push_back(cells[i][j].at(k));
-
-					}
 				}
 			}
 }

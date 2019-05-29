@@ -84,31 +84,19 @@
     <ClCompile Include="NguoiCamKiem.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Hawk.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bat.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Panther.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="GameSceneStage33.cpp">
+      <Filter>QuanLyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="CCloak.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="CCommando.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="CGunner.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="CRunner.cpp">
+    <ClCompile Include="BulletBoss.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,31 +155,19 @@
     <ClInclude Include="NguoiCamKiem.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Hawk.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Bat.h">
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Panther.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="GameSceneStage33.h">
+      <Filter>QuanLyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="CCloak.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="CCommando.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="CGunner.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="CRunner.h">
+    <ClInclude Include="BulletBoss.h">
       <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>

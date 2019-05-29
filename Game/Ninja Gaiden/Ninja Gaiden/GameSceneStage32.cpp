@@ -8,9 +8,9 @@ CGameSceneStage32::CGameSceneStage32() :CGameScene() //gọi lại cái khởi t
 		camera = CCamera::GetInstance();
 	if (gridGame == NULL)
 		gridGame = new CGrid();
-	gridGame->SetFile("ReSource/Map1-Objects.txt");
+	gridGame->SetFile("ReSource/Map2-Objects.txt");
 	gridGame->LoadGrid();
-	ninja->SetPosition(5, 60);
+	ninja->SetPosition(1860, 200);
 }
 
 
@@ -80,7 +80,56 @@ void CGameSceneStage32::CheckCollision()
 
 void CGameSceneStage32::CheckCollisionNinjaWithGround()
 {
-	
+	bool grounded = false;
+	//DebugOut(L"Obj collision Size: %d\n", listObj.size());
+	CGameObject * gameObj;
+	for (UINT i = 0; i < listBackgroundObj.size(); i++)
+	{
+		gameObj = listBackgroundObj[i];
+		if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+		{
+			unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+			if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+			{
+				if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+				{
+					ninja->vx *= 0.1;
+					ninja->vy = -0.1f;
+
+					float objX, objY, objW, objH;
+					gameObj->GetBoundingBox(objX, objY, objW, objH);
+					if (ninja->vy < 0)// Nếu có rơi xuống thì bố mới tin va chạm với đất nhé!!!Thân
+						grounded = true;
+					if (ninja->y - NINJA_HEIGHT_TMP > objY - 16) //cham 1 it o tren moi tinh
+						ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
+				}
+				//DebugOut(L"%d \n", collisionCheck);
+				else if (collisionCheck == OBJ_COLLISION_LEFT)
+				{
+					float objX, objY, objW, objH;
+					gameObj->GetBoundingBox(objX, objY, objW, objH);
+					//ninja->SetSpeedX(0);
+					ninja->SetPositionX(objX +objW);
+				}
+				else if (collisionCheck == OBJ_COLLISION_RIGHT)
+				{
+					float objX, objY, objW, objH;
+					gameObj->GetBoundingBox(objX, objY, objW, objH);
+					ninja->SetPositionX(objX - NINJA_WIDTH_TMP);
+					//ninja->SetSpeedX(0.001f);
+				}
+				else {}
+				if (collisionCheck == OBJ_COLLISION_TOP)
+				{
+					float objX, objY, objW, objH;
+					gameObj->GetBoundingBox(objX, objY, objW, objH);
+					//ninja->SetState(NINJA_STATE_JUMP);
+				}
+			}
+		}
+
+	}
+	ninja->SetOnGround(grounded);
 
 }
 

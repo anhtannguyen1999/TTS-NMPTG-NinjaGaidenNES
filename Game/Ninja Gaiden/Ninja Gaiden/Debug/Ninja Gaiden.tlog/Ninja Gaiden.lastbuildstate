@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-Debug|Win32|E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.17763.0
+Debug|Win32|W:\Users\KhunG LonG\Desktop\15_EnemyDiChuyenVaCham_NinjaUpdateState_CollisionUpdate_FixTranMemory\15_EnemyDiChuyenVaCham_NinjaUpdateState_CollisionUpdate_FixTranMemory\Ninja Gaiden\|

@@ -15,13 +15,7 @@ CBat::CBat(int id, int x, int y)
 	nx = -1;
 	vy = -0.05f;
 	vx = 0.05f;
-
-	//Luu diem ban dau
-	this->rootX = this->x;
-	this->rootY = this->y;
-	this->rootNX = this->nx;
-	this->rootVX = this->vx;
-	this->rootVY = this->vy;
+	startX = this->x;
 }
 
 CBat::~CBat()
@@ -57,7 +51,7 @@ void CBat::Render()
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	CEnemy::Update(dt);
+	
 	x += dx;
 	y = 80 + 10*sin(x/3);
 }
@@ -73,6 +67,5 @@ void CBat::GetBoundingBox(float & x, float & y, float & width, float & height)
 void CBat::BeAttack(int satThuong)
 {
 	hp = 0;
-	this->ResetVeTrangThaiDau();
-	//CBat::~CBat();
+	CBat::~CBat();
 }

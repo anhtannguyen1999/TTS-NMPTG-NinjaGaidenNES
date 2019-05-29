@@ -3,6 +3,7 @@
 #include "GameScene.h"
 #include "GameSceneStage31.h"
 #include "GameSceneStage32.h"
+#include "GameSceneStage33.h"
 class CSceneManager
 {
 private:
@@ -18,10 +19,11 @@ public:
 	void Update(DWORD dt);
 	void NextScene();
 	void PreScece();
-
+	
 	void KeyDown(unsigned short int const &key);
 	void KeyUp(unsigned short int const &key);
 	static CSceneManager * GetInstance();
+	int GetIDScence();
 	void LoadResource();
 	void LoadResouceForNinja();
 	void LoadResourceForEnemies();

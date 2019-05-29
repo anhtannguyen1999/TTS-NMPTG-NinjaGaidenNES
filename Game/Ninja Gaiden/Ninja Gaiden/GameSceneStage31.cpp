@@ -34,8 +34,10 @@ void CGameSceneStage31::Update(DWORD dt)
 
 	for (UINT i = 0; i < listOtherObj.size(); i++)
 		listOtherObj[i]->Update(dt, &listOtherObj);
-	
-	CheckCollision();
+	//if (!ninja->GetIsDeadth())//chưa chết thì xét va chạm
+	{
+		CheckCollision();
+	}
 
 	//Update lại tọa độ camera
 	camera->Update(dt, ninjaX, ninjaY, tileMap->GetMapWidth(), tileMap->GetMapHeight());
@@ -132,35 +134,17 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 		//check va cham voi enemy
 		if (type = TYPE_ENEMY)
 		{
-			CEnemy* enemy = dynamic_cast<CEnemy*>(gameObj);
-			//Neu la NguoiCamKiem
-			if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_NGUOICAMKIEM)
+			
+			CNguoiCamKiem* nguoiCamKiem = dynamic_cast<CNguoiCamKiem*>(gameObj);
+			if (nguoiCamKiem) //c != nullptr //downcast thành công
 			{
-				CNguoiCamKiem* nguoiCamKiem = dynamic_cast<CNguoiCamKiem*>(gameObj);
-				if (nguoiCamKiem) //c != nullptr //downcast thành công
+				unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+				if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(nguoiCamKiem->GetDame(), gameObj->x);
-					}
-				}
-				//else {}//p ko trỏ tới Child mà có thể là OtherChild khác.
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_HAWK)
-			{
-				CHawk*hawk= dynamic_cast<CHawk*>(gameObj);
-				if (hawk)
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(hawk->GetDame(), gameObj->x);
-					}
+					ninja->BeAttacked(nguoiCamKiem->GetDame(), gameObj->x);
 				}
 			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_PANTHER)
-			{
+			else {//p ko trỏ tới Child mà có thể là OtherChild khác.
 				CPanther* panther = dynamic_cast<CPanther*>(gameObj);
 				if (panther) //c != nullptr //downcast thành công
 				{
@@ -170,65 +154,17 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 						ninja->BeAttacked(panther->GetDame(), gameObj->x);
 					}
 				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_BAT)
-			{
-				CBat* bat = dynamic_cast<CBat*>(gameObj);
-				if (bat) //c != nullptr //downcast thành công
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+				else {
+					CBat* bat = dynamic_cast<CBat*>(gameObj);
+					if (bat) //c != nullptr //downcast thành công
 					{
-						ninja->BeAttacked(bat->GetDame(), gameObj->x);
+						unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							ninja->BeAttacked(bat->GetDame(), gameObj->x);
+						}
 					}
-				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_CLOAK)
-			{
-				CCloak* Cloak = dynamic_cast<CCloak*>(gameObj);
-				if (Cloak) //c != nullptr //downcast thành công
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(Cloak->GetDame(), gameObj->x);
-					}
-				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_COMMANDO)
-			{
-				CCommando* Commando = dynamic_cast<CCommando*>(gameObj);
-				if (Commando) //c != nullptr //downcast thành công
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(Commando->GetDame(), gameObj->x);
-					}
-				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_GUNNER)
-			{
-				CGunner* CGunner1 = dynamic_cast<CGunner*>(gameObj);
-				if (CGunner1) //c != nullptr //downcast thành công
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(CGunner1->GetDame(), gameObj->x);
-					}
-				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_RUNNER)
-			{
-				CRunner* CRunner1 = dynamic_cast<CRunner*>(gameObj);
-				if (CRunner1) //c != nullptr //downcast thành công
-				{
-					unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
-					{
-						ninja->BeAttacked(CRunner1->GetDame(), gameObj->x);
-					}
+					else {}
 				}
 			}
 
@@ -266,27 +202,23 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
 						{
 							unsigned short int collisionCheck = nguoiCamKiem->isCollitionObjectWithObject(gameObj);
-							if (collisionCheck == OBJ_COLLISION_BOTTOM) //Neu co va cham voi dat
+							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
 							{
-								grounded = true;
+								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+								{
+									grounded = true;
+								}
 							}
 						}
 
 					}
-					
-					if (grounded)
-					{
-						nguoiCamKiem->SetOnGround(true);
-						nguoiCamKiem->SetFirstY(gameObj->y);
-					}
-					else 
-						nguoiCamKiem->SetOnGround(false);
+					nguoiCamKiem->SetOnGround(grounded);
 				}
 				//else {}
 				//SAFE_DELETE(nguoiCamKiem);
 			}
-			//Neu la panther
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_PANTHER)
+			 //Neu la panther
+			if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_PANTHER)
 			{
 				CPanther* panther = dynamic_cast<CPanther*>(enemy);
 				if (panther) //c != nullptr //downcast thành công
@@ -305,150 +237,38 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 								{
 									grounded = true;
 								}
-
+								
 							}
 						}
 
 					}
 					panther->SetOnGround(grounded);
 				}
-				//else {} enemy khacs
-				//SAFE_DELETE(nguoiCamKiem);
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_CLOAK)
-			{
-				CCloak* Cloak = dynamic_cast<CCloak*>(enemy);
-				if (Cloak) //c != nullptr //downcast thành công
-				{
-					bool grounded = false;
-
-					for (UINT i = 0; i < listBackgroundObj.size(); i++)
-					{
-						CGameObject * gameObj = listBackgroundObj[i];
-						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-						{
-							unsigned short int collisionCheck = Cloak->isCollitionObjectWithObject(gameObj);
-							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-							{
-								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-								{
-									grounded = true;
-								}
-							}
-						}
-
-					}
-					Cloak->SetOnGround(grounded);
-				}
-			}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_COMMANDO)
-			{
-				CCommando* Commando = dynamic_cast<CCommando*>(enemy);
-				if (Commando) //c != nullptr //downcast thành công
-				{
-					bool grounded = false;
-
-					for (UINT i = 0; i < listBackgroundObj.size(); i++)
-					{
-						CGameObject * gameObj = listBackgroundObj[i];
-						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-						{
-							unsigned short int collisionCheck = Commando->isCollitionObjectWithObject(gameObj);
-							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-							{
-								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-								{
-									grounded = true;
-								}
-							}
-						}
-
-					}
-					Commando->SetOnGround(grounded);
-				}
-			}
-			//else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_GUNNER)
-			//{
-			//	CGunner* CGunner1 = dynamic_cast<CGunner*>(enemy);
-			//	if (CGunner1) //c != nullptr //downcast thành công
-			//	{
-			//		bool grounded = false;
-			//		for (UINT i = 0; i < listBackgroundObj.size(); i++)
-			//		{
-			//			CGameObject * gameObj = listBackgroundObj[i];
-			//			if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-			//			{
-			//				unsigned short int collisionCheck = CGunner1->isCollitionObjectWithObject(gameObj);
-			//				if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-			//				{
-			//					if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-			//					{
-			//						grounded = true;
-			//					}
-			//				}
-			//			}
-			//		}
-			//		CGunner1->SetOnGround(grounded);
-			//	}
-			//}
-			else if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_RUNNER)
-			{
-				CRunner* CRunner1 = dynamic_cast<CRunner*>(enemy);
-				if (CRunner1) //c != nullptr //downcast thành công
-				{
-					bool grounded = false;
-
-					for (UINT i = 0; i < listBackgroundObj.size(); i++)
-					{
-						CGameObject * gameObj = listBackgroundObj[i];
-						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-						{
-							unsigned short int collisionCheck = CRunner1->isCollitionObjectWithObject(gameObj);
-							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-							{
-								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-								{
-									grounded = true;
-								}
-							}
-						}
-
-					}
-					CRunner1->SetOnGround(grounded);
-				}
 				//else {}
 				//SAFE_DELETE(nguoiCamKiem);
 			}
-
+			
 			//else
-
-
-
-
-
-
-
 
 
 
 			//XetVaChamEnemy voi vu khi
 			if (ninja->ninjaSword->GetActive()&&enemy->isCollitionObjectWithObject(ninja->ninjaSword))
 			{
-				gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 				enemy->BeAttack(1);
 				gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
-
-				//Sau nay xet neu khong phai la boss nua
-				ninja->ninjaSword->DanhChetEnemy();
 			}
-			
-
+				
 		}
 
 		//check va cham voi item
 		
 
 	}
+
+
+
+	
 }
 
 

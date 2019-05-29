@@ -14,16 +14,9 @@ CNguoiCamKiem::CNguoiCamKiem(int id,int x, int y)
 	this->width = 25;
 	this->height = 34;
 	nx = -1;
-	vy = -0.03f;//-0.02f;
+	vy = -0.1f;
 	vx = -0.05f;
-	//startX = this->x;
-
-	//Luu diem ban dau
-	this->rootX = this->x;
-	this->rootY = this->y;
-	this->rootNX = this->nx;
-	this->rootVX = this->vx;
-	this->rootVY = this->vy;
+	startX = this->x;
 }
 
 
@@ -34,19 +27,12 @@ CNguoiCamKiem::~CNguoiCamKiem()
 void CNguoiCamKiem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	CEnemy::Update(dt);
-	if (firstY == -1)
-		y += dy;
-
-	if(onGround==true&& this->firstY == -1)
-		this->firstY= this->y;
-	if (this->firstY != -1)//Neu da cai dat firstY
-		this->y = this->firstY;
 	
-	if (!onGround&&firstY!=-1)//neu no di ra ngoai cai bien cua no thi quay dau
+	if (daChamDat==0)
+		y += dy;
+	if (!onGround&&daChamDat!=0)//neu no di ra ngoai cai bien cua no
 	{
-		//dy = 0;
-		if (this->x > rootX+1)//Neu nam o bien ben phai thi quay dau di ve ben trai
+		if (this->x > startX)//Neu nam o bien ben phai thi quay dau di ve ben trai
 		{
 			vx = -0.05f;
 			nx = -1;
@@ -57,24 +43,19 @@ void CNguoiCamKiem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			nx = 1;
 		}
 	}
-	if (daChamDat<9&&daChamDat!=0) //Neu vua cham dat thi tim thang ninja
+	
+	if (startX == 1450)
 	{
-		if (this->x > ninja->x)
-		{
-			this->nx = -1;
-			vx = -0.05f;
-		}
-		else
-		{
-			vx = 0.05f;
-			this->nx = 1;
-		}
-			
+		vx = 0;
+		nx = -1;
 	}
 	x += dx;
 
-	//DebugOut(L"cham dat %d; onground %d ; firstY %d\n", daChamDat,onGround,firstY);
+	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
 }
+
+
+
 
 void CNguoiCamKiem::LoadResource()
 {
@@ -101,7 +82,6 @@ void CNguoiCamKiem::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
-	
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	this->RenderBoundingBox();
 }
@@ -115,31 +95,8 @@ void CNguoiCamKiem::GetBoundingBox(float & x, float & y, float & width, float & 
 	height = this->height;
 }
 
-void CNguoiCamKiem::SetOnGround(bool onGround)
-{
-	this->onGround = onGround;
-	if (onGround&&daChamDat<10) daChamDat++;
-}
-
 void CNguoiCamKiem::BeAttack(int satThuong)
 {
-	/*
-	D3DXVECTOR3 pos;
-	pos.x = this->x;
-	pos.y = this->y;
-	pos.z = 0;
-	pos = camera->SetPositionInViewPort(pos);*/
 	hp = 0;
-	this->isHit = 0;
-	this->daChamDat = 0;
-	this->onGround = false;
-	this->ResetVeTrangThaiDau();
-	//this->firstY = -1;
-	//CNguoiCamKiem::~CNguoiCamKiem();
-}
-
-void CNguoiCamKiem::SetFirstY(int fY)
-{
-	if (firstY != -1)
-		this->firstY = fY;//this->y;
+	CNguoiCamKiem::~CNguoiCamKiem();
 }

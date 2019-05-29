@@ -15,17 +15,11 @@ CPanther::CPanther(int id, int x, int y)
 	this->dame = 1;
 	this->hp = 1;
 	this->width = 34;
-	this->height = 20;
+	this->height = 15;
 	nx = 1;
-	vy = -0.1f;
+	vy = -0.03f;
 	vx = 0.15f;
-	
-	//Luu diem ban dau
-	this->rootX = this->x;
-	this->rootY = this->y;
-	this->rootNX = this->nx;
-	this->rootVX = this->vx;
-	this->rootVY = this->vy;
+	startX = this->x;
 }
 
 
@@ -36,46 +30,40 @@ CPanther::~CPanther()
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	CEnemy::Update(dt);
 
-   // if (daChamDat == 0)
-	if(!onGround)
+    if (daChamDat == 0)
 		y += dy;
-
-	if (daChamDat<9) //Neu vua cham dat thi tim thang ninja
+	if (!onGround&&daChamDat != 0)//neu no di ra ngoai cai bien cua no
 	{
-		if (this->x > ninja->x)
-		{
-			this->nx = -1;
-			vx = -0.15f;
-		}
-		else
-		{
-			vx = 0.15f;
-			this->nx = 1;
-		}
-
+		y += dy;
 	}
-	//if (!onGround&&daChamDat != 0)//neu no di ra ngoai cai bien cua no
-	//{
-	//	y += dy;
-	//}
-	if (rootX==890 || rootX ==1260)//con panther thu 2 va thu 4
+	if (startX==890 || startX==1260)//con panther thu 2 va thu 4
 	{
 		nx = -1;
 		vx = -0.1f;
 		vy = -0.08f;
 	}
-	if (rootX ==940) //con panther thu 3
-		vx = 0.1f;
-	
+	if (startX==940) //con panther thu 3
+		vx = 0.1;
+	/*if (!onGround&&daChamDat != 0)//neu no di ra ngoai cai bien cua no
+	{
+		if (this->x > startX)//Neu nam o bien ben phai thi quay dau di ve ben trai
+		{
+			vx = -0.05f;
+			nx = -1;
+		}
+		else
+		{
+			vx = 0.05f;
+			nx = 1;
+		}
+	}*/
 	x += dx;
 	if (y >= 170)//Bị rơi xuống đất
 
 	{
-		//hp = 0;
-		this->BeAttack(1);
-		 //DebugOut(L"Panther died");
+		hp = 0;
+		 DebugOut(L"Panther died");
 	}
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
 }
@@ -116,7 +104,7 @@ void CPanther::Render()
 void CPanther::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
 	x = this->x;
-	y = this->y-5;
+	y = this->y;
 	width = this->width;
 	height = this->height;
 }
@@ -124,11 +112,7 @@ void CPanther::GetBoundingBox(float & x, float & y, float & width, float & heigh
 void CPanther::BeAttack(int satThuong)
 {
 	hp = 0;
-	this->isHit = 0;
-	this->daChamDat = 0;
-	this->onGround = false;
-	this->ResetVeTrangThaiDau();
-	//DebugOut(L"BiDanh!");
+	CPanther::~CPanther();
 }
 
 

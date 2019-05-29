@@ -1,21 +1,11 @@
-﻿  Ninja.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(44): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
-  Hawk.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(9): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(90): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(91): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(98): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(115): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\hawk.cpp(117): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)
+﻿  GameSceneStage33.cpp
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gameobject.h(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gameobject.h(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(98): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(110): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(137): warning C4305: '*=': truncation from 'double' to 'float'
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(145): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(153): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+w:\users\khung long\desktop\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\15_enemydichuyenvacham_ninjaupdatestate_collisionupdate_fixtranmemory\ninja gaiden\ninja gaiden\gamescenestage33.cpp(159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Ninja Gaiden.vcxproj -> W:\Users\KhunG LonG\Desktop\15_EnemyDiChuyenVaCham_NinjaUpdateState_CollisionUpdate_FixTranMemory\15_EnemyDiChuyenVaCham_NinjaUpdateState_CollisionUpdate_FixTranMemory\Ninja Gaiden\Debug\Ninja Gaiden.exe

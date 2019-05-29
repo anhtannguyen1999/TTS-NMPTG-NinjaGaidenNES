@@ -20,7 +20,6 @@ CNinja::~CNinja()
 
 void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-
 	CGameObject::Update(dt);
 	preY = y;
 	
@@ -60,10 +59,9 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetPosition(30, 100);
 		vy = 0; dy = 0;
 	}
+	
 	CalNinjaSword();
 	//DebugOut(L"%d \n", hp);
-	//DebugOut(L"x= %f\n", x);
-
 	ninjaSword->Update(dt);
 }
 
@@ -139,8 +137,6 @@ void CNinja::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos); //Nhân lại thành tọa độ trong viewport
 											  //Canh số lại để vẽ vì đứa cắt hình bị lệnh
-	//DebugOut(L"NINJA at: %f %f %f %f\n", x, y, pos.x, pos.y);
-
 	if (ani == NINJA_ANI_ATTACK_RIGHT || ani == NINJA_ANI_SITATTACK_RIGHT)
 		pos.x += 12;
 	else if (ani == NINJA_ANI_ATTACK_LEFT || ani == NINJA_ANI_SITATTACK_LEFT)
@@ -148,14 +144,14 @@ void CNinja::Render()
 	if (isSit)
 		pos.y += 5;
 
-	if (attacked != 0 && attacked<20) //Nếu ĐANG bị đánh thì render(k xet trang thai nhap nhay sau danh)
+	if (attacked != 0 && attacked<12) //Nếu ĐANG bị đánh thì render(k xet trang thai nhap nhay sau danh)
 	{
 		Attacked(ani);
 		animations[ani]->Render(pos.x, pos.y, ALPHA);
 	}
 	else //khong o trong trang thai bi danh
 	{
-		if (attacked >= 20)//trang thai nhap nhay sau khi bi danh
+		if (attacked >= 12)//trang thai nhap nhay sau khi bi danh
 		{
 			if (attacked % 2 == 0)
 			{
@@ -165,11 +161,11 @@ void CNinja::Render()
 				animations[ani]->Render(pos.x, pos.y, ALPHA - 100);
 
 			attacked++;
-			if (attacked >= 20)
+			if (attacked >= 12)
 			{
 				canMove = true;
 			}
-			if (attacked >= 60)
+			if (attacked >= 40)
 				attacked = 0;
 
 		}
@@ -178,7 +174,7 @@ void CNinja::Render()
 	}
 		
 	//DebugOut(L"%d\n", attacked);
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 	ninjaSword->Render();
 	
 }
@@ -341,19 +337,15 @@ void CNinja::Attacked(int & ani)
 			vy -= 0.03f;
 		if (huongAttacked)// ninja bi bay qua ben phai 
 		{
-			this->x += 3;
+			this->x += 2;
 			
 			ani = NINJA_ANI_ATTACKED_LEFT;
 		}
 		else
 		{
-			this->x -= 3;
+			this->x -= 2;
 			ani = NINJA_ANI_ATTACKED_RIGHT;
 		}
-		if (attacked < 10)
-			this->y += 3;
-		else if(attacked<20)
-			this->y -= 3;
 	}
 	else
 	{
@@ -368,17 +360,17 @@ void CNinja::Attacked(int & ani)
 
 	}
 	attacked++;
-	if (attacked >= 20)
+	if (attacked >= 12)
 	{
 		canMove = true;
 	}
-	if (attacked >= 60)
+	if (attacked >= 40)
 		attacked = 0;
 	
 }
 void CNinja::CalNinjaSword()
 {
-	if (this->attacked > 0 && this->attacked <= 20) //Neu bi danh thi thoi
+	if (this->attacked > 0 && this->attacked <= 12) //Neu bi danh thi thoi
 	{
 		return;
 	}
@@ -389,12 +381,12 @@ void CNinja::CalNinjaSword()
 		{
 			if (nx > 0)
 			{
-				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP-2, this->y-10,nx);
+				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP, this->y-10);
 				ninjaSword->SetActive(true);
 			}				
 			else
 			{
-				ninjaSword->SetPosition(this->x -22, this->y-10,nx);
+				ninjaSword->SetPosition(this->x -25, this->y-10);
 				ninjaSword->SetActive(true);
 			}
 		}
@@ -402,12 +394,12 @@ void CNinja::CalNinjaSword()
 		{
 			if (nx > 0)
 			{
-				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP-2, this->y-2,nx);
+				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP, this->y-2);
 				ninjaSword->SetActive(true);
 			}
 			else
 			{
-				ninjaSword->SetPosition(this->x - 22, this->y-2,nx);
+				ninjaSword->SetPosition(this->x - 25, this->y-2);
 				ninjaSword->SetActive(true);
 			}
 		}
@@ -484,7 +476,6 @@ void CNinja::SetState(int state)
 
 		break;
 	case NINJA_STATE_ONWALL:
-		
 		canClimbUpDown = true;
 		isOnWall = true;
 		if (isJump)
@@ -492,8 +483,6 @@ void CNinja::SetState(int state)
 		canJump = true;
 		break;
 	case NINJA_STATE_ATTACKED:
-		isHit = false;
-		ninjaSword->SetActive(false);
 		if (attacked==0) // neu co the danh
 		{
 			attacked = 1;
