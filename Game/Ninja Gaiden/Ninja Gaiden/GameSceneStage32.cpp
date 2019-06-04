@@ -74,12 +74,12 @@ void CGameSceneStage32::DestroyAll()
 void CGameSceneStage32::CheckCollision()
 {
 	CheckCollisionNinjaWidthEnemy();
-	CheckCollisionNinjaWithGround();
+	CheckCollisionNinjaWithBackGroundObj();
 	CheckCollisionEnemyWithGroundAndVuKhi();
 }
 
 
-
+/*
 void CGameSceneStage32::CheckCollisionNinjaWithGround()
 {
 	bool grounded = false, stopLeft = false, stopRight = false, walled = false;
@@ -578,7 +578,7 @@ void CGameSceneStage32::CheckCollisionEnemyWithGroundAndVuKhi()
 
 	}
 }
-
+*/
 
 
 

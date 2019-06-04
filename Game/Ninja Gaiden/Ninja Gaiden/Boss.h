@@ -11,6 +11,7 @@ class CBoss :public CEnemy
 	DWORD TimePerFly = 3000 ;
 	DWORD TimePrevFly=0;
 	DWORD TimePrevShoot = 0;//thời gian bắn lần trước
+	int timerRefreshAttack = 0;
 public:
 	CBoss(int id, int x, int y);
 	~CBoss();

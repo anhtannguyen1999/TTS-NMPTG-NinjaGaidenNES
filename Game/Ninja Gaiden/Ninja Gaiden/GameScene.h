@@ -4,12 +4,13 @@
 #include "Ninja.h"
 #include "NinjaSword.h"
 #include "Effect.h"
+#include "TileMap.h"
 
 static int score;
 class CGameScene
 {
 protected:
-	std::vector<CGameObject*> *listObject;
+	//std::vector<CGameObject*> *listObject;
 	vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
 	vector<CGameObject*> listOtherObj;
 	CCamera *camera = CCamera::GetInstance();
@@ -20,6 +21,8 @@ protected:
 	D3DXVECTOR3 ninjaCheckpoint;
 	CEffect *effect = CEffect::GetInstance();
 	int pauseEnemyTimer = 0; 
+	CGrid * gridGame;
+	CTileMap *tileMap;
 public:
 	CGameScene();
 	~CGameScene();
@@ -35,5 +38,8 @@ public:
 
 	void KeyDown(unsigned short int const &key);
 	void KeyUp(unsigned short int const &key);
+	void CheckCollisionNinjaWithBackGroundObj();
+	void CheckCollisionNinjaWidthEnemy();
+	void CheckCollisionEnemyWithGroundAndVuKhi();
 };
 

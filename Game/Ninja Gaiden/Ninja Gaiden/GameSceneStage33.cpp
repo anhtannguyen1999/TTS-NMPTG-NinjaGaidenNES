@@ -76,11 +76,11 @@ void CGameSceneStage33::DestroyAll()
 
 void CGameSceneStage33::CheckCollision()
 {
-	CheckCollisionNinjaWithGround();
+	CheckCollisionNinjaWithBackGroundObj();
 	CheckCollisionEnemyWithGroundAndVuKhi();
-	CheckCollisionNinjaWidthEnemy();
+	CheckCollisionNinjaWidthBossAndBullet();
 }
-void CGameSceneStage33::CheckCollisionNinjaWidthEnemy()
+void CGameSceneStage33::CheckCollisionNinjaWidthBossAndBullet()
 {
 	//Enemy được lưu trong list other obj
 	for (UINT i = 0; i < listOtherObj.size(); i++)
@@ -121,6 +121,7 @@ void CGameSceneStage33::CheckCollisionNinjaWidthEnemy()
 	}
 }
 
+/*
 void CGameSceneStage33::CheckCollisionNinjaWithGround()
 {
 	bool grounded = false;
@@ -175,7 +176,8 @@ void CGameSceneStage33::CheckCollisionNinjaWithGround()
 	ninja->SetOnGround(grounded);
 
 }
-
+*/
+/*
 void CGameSceneStage33::CheckCollisionEnemyWithGroundAndVuKhi()
 {
 	for (UINT i = 0; i < listOtherObj.size(); i++)
@@ -241,6 +243,6 @@ void CGameSceneStage33::CheckCollisionEnemyWithGroundAndVuKhi()
 
 	}
 }
-
+*/
 
 

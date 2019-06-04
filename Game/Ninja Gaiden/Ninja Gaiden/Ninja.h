@@ -45,7 +45,7 @@ public:
 		this->mana = 1000;
 		this->point = 0;
 		//ninjaSword = new CNinjaSword();
-		//SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
+		SetSpecialWeapon(WEAPON_MINITYPE_SMALL_SHURIKEN);
 
 	}
 	~CNinja();

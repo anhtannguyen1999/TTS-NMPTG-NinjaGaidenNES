@@ -1,13 +1,8 @@
 
 #include "GameScene.h"
-#include "TileMap.h"
 
 class CGameSceneStage33 :public CGameScene
 {
-	CTileMap *tileMap;
-	CGrid * gridGame;
-	vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
-	vector<CGameObject*> listOtherObj;
 public:
 	CGameSceneStage33();
 	~CGameSceneStage33();
@@ -17,8 +12,8 @@ public:
 	void SetIsChangingScene(bool status);
 	void DestroyAll();
 	void CheckCollision();
-	void CheckCollisionNinjaWithGround();
-	void CheckCollisionEnemyWithGroundAndVuKhi();
-	void CheckCollisionNinjaWidthEnemy();
+	//void CheckCollisionNinjaWithGround();
+	//void CheckCollisionEnemyWithGroundAndVuKhi();
+	void CheckCollisionNinjaWidthBossAndBullet();
 };
 

@@ -70,7 +70,7 @@ void CBigShuriken::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[0]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox(70);
+	//this->RenderBoundingBox(70);
 }
 
 void CBigShuriken::SetPosition(float x, float y, int nx)

@@ -18,13 +18,17 @@ CBoss::CBoss(int id, int x, int y)
 	vx = -0.1f;
 	startX = this->x;
 	TimePrevFly = GetTickCount();
-	CBulletBoss *bullet0 = new CBulletBoss(2, -50, 70, 1);
-	CBulletBoss *bullet1 = new CBulletBoss(2, -50, 60, 1);
-	CBulletBoss *bullet2 = new CBulletBoss(2, -50, 50, 1);
+	CBulletBoss *bullet0 = new CBulletBoss(2, -50, 85, 1);
+	CBulletBoss *bullet1 = new CBulletBoss(2, -50, 70, 1);
+	CBulletBoss *bullet2 = new CBulletBoss(2, -50, 60, 1);
 
-	CBulletBoss *bullet3 = new CBulletBoss(2, 280, 70, -1);
-	CBulletBoss *bullet4 = new CBulletBoss(2, 280, 60, -1);
-	CBulletBoss *bullet5 = new CBulletBoss(2, 280, 50, -1);
+	//CBulletBoss *bullet3 = new CBulletBoss(2, 280, 70, -1);
+	//CBulletBoss *bullet4 = new CBulletBoss(2, 280, 60, -1);
+	//CBulletBoss *bullet5 = new CBulletBoss(2, 280, 50, -1);
+
+	CBulletBoss *bullet3 = new CBulletBoss(2, 280, 85, -1);
+	CBulletBoss *bullet4 = new CBulletBoss(2, 280, 70, -1);
+	CBulletBoss *bullet5 = new CBulletBoss(2, 280, 60, -1);
 	listProjectile.push_back(bullet0);
 	listProjectile.push_back(bullet1);
 	listProjectile.push_back(bullet2);
@@ -41,7 +45,18 @@ CBoss::~CBoss()
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	
+	//Bi danh
+	if (timerRefreshAttack > 0)//doi tru mau
+	{
+		timerRefreshAttack--;
+		if (timerRefreshAttack == 0)
+			hp--;
+		if (hp <= 0)
+		{
+			//render effect no
+			CBoss::~CBoss();
+		}
+	}
 	for (UINT i = 0; i < listProjectile.size(); i++)
 	{
 		listProjectile[i]->Update(dt, &listProjectile);
@@ -108,7 +123,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	
 	BanBullet(1);
-	DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n; x:%f; y:%f", daChamDat,onGround,vx,nx,x,y);
+	DebugOut(L"HP= %d, timer= %d\n", hp,timerRefreshAttack);
+	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n; x:%f; y:%f", daChamDat,onGround,vx,nx,x,y);
 }
 
 
@@ -161,15 +177,23 @@ void CBoss::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	this->RenderBoundingBox(180);
 }
 
 
 void CBoss::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
-	x = this->x;
+	if (nx > 0)
+	{
+		x = this->x - 5;
+		width = this->width-10;
+	}
+	else
+	{
+		x = this->x +5;
+		width = this->width-8;
+	}
 	y = this->y;
-	width = this->width;
 	height = this->height;
 }
 void CBoss::BanBullet(int x)
@@ -200,13 +224,8 @@ void CBoss::BanBullet(int x)
 }
 void CBoss::BeAttack(int satThuong)
 {
-	hp--;
-	if (hp<=0)
-	{
-		//render effect no
-		CBoss::~CBoss();
-	}
-	 
+	
+	timerRefreshAttack = 10;
 }
 
 void CBoss::DeActivate()

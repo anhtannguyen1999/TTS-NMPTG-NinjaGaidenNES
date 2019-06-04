@@ -739,9 +739,12 @@ void CNinja::SetState(int state)
 		//DebugOut(L"True\n");
 		break;
 	case NINJA_STATE_HIT:
-		if(timeResetHit==0)
-			isHit = 1;
-		vx = 0;
+		if (!(attacked != 0 && attacked < 20))//Neu khong dang trong trang thai bi danh
+		{
+			if (timeResetHit == 0)
+				isHit = 1;
+			vx = 0;
+		}
 		break;
 	case NINJA_STATE_DOWN:
 		isDown = true;
@@ -790,6 +793,7 @@ void CNinja::SetState(int state)
 		break;
 	case NINJA_STATE_ATTACKED:
 		isHit = false;
+		canJump = false;
 		ninjaSword->SetActive(false);
 		if (attacked==0) // neu co the danh
 		{

@@ -642,11 +642,13 @@ void CSceneManager::LoadOtherResource()
 
 	sprites->Add(328, 243, 8, 262, 26, effectTex, zero, zero, zero, 0);// Hour glass
 
-	sprites->Add(329, 263, 13, 273, 23, effectTex, zero, zero, zero, 0);// small shuriken
-
-	sprites->Add(330, 274, 6, 295, 25, effectTex, zero, zero, zero, 0);// big shuriken
+	sprites->Add(330, 276, 7, 294, 25, effectTex, zero, zero, zero, 0);// big shuriken
+	sprites->Add(332, 276, 7, 294, 25, effectTex, zero, zero, D3DXVECTOR2(-1,1), 0);// big shuriken
 
 	sprites->Add(331, 296, 7, 309, 25, effectTex, zero, zero, zero, 0);// fire 
+
+	sprites->Add(329, 263, 13, 273, 23, effectTex, zero, zero, zero, 0);// small shuriken
+	sprites->Add(333, 263, 13, 273, 23, effectTex, zero, zero, D3DXVECTOR2(-1, 1), 0);
 
 	ani = new CAnimation(50);//butterfly
 	ani->Add(310);
@@ -696,9 +698,11 @@ void CSceneManager::LoadOtherResource()
 
 	ani = new CAnimation(100);//small shuriken
 	ani->Add(329);
+	ani->Add(333);
 	animations->Add(329, ani);
 
-	ani = new CAnimation(100);//big shuriken
+	ani = new CAnimation(30);//big shuriken
+	ani->Add(332);
 	ani->Add(330);
 	animations->Add(330, ani);
 
