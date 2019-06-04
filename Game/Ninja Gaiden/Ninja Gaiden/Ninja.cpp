@@ -20,7 +20,8 @@ CNinja::~CNinja()
 
 void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-
+	
+	//DebugOut(L"HP: %d\n", hp);
 	CGameObject::Update(dt);
 	//preY = y;
 	
@@ -34,9 +35,8 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += dx;
 		}
-		
 	}
-		
+	
 
 	if (onGround)//chạm đất
 	{
@@ -48,10 +48,8 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				dy = 0;
 			}
 		}
-		//isOnWall = false;
 		canJump = true;
-		//if(preY>y) //Neu bay xuong thi y=0
-			//vy = 0;
+		
 		if (isJump != -1)
 			isJump = 0;
 		//DebugOut(L"Ninja Cham dat\n");
@@ -68,15 +66,231 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->y < 8) //xet cho khoi rot gay bug thoi 9 // Rot xuong thi ve vach xuat phat
 	{
 		//this->y = 8;
-		SetPosition(1726, 200);
+		SetPosition(10, 200);
 		vy = 0; dy = 0;
 	}
 	CalNinjaSword();
-	//DebugOut(L"%d \n", hp);
-	//DebugOut(L"x= %f\n", x);
 
 	ninjaSword->Update(dt);		
+	if (specialWeapon)
+	{
+		switch (specialWeapon->GetMiniTypeWeapon())
+		{
+		case WEAPON_MINITYPE_SMALL_SHURIKEN:
+		{
+			CSmallShuriken* smallShuriken = dynamic_cast<CSmallShuriken*>(specialWeapon);
+			smallShuriken->Update(dt);
+			break;
+		}
+		case WEAPON_MINITYPE_BIG_SHURIKEN:
+		{
+			CBigShuriken* bigShuriken = dynamic_cast<CBigShuriken*>(specialWeapon);
+			bigShuriken->Update(dt,this->x,this->y);
+			break;
+		}
+		case WEAPON_MINITYPE_FIRES:
+		{
+			CFiresWeapon* bigShuriken = dynamic_cast<CFiresWeapon*>(specialWeapon);
+			bigShuriken->Update(dt);
+			break;
+		}
+		}
+	}
+		
+
 	
+	if (isHit != 0)
+		isHit++;
+
+	//DebugOut(L"%d \n", hp);
+
+	//Khoa khong cho danh
+	if (isHit >= 9 || timeResetHit != 0)
+	{
+		if (timeResetHit == 9)
+		{
+			animations[NINJA_ANI_THROW_LEFT]->ResetCurrentFrame();
+			animations[NINJA_ANI_THROW_RIGHT]->ResetCurrentFrame();
+		}
+		isHit = 0;
+		timeResetHit++;
+		if (timeResetHit > 10)
+			timeResetHit = 0;
+	}
+}
+
+void CNinja::CalNinjaSword()
+{
+	
+	//Caculate cho sword	
+	if (isHit && !isUp && !isOnWall)
+	{
+		if (this->attacked > 0 && this->attacked <= 20) //Neu bi danh thi thoi
+		{
+			return;
+		}
+
+		if (isSit || isJump)
+		{
+			if (nx > 0)
+			{
+				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 10, nx);
+				ninjaSword->SetActive(true);
+			}
+			else
+			{
+				ninjaSword->SetPosition(this->x - 22, this->y - 10, nx);
+				ninjaSword->SetActive(true);
+			}
+		}
+		else
+		{
+			if (nx > 0)
+			{
+				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 2, nx);
+				ninjaSword->SetActive(true);
+			}
+			else
+			{
+				ninjaSword->SetPosition(this->x - 22, this->y - 2, nx);
+				ninjaSword->SetActive(true);
+			}
+		}
+	}
+	else//Caculate cho vu khi khac
+	{
+		ninjaSword->SetActive(false);
+
+		//Caculate cho vu khi khac	
+		if (isHit==1 && isUp && !isOnWall && specialWeapon&&!isSit) //Neu ton tai vu khi khac
+		{
+			switch (specialWeapon->GetMiniTypeWeapon())
+			{
+			case WEAPON_MINITYPE_SMALL_SHURIKEN:
+			{
+				CSmallShuriken* smallShuriken = dynamic_cast<CSmallShuriken*>(specialWeapon);
+				if (smallShuriken&&smallShuriken->GetManaTieuHao() <= this->mana)
+				{
+					//Neu chua active thi tien hanh tru mana va active
+					if (smallShuriken->GetActive() == false)
+					{
+						this->mana -= smallShuriken->GetManaTieuHao();
+					}
+					//DebugOut(L"Mana: %d\n", mana);
+					if (isJump)
+					{
+						if (nx > 0)
+						{
+							smallShuriken->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y-10, nx);
+							//smallShuriken->SetActive(true);
+						}
+						else
+						{
+							smallShuriken->SetPosition(this->x , this->y-10, nx);
+							//smallShuriken->SetActive(true);
+						}
+					}
+					else
+					{
+						if (nx > 0)
+						{
+							smallShuriken->SetPosition(this->x + NINJA_WIDTH_TMP-2, this->y-5, nx);
+							//smallShuriken->SetActive(true);
+						}
+						else
+						{
+							smallShuriken->SetPosition(this->x, this->y-5, nx);
+							//smallShuriken->SetActive(true);
+						}
+					}
+					smallShuriken->SetActive(true);
+				}
+				break;
+			}
+			case WEAPON_MINITYPE_BIG_SHURIKEN:
+			{
+				CBigShuriken* bigShuriken = dynamic_cast<CBigShuriken*>(specialWeapon);
+				if (bigShuriken&&bigShuriken->GetManaTieuHao() <= this->mana)
+				{
+					//Neu chua active thi tien hanh tru mana va active
+					if (bigShuriken->GetActive() == false)
+					{
+						this->mana -= bigShuriken->GetManaTieuHao();
+					}
+					//DebugOut(L"Mana: %d\n", mana);
+					if (isJump)
+					{
+						if (nx > 0)
+						{
+							bigShuriken->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 10, nx);
+							
+						}
+						else
+						{
+							bigShuriken->SetPosition(this->x, this->y - 10, nx);
+						}
+					}
+					else
+					{
+						if (nx > 0)
+						{
+							bigShuriken->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 5, nx);
+						}
+						else
+						{
+							bigShuriken->SetPosition(this->x, this->y - 5, nx);
+						}
+					}
+					bigShuriken->SetActive(true);
+				}
+				break;
+			}
+			case WEAPON_MINITYPE_FIRES:
+			{
+				CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(specialWeapon);
+				if (fires&&fires->GetManaTieuHao() <= this->mana)
+				{
+					//Neu chua active thi tien hanh tru mana va active
+					if (fires->GetActive() == false)
+					{
+						this->mana -= fires->GetManaTieuHao();
+					}
+					//DebugOut(L"Mana: %d\n", mana);
+					if (isJump)
+					{
+						if (nx > 0)
+						{
+							fires->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 10, nx);
+
+						}
+						else
+						{
+							fires->SetPosition(this->x, this->y - 10, nx);
+						}
+					}
+					else
+					{
+						if (nx > 0)
+						{
+							fires->SetPosition(this->x + NINJA_WIDTH_TMP - 2, this->y - 5, nx);
+						}
+						else
+						{
+							fires->SetPosition(this->x, this->y - 5, nx);
+						}
+					}
+					fires->SetActive(true);
+				}
+				break;
+			}
+				//default:
+				//	break;
+			}
+
+		}
+	}
+
+
 }
 
 
@@ -110,11 +324,64 @@ void CNinja::CongHP(int luongHP)
 		hp = 0;
 }
 
+void CNinja::CongMana(int luongMana)
+{
+	this->mana += luongMana;
+}
+
+void CNinja::CongDiem(int luongPoint)
+{
+	this->point += luongPoint;
+}
+
+
+void CNinja::SetSpecialWeapon(int minitype)
+{
+	switch (minitype)
+	{
+	case WEAPON_MINITYPE_SMALL_SHURIKEN:
+		specialWeapon = CSmallShuriken::GetInstance();//new CSmallShuriken();
+		break;
+	case WEAPON_MINITYPE_BIG_SHURIKEN:
+		specialWeapon = CBigShuriken::GetInstance();
+		break;
+	case WEAPON_MINITYPE_FIRES:
+		specialWeapon = CFiresWeapon::GetInstance();
+		break;
+	default:
+		break;
+	}
+
+
+	/*
+	if (!this->specialWeapon)//neu chua co vu khi
+	{
+		switch (minitype)
+		{
+		case WEAPON_MINITYPE_SMALL_SHURIKEN:
+			specialWeapon = CSmallShuriken::GetInstance();
+			break;
+		default:
+			break;
+		}
+	}
+	else if (this->specialWeapon->GetMiniTypeWeapon() != minitype)//neu co vu khi khac
+	{
+		switch (minitype)
+		{
+		case WEAPON_MINITYPE_SMALL_SHURIKEN:
+			specialWeapon = CSmallShuriken::GetInstance();//new CSmallShuriken();
+		default:
+			break;
+		}
+	}
+	*/
+}
+
 #pragma region Render
 
 void CNinja::Render()
 {
-
 	int ani = NINJA_ANI_IDLE_RIGHT;
 	//Xét các trạng thái cơ bản
 	//		+ các trạng thái đi kèm nằm trong trong cơ bản: Hit
@@ -190,9 +457,10 @@ void CNinja::Render()
 	}
 		
 	//DebugOut(L"%d\n", attacked);
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 	ninjaSword->Render();
-	
+	if (specialWeapon)
+		specialWeapon->Render();
 }
 
 //Render state
@@ -217,9 +485,9 @@ void CNinja::Jump(int & ani)
 			else
 				ani = NINJA_ANI_ATTACK_RIGHT;
 		}
-		isHit++;
+		/*isHit++;
 		if (isHit >= 8)
-			isHit = 0;
+			isHit = 0;*/
 	}
 	//Nếu k đánh thì nhảy thôi
 	else
@@ -233,15 +501,15 @@ void CNinja::Jump(int & ani)
 
 void CNinja::Sit(int &ani)
 {
-	if (isHit)//Ngoi danh
+	if (isHit!=0)//Ngoi danh
 	{
 		if (nx<0)
 			ani = NINJA_ANI_SITATTACK_LEFT;
 		else
 			ani = NINJA_ANI_SITATTACK_RIGHT;
-		isHit++;
+		/*isHit++;
 		if (isHit >= 8)
-			isHit = 0;
+			isHit = 0;*/
 	}
 	else//Ngoi binh thuong
 	{
@@ -294,7 +562,7 @@ void CNinja::OnWall(int & ani)
 
 void CNinja::Stand(int & ani)
 {
-	if (isHit)//Nếu đánh
+	if (isHit!=0)//Nếu đánh
 	{
 		if (isUp)//Skill đặc biệt
 		{
@@ -310,11 +578,11 @@ void CNinja::Stand(int & ani)
 			else
 				ani = NINJA_ANI_ATTACK_RIGHT;
 		}
-		isHit++;
+		/*isHit++;
 		if (isHit >= 8)
 		{
 			isHit = 0;
-		}
+		}*/
 		vx = 0;
 	}
 	else if (vx != 0)
@@ -344,6 +612,7 @@ void CNinja::Stand(int & ani)
 
 void CNinja::Attacked(int & ani)
 {
+	//onGround = false;
 	if (!isOnWall)
 	{
 		if (attacked <= 6)
@@ -351,15 +620,26 @@ void CNinja::Attacked(int & ani)
 			vy = vy+0.05f;
 		else //y = y - 3;
 			vy -= 0.03f;
+		
 		if (huongAttacked)// ninja bi bay qua ben phai 
 		{
-			this->x += 3;
-			
+			if (!isOnWall)
+			{
+				this->x += 2;
+			}
+				
+			//dx = 3;
 			ani = NINJA_ANI_ATTACKED_LEFT;
 		}
 		else
 		{
-			this->x -= 3;
+			//dx = -3;
+			if (!isOnWall&&canMoveLeft)
+			{
+				this->x -= 2;
+				//DebugOut(L"X: %d\n",this->x);
+			}
+				
 			ani = NINJA_ANI_ATTACKED_RIGHT;
 		}
 		if (attacked < 10)
@@ -397,47 +677,6 @@ void CNinja::SetOnWall(bool onWall)
 {
 	this->isOnWall = onWall;
 }
-void CNinja::CalNinjaSword()
-{
-	if (this->attacked > 0 && this->attacked <= 20) //Neu bi danh thi thoi
-	{
-		return;
-	}
-		
-	if (isHit&&!isUp&&!isOnWall)
-	{
-		if (isSit||isJump)
-		{
-			if (nx > 0)
-			{
-				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP-2, this->y-10,nx);
-				ninjaSword->SetActive(true);
-			}				
-			else
-			{
-				ninjaSword->SetPosition(this->x -22, this->y-10,nx);
-				ninjaSword->SetActive(true);
-			}
-		}
-		else
-		{
-			if (nx > 0)
-			{
-				ninjaSword->SetPosition(this->x + NINJA_WIDTH_TMP-2, this->y-2,nx);
-				ninjaSword->SetActive(true);
-			}
-			else
-			{
-				ninjaSword->SetPosition(this->x - 22, this->y-2,nx);
-				ninjaSword->SetActive(true);
-			}
-		}
-	}
-	else
-	{
-		ninjaSword->SetActive(false);
-	}
-}
 
 
 #pragma endregion
@@ -463,7 +702,6 @@ void CNinja::SetState(int state)
 		if(!isOnWall)
 			nx = 1;
 		isSit = false;
-		isUp = false;
 		isDown = false;
 		//new
 		//canMoveLeft = true;
@@ -473,7 +711,6 @@ void CNinja::SetState(int state)
 		if (!isOnWall)
 			nx = -1;
 		isSit = false;
-		isUp = false;
 		isDown = false;
 		//canMoveRight = true;
 		break;
@@ -502,7 +739,8 @@ void CNinja::SetState(int state)
 		//DebugOut(L"True\n");
 		break;
 	case NINJA_STATE_HIT:
-		isHit = 1;
+		if(timeResetHit==0)
+			isHit = 1;
 		vx = 0;
 		break;
 	case NINJA_STATE_DOWN:
@@ -512,7 +750,7 @@ void CNinja::SetState(int state)
 			isSit = true;
 		}
 		vx = 0;
-		isUp = false;
+		//isUp = false;
 		if (isOnWall&&onGround) // Neu cham dat thi k cho bam len tuong nua
 		{
 			//isOnWall = false;
@@ -521,7 +759,7 @@ void CNinja::SetState(int state)
 		break;
 	case NINJA_STATE_UP:
 		isUp = true;
-		isDown = false;
+		//isDown = false;
 		break;
 	case NINJA_STATE_ON_CLIMBING_WALL:
 		if (!canClingOnClimbWall)
@@ -547,6 +785,8 @@ void CNinja::SetState(int state)
 		if (isJump)
 			isJump = false;
 		canJump = true;
+		canMoveLeft = false;
+		//canMoveRight = false;
 		break;
 	case NINJA_STATE_ATTACKED:
 		isHit = false;

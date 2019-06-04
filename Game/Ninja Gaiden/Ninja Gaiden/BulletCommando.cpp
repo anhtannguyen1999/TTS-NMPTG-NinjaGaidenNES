@@ -91,6 +91,11 @@ void CBulletCommando::GetBoundingBox(float & x, float & y, float & width, float 
 
 void CBulletCommando::BeAttack(int satThuong)
 {
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CBulletCommando::DeActivate()
+{
 	hp = 0;
-	//CBulletCommando::~CBulletCommando();
 }

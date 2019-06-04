@@ -10,7 +10,7 @@ CCloak::CCloak(int id, int x, int y)
 	this->x = x;
 	this->y = y;
 	this->dame = 1;
-	this->hp = 1;
+	this->hp = 0;
 	this->width = 24;
 	this->height = 35;
 	nx = -1;
@@ -38,6 +38,8 @@ CCloak::~CCloak()
 float vxCross = 0;
 void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (hp <= 0)
+		return;
 	//CNinja *ninja = CNinja::GetInstance();
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
@@ -75,7 +77,8 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	#pragma endregion
 
 	#pragma region Ban dan- cross
-	timer++;
+	if(!isPause)
+		timer++;
 	//DebugOut(L"timer: %d \n", timer);
 	if (timer >= 130)
 	{
@@ -89,7 +92,7 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		listProjectile.push_back(cross);
 	}
 
-	int soLuongCrossThem = (rand() % 10<6)?0: (rand() % 10<9)?1 :2;//random so luong cross them 60% la khong them, 30% them 1, 10% them 2
+	int soLuongCrossThem = (rand() % 10<7)?0: (rand() % 10<9)?1 :2;//random so luong cross them 70% la khong them, 20% them 1, 10% them 2
 	if (timer == 110 && soLuongCrossThem >0) // Neu them hon 0 cross // tu 1-2 cross
 	{
 		CCross *cross = new CCross(3, this->x, this->y, this->nx, vxCross);
@@ -132,14 +135,20 @@ void CCloak::LoadResource()
 
 void CCloak::Render()
 {
-	if (this->x > ninja->x) //Quay mat ve ninja
+	if (hp <= 0)
+		return;
+	if (!isPause)
 	{
-		this->nx = -1;
+		if (this->x > ninja->x) //Quay mat ve ninja
+		{
+			this->nx = -1;
+		}
+		else
+		{
+			this->nx = 1;
+		}
 	}
-	else
-	{
-		this->nx = 1;
-	}
+	
 	int ani;
 	/*int ani2;*/
 	if (nx > 0)
@@ -171,6 +180,8 @@ void CCloak::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
 
@@ -225,13 +236,20 @@ void CCloak::Render()
 
 void CCloak::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
-	x = this->x;
+	if (hp <= 0)
+		return;
+	x = this->x+3;
 	y = this->y-5;
-	width = this->width;
+	width = this->width-3;
 	height = this->height;
 }
 
 void CCloak::BeAttack(int satThuong)
+{
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+void CCloak::DeActivate()
 {
 	hp = 0;
 	for (UINT i = 0; i < listProjectile.size(); i++)
@@ -267,3 +285,5 @@ void CCloak::RefreshListCross()
 	//DebugOut(L"Size: %d \n", listProjectile.size());
 
 }
+
+

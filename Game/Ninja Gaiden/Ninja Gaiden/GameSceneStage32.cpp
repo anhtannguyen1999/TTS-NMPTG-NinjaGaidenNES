@@ -49,6 +49,8 @@ void CGameSceneStage32::Render()
 	for (UINT i = 0; i < listOtherObj.size(); i++)
 		listOtherObj[i]->Render();
 	ninja->Render();
+	effect->Render();
+
 }
 
 bool CGameSceneStage32::GetIsChangingScene()

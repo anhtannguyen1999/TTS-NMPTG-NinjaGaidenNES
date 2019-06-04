@@ -6,8 +6,8 @@ class CGameSceneStage31 :public CGameScene
 {
 	CTileMap *tileMap;
 	CGrid * gridGame;
-	vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
-	vector<CGameObject*> listOtherObj;
+	//vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
+	//vector<CGameObject*> listOtherObj;
 public:
 	CGameSceneStage31();
 	~CGameSceneStage31();

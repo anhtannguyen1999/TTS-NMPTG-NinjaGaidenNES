@@ -28,6 +28,9 @@
     <Filter Include="Enemies">
       <UniqueIdentifier>{5f6c3e22-9072-4dfb-b9d1-cac92a796a41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContainerAndItem">
+      <UniqueIdentifier>{0f2adc63-b764-4114-889b-ba054eab9570}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -120,6 +123,63 @@
     <ClCompile Include="Wall.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="SmallShuriken.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneStage33.cpp">
+      <Filter>QuanLyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBoss.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Butterfly.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsBag.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsBagRed.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="BShurikenItem.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="FireItem.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPot.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Hourglass.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulBlue.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulRed.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="SShurikenItem.cpp">
+      <Filter>ContainerAndItem</Filter>
+    </ClCompile>
+    <ClCompile Include="BigShuriken.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="FiresWeapon.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -211,6 +271,63 @@
     </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallShuriken.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneStage33.h">
+      <Filter>QuanLyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletBoss.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="Butterfly.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsBag.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsBagRed.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="BShurikenItem.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="FireItem.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPot.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="Hourglass.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulBlue.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulRed.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="SShurikenItem.h">
+      <Filter>ContainerAndItem</Filter>
+    </ClInclude>
+    <ClInclude Include="BigShuriken.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FiresWeapon.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,12 +10,12 @@ CNguoiCamKiem::CNguoiCamKiem(int id,int x, int y)
 	this->x = x;
 	this->y = y;
 	this->dame = 1;
-	this->hp = 1;
+	this->hp = 0;
 	this->width = 25;
 	this->height = 34;
 	nx = -1;
-	vy = -0.03f;//-0.02f;
-	vx = -0.05f;
+	vy = -0.03f;//-0.03f;
+	vx = -0.03f;
 	//startX = this->x;
 
 	//Luu diem ban dau
@@ -33,6 +33,8 @@ CNguoiCamKiem::~CNguoiCamKiem()
 
 void CNguoiCamKiem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (hp <= 0)
+		return;
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
 	if (firstY == -1)
@@ -48,12 +50,12 @@ void CNguoiCamKiem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//dy = 0;
 		if (this->x > rootX+1)//Neu nam o bien ben phai thi quay dau di ve ben trai
 		{
-			vx = -0.05f;
+			vx = -0.03f;
 			nx = -1;
 		}
 		else
 		{
-			vx = 0.05f;
+			vx = 0.03f;
 			nx = 1;
 		}
 	}
@@ -62,11 +64,11 @@ void CNguoiCamKiem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (this->x > ninja->x)
 		{
 			this->nx = -1;
-			vx = -0.05f;
+			vx = -0.03f;
 		}
 		else
 		{
-			vx = 0.05f;
+			vx = 0.03f;
 			this->nx = 1;
 		}
 			
@@ -91,10 +93,9 @@ void CNguoiCamKiem::LoadResource()
 
 void CNguoiCamKiem::Render()
 {
-	if (hp > 1)
-	{
-		//Code
-	}
+	if (hp <= 0)
+		return;
+	
 	int ani;
 	if (nx > 0)
 		ani = 0; //right
@@ -105,14 +106,17 @@ void CNguoiCamKiem::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
-	
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 
 void CNguoiCamKiem::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
 	y = this->y;
 	width = this->width;
@@ -127,19 +131,17 @@ void CNguoiCamKiem::SetOnGround(bool onGround)
 
 void CNguoiCamKiem::BeAttack(int satThuong)
 {
-	/*
-	D3DXVECTOR3 pos;
-	pos.x = this->x;
-	pos.y = this->y;
-	pos.z = 0;
-	pos = camera->SetPositionInViewPort(pos);*/
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();	
+}
+
+void CNguoiCamKiem::DeActivate()
+{
 	hp = 0;
 	this->isHit = 0;
 	this->daChamDat = 0;
 	this->onGround = false;
 	this->ResetVeTrangThaiDau();
-	//this->firstY = -1;
-	//CNguoiCamKiem::~CNguoiCamKiem();
 }
 
 void CNguoiCamKiem::SetFirstY(int fY)

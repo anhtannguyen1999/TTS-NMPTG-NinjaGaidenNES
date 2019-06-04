@@ -105,9 +105,9 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 		case ENEMY_MINITYPE_HAWK:
 			return new CHawk(id, x, y);
 		case ENEMY_MINITYPE_BAT:
-			return new CBat(id, x, y);
+			return new CBat(id, x, y,other);
 		case ENEMY_MINITYPE_PANTHER:
-			return new CPanther(id, x, y);
+			return new CPanther(id, x, y,other);
 		case ENEMY_MINITYPE_CLOAK:
 			return new CCloak(id, x, y);
 		case ENEMY_MINITYPE_COMMANDO:
@@ -116,6 +116,12 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 			return new CGunner(id, x, y);
 		case ENEMY_MINITYPE_RUNNER:
 			return new CRunner(id, x, y);
+		case CONTAINER_MINITYPE_BUTTERFLY:
+			return new Butterfly(id, x, y, other);
+		case CONTAINER_MINITYPE_BIRD:
+			return new Bird(id, x, y, other);
+		case ENEMY_MINITYPE_BOSS:
+			return new CBoss(id, x, y);
 		}
 
 		return NULL;
@@ -164,28 +170,70 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 			{
 				if (cells[i][j].at(k)->GetHP() > 0) // còn tồn tại
 				{
-					if(cells[i][j].at(k)->typeObj==TYPE_GROUND)
+					if (cells[i][j].at(k)->typeObj == TYPE_GROUND)
 						listBackgroundObj.push_back(cells[i][j].at(k));
 
-					else if(cells[i][j].at(k)->typeObj == TYPE_WALL)
+					else if (cells[i][j].at(k)->typeObj == TYPE_WALL)
 						listBackgroundObj.push_back(cells[i][j].at(k));
 
-					else if(cells[i][j].at(k)->typeObj == TYPE_ENEMY)
+					else if (cells[i][j].at(k)->typeObj == TYPE_ENEMY)
 						listOtherObj.push_back(cells[i][j].at(k));
 				}
 				else//Neu HP=0
 				{
-					//Neu ninja thuoc vung cach enemy 1/2 camera va ninja di ve phia ben phai thi them no vao
-					if (	((ninja->x > cells[i][j].at(k)->x - CAMERA_WIDTH / 2+15&& ninja->x < cells[i][j].at(k)->x - CAMERA_WIDTH / 2+20) //Khoang ninja so voi obj ben phai
-							|| (ninja->x > cells[i][j].at(k)->x + CAMERA_WIDTH / 2 -25&& ninja->x < cells[i][j].at(k)->x + CAMERA_WIDTH / 2-20))//Khoang ninja so voi obj ben trai
+					if (((ninja->x > cells[i][j].at(k)->x - CAMERA_WIDTH / 2 + 15 && ninja->x < cells[i][j].at(k)->x - CAMERA_WIDTH / 2 + 17) //Khoang ninja so voi obj ben phai
+						|| (ninja->x > cells[i][j].at(k)->x + CAMERA_WIDTH / 2 - 22 && ninja->x < cells[i][j].at(k)->x + CAMERA_WIDTH / 2 - 20))//Khoang ninja so voi obj ben trai
 						)	//&& (ninja->nx >0/*== cells[i][j].at(k)->rootNX*/)) //va nịna di ve ben phai thi active
 					{
-						//cells[i][j].at(k)->ResetVeTrangThaiDau();
-						cells[i][j].at(k)->SetHP(1);
 						if (cells[i][j].at(k)->typeObj == TYPE_ENEMY)
-							listOtherObj.push_back(cells[i][j].at(k));
+						{
+							CEnemy* enemy = dynamic_cast<CEnemy*>(cells[i][j].at(k));
+							if (enemy->GetTypeEnemy() != ENEMY_MINITYPE_PANTHER&&enemy->GetTypeEnemy() != ENEMY_MINITYPE_BAT)
+							{
+								cells[i][j].at(k)->SetHP(1);
+								listOtherObj.push_back(cells[i][j].at(k));
+							}
+							else if (enemy->rootNX > 0 && ninja->x > enemy->x
+								|| enemy->rootNX < 0 && ninja->x < enemy->x)//neu la panther or Bat va ninja nam dung huong root
+							{
+								cells[i][j].at(k)->SetHP(1);
+								listOtherObj.push_back(cells[i][j].at(k));
+							}
+						}
+
 
 					}
 				}
 			}
+	
+	/*
+	//Duyệt và deavtive từng object ở cell trước		
+	for (UINT k = 0; k < cells[bottom][left-1].size(); k++) //Duyệt từng obj trong cell ở trước
+	{
+		if (left - 1< 0)
+			break;
+		if (cells[bottom][left - 1].at(k)->typeObj == TYPE_ENEMY) // nếu là enemy thì hủy nó đi
+		{
+			if (cells[bottom][left - 1].at(k)->GetHP() > 0)
+			{
+				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][left - 1].at(k));
+				enemy->BeAttack(1);
+			}
+		}
+	}
+	//Duyệt và deavtive từng object ở cell sau
+	for (UINT k = 0; k < cells[bottom][right+ 1].size(); k++) 
+	{
+		if (cells[bottom][right + 1].size() <= 0)
+			break;
+		if (cells[bottom][right + 1].at(k)->typeObj == TYPE_ENEMY) // nếu là enemy thì hủy nó đi
+		{
+			if (cells[bottom][right + 1].at(k)->GetHP() > 0)
+			{
+				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][right + 1].at(k));
+				enemy->BeAttack(1);
+			}
+		}
+	}
+	*/
 }

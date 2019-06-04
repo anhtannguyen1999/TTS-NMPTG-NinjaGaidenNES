@@ -2,7 +2,9 @@
 #include "GameObject.h"
 #include "define.h"
 #include "NinjaSword.h"
-
+#include "SmallShuriken.h"
+#include "BigShuriken.h"
+#include "FiresWeapon.h"
 class CNinja : public CGameObject
 {
 	static CNinja *__instance;
@@ -26,17 +28,25 @@ class CNinja : public CGameObject
 	bool onGround = false;
 	int preY = 0;
 
+	int mana = 0;
+	int timeResetHit = 0;
+	int point;//So diem 
 public:
 	static CNinja * GetInstance();
 	CNinjaSword *ninjaSword=CNinjaSword::GetInstance();
+	CWeapon *specialWeapon=NULL;
 	CNinja() : CGameObject()
 	{
 		this->LoadResource();
-		this->x = 2000;
-		this->y = 100;
+		this->x = 10;
+		this->y = 200;
 		this->hp = 20;
 		this->id = 0;
+		this->mana = 1000;
+		this->point = 0;
 		//ninjaSword = new CNinjaSword();
+		//SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
+
 	}
 	~CNinja();
 	void LoadResource();
@@ -63,7 +73,9 @@ public:
 	float GetPositionX();
 	void BeAttacked(int dame,int xObj);
 	void CongHP(int luongHP);
-	
+	void CongMana(int luongMana);
+	void CongDiem(int luongPoint);
+	void SetSpecialWeapon(int minitype);
 };
 
 

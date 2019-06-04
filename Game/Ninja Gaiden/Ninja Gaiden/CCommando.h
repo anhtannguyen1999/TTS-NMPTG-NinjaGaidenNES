@@ -11,7 +11,7 @@ class CCommando :public CEnemy
 	//int startX;
 	int timer = 0;
 	int firstY = -1; //Diem Y cham dat
-
+	CNinja *ninja = CNinja::GetInstance();
 public:
 	vector<CGameObject*> listProjectile;
 
@@ -26,6 +26,8 @@ public:
 	void SetOnGround(bool onGround) { this->onGround = onGround; if (onGround&&daChamDat<10) daChamDat++; }
 	virtual void BeAttack(int satThuong);
 	void RefreshListBullet();
+	virtual void DeActivate();
+
 };
 
 

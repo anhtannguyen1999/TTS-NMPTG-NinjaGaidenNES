@@ -28,6 +28,8 @@ public:
 	virtual void BeAttack(int satThuong);
 	void ClearListCross();
 	void RefreshListCross();
+	virtual void DeActivate();
+
 };
 
 

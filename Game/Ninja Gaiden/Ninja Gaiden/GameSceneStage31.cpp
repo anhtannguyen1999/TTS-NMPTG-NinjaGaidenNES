@@ -23,6 +23,7 @@ CGameSceneStage31::~CGameSceneStage31()
 
 void CGameSceneStage31::Update(DWORD dt)
 {
+	CGameScene::Update(dt);
 	gridGame->GetListObject(listBackgroundObj,listOtherObj, camera); // lấy hết các object "còn Alive" trong vùng camera;
 	
 	ninja->Update(dt);
@@ -51,6 +52,7 @@ void CGameSceneStage31::Render()
 	for (UINT i = 0; i < listOtherObj.size(); i++) 
 		listOtherObj[i]->Render();
 	ninja->Render();
+	effect->Render();
 }
 
 bool CGameSceneStage31::GetIsChangingScene()
@@ -210,6 +212,7 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 					if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
 					{
 						ninja->BeAttacked(hawk->GetDame(), gameObj->x);
+						
 					}
 				}
 			}
@@ -321,7 +324,232 @@ void CGameSceneStage31::CheckCollisionNinjaWidthEnemy()
 					}
 				}
 			}
+			else if (enemy->GetTypeEnemy() == CONTAINER_MINITYPE_BUTTERFLY)
+			{
+				Butterfly* container = dynamic_cast<Butterfly*>(gameObj);
+				if (container) //c != nullptr //downcast thành công
+				{
+					unsigned short int collisionCheck;
+					if (container->item)
+					{
+						//Item* item = dynamic_cast<Item*>(container->item);
+						switch (container->GetItemType())
+						{
+							case ITEM_MINITYPE_BAGBLUE:
+							{
+								PointsBag* PBagBlue = dynamic_cast<PointsBag*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(PBagBlue);
+								break;
+							}
+							case ITEM_MINITYPE_BAGRED:
+							{
+								PointsBagRed* PBagRed = dynamic_cast<PointsBagRed*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(PBagRed);
+								break;
+							}
+							case ITEM_MINITYPE_SOULBLUE:
+							{
+								SoulBlue* SBlue = dynamic_cast<SoulBlue*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(SBlue);
+								break;
+							}
+							case ITEM_MINITYPE_SOULRED:
+							{
+								SoulRed* SRed = dynamic_cast<SoulRed*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(SRed);
+								break;
+								
+							}
+							case ITEM_MINITYPE_SMALLSHURIKEN:
+							{
+								SShurikenItem* SShurikenI = dynamic_cast<SShurikenItem*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(SShurikenI);
+								break;
+							}
+							case ITEM_MINITYPE_BIGSHURIKEN:
+							{
+								BShurikenItem* BShurikenI= dynamic_cast<BShurikenItem*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(BShurikenI);
+								break;
+							}
+							case ITEM_MINITYPE_FIREITEM:
+							{
+								FireItem* FireI = dynamic_cast<FireItem*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(FireI);
+								if (collisionCheck != OBJ_NO_COLLISION)
+								{
+									ninja->SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
+								}
+								break;
+								break;
+							}
+							case ITEM_MINITYPE_HEALTHPOT:
+							{
+								HealthPot* HPot = dynamic_cast<HealthPot*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(HPot);
+								break;
+							}
+							case ITEM_MINITYPE_HOURGLASS:
+							{
+								Hourglass* HGlass = dynamic_cast<Hourglass*>(container->item);
+								collisionCheck = ninja->isCollitionObjectWithObject(HGlass);
+								break;
+							}
+							
+						}
+						
+						
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							//DebugOut(L"Cham Item pointBag\n");
+							//Cong mau cho ninja
+							//Huy 
+							container->~Butterfly();
+							SAFE_DELETE(container);
+							gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 
+						}
+						else //Neu khong va cham thi xem no co bi danh rot item va nam ngoai khong 
+						{
+							if (container->isItemNamNgoaiCamera())
+							{
+								container->~Butterfly();
+								SAFE_DELETE(container);
+								gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+							}
+						}
+					}
+				}
+			}
+			else if (enemy->GetTypeEnemy() == CONTAINER_MINITYPE_BIRD)
+			{
+				Bird* container = dynamic_cast<Bird*>(gameObj);
+				if (container) //c != nullptr //downcast thành công
+				{
+					unsigned short int collisionCheck;
+					if (container->item)
+					{
+						//Item* item = dynamic_cast<Item*>(container->item);
+						switch (container->GetItemType())
+						{
+						case ITEM_MINITYPE_BAGBLUE:
+						{
+							PointsBag* PBagBlue = dynamic_cast<PointsBag*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(PBagBlue);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongDiem(PBagBlue->GetSoDiem());
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BAGRED:
+						{
+							PointsBagRed* PBagRed = dynamic_cast<PointsBagRed*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(PBagRed);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongDiem(PBagRed->GetSoDiem());
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULBLUE:
+						{
+							SoulBlue* SBlue = dynamic_cast<SoulBlue*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(SBlue);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongMana(SBlue->GetLuongMana());
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULRED:
+						{
+							SoulRed* SRed = dynamic_cast<SoulRed*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(SRed);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongMana(SRed->GetLuongMana());
+							}
+							break;
+
+						}
+						case ITEM_MINITYPE_SMALLSHURIKEN:
+						{
+							SShurikenItem* SShurikenI = dynamic_cast<SShurikenItem*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(SShurikenI);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->SetSpecialWeapon(WEAPON_MINITYPE_SMALL_SHURIKEN);
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BIGSHURIKEN:
+						{
+							BShurikenItem* BShurikenI = dynamic_cast<BShurikenItem*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(BShurikenI);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->SetSpecialWeapon(WEAPON_MINITYPE_BIG_SHURIKEN);
+							}
+							break;
+						}
+						case ITEM_MINITYPE_FIREITEM:
+						{
+							FireItem* FireI = dynamic_cast<FireItem*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(FireI);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HEALTHPOT:
+						{
+							HealthPot* HPot = dynamic_cast<HealthPot*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(HPot);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongHP(HPot->GetSoHP());
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HOURGLASS:
+						{
+							Hourglass* HGlass = dynamic_cast<Hourglass*>(container->item);
+							collisionCheck = ninja->isCollitionObjectWithObject(HGlass);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								this->pauseEnemyTimer = 500;
+								
+							}
+							break;
+						}
+
+						}
+
+
+						if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
+						{
+							//DebugOut(L"Cham Item pointBag\n");
+							//Cong mau cho ninja
+							//Huy 
+							container->~Bird();
+							SAFE_DELETE(container);
+							gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+
+						}
+						else //Neu khong va cham thi xem no co bi danh rot item va nam ngoai khong 
+						{
+							if (container->isItemNamNgoaiCamera())
+							{
+								container->~Bird();
+								SAFE_DELETE(container);
+								gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+							}
+						}
+					}
+				}
+			}
 
 
 		}
@@ -361,7 +589,6 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 								grounded = true;
 							}
 						}
-
 					}
 					
 					if (grounded)
@@ -446,6 +673,34 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 							//Sau nay xet neu khong phai la boss nua
 							ninja->ninjaSword->DanhChetEnemy();
 						}
+						else if(ninja->specialWeapon)
+						{
+							if (ninja->specialWeapon->GetMiniTypeWeapon() == WEAPON_MINITYPE_FIRES&&ninja->specialWeapon->GetActive())
+							{
+								CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(ninja->specialWeapon);
+								if (cross->isCollitionObjectWithObject(fires->listFires[2]))
+								{
+									cross->BeAttack(1);
+									fires->listFires[2]->DanhChetEnemy();
+								}
+								else if (cross->isCollitionObjectWithObject(fires->listFires[1]))
+								{
+									cross->BeAttack(1);
+									fires->listFires[1]->DanhChetEnemy();
+								}
+								else if (cross->isCollitionObjectWithObject(fires->listFires[0]))
+								{
+									cross->BeAttack(1);
+									fires->listFires[0]->DanhChetEnemy();
+								}
+							}
+							else if (ninja->specialWeapon->GetActive() && cross->isCollitionObjectWithObject(ninja->specialWeapon))
+							{
+								cross->BeAttack(1);
+								//Sau nay xet neu khong phai la boss nua
+								ninja->specialWeapon->DanhChetEnemy();
+							}
+						}
 					}
 				}
 			}
@@ -484,6 +739,34 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 							BCom->BeAttack(1);
 							ninja->ninjaSword->DanhChetEnemy();
 						}
+						else if (ninja->specialWeapon)
+						{
+							if (ninja->specialWeapon->GetMiniTypeWeapon() == WEAPON_MINITYPE_FIRES&&ninja->specialWeapon->GetActive())
+							{
+								CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(ninja->specialWeapon);
+								if (BCom->isCollitionObjectWithObject(fires->listFires[2]))
+								{
+									BCom->BeAttack(1);
+									fires->listFires[2]->DanhChetEnemy();
+								}
+								else if (BCom->isCollitionObjectWithObject(fires->listFires[1]))
+								{
+									BCom->BeAttack(1);
+									fires->listFires[1]->DanhChetEnemy();
+								}
+								else if (BCom->isCollitionObjectWithObject(fires->listFires[0]))
+								{
+									BCom->BeAttack(1);
+									fires->listFires[0]->DanhChetEnemy();
+								}
+							}
+							else if (ninja->specialWeapon->GetActive() && BCom->isCollitionObjectWithObject(ninja->specialWeapon))
+							{
+								BCom->BeAttack(1);
+								ninja->specialWeapon->DanhChetEnemy();
+							}
+						}
+
 					}
 				}
 			}
@@ -502,6 +785,33 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 						{
 							BGun->BeAttack(1);
 							ninja->ninjaSword->DanhChetEnemy();
+						}
+						else if (ninja->specialWeapon)
+						{
+							if (ninja->specialWeapon->GetMiniTypeWeapon() == WEAPON_MINITYPE_FIRES&&ninja->specialWeapon->GetActive())
+							{
+								CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(ninja->specialWeapon);
+								if (BGun->isCollitionObjectWithObject(fires->listFires[2]))
+								{
+									BGun->BeAttack(1);
+									fires->listFires[2]->DanhChetEnemy();
+								}
+								else if (BGun->isCollitionObjectWithObject(fires->listFires[1]))
+								{
+									BGun->BeAttack(1);
+									fires->listFires[1]->DanhChetEnemy();
+								}
+								else if (BGun->isCollitionObjectWithObject(fires->listFires[0]))
+								{
+									BGun->BeAttack(1);
+									fires->listFires[0]->DanhChetEnemy();
+								}
+							}
+							else if (ninja->specialWeapon->GetActive() && BGun->isCollitionObjectWithObject(ninja->specialWeapon))
+							{
+								BGun->BeAttack(1);
+								ninja->specialWeapon->DanhChetEnemy();
+							}
 						}
 					}
 				}
@@ -534,6 +844,431 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 				//else {}
 				//SAFE_DELETE(nguoiCamKiem);
 			}
+			else if (enemy->GetTypeEnemy() == CONTAINER_MINITYPE_BUTTERFLY)
+			{
+				Butterfly* container = dynamic_cast<Butterfly*>(gameObj);
+				if (container) //c != nullptr //downcast thành công
+				{
+					//unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+					
+					if (container->item)
+					{
+						switch (container->GetItemType())
+						{
+						case ITEM_MINITYPE_BAGBLUE:
+						{
+							PointsBag* PBagBlue = dynamic_cast<PointsBag*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = PBagBlue->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											PBagBlue->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BAGRED:
+						{
+							PointsBagRed* PBagRed = dynamic_cast<PointsBagRed*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = PBagRed->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											PBagRed->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULBLUE:
+						{
+							SoulBlue* SBlue = dynamic_cast<SoulBlue*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SBlue->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SBlue->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULRED:
+						{
+							SoulRed* SRed = dynamic_cast<SoulRed*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SRed->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SRed->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SMALLSHURIKEN:
+						{
+							SShurikenItem* SShurikenI = dynamic_cast<SShurikenItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SShurikenI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SShurikenI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BIGSHURIKEN:
+						{
+							BShurikenItem* BShurikenI = dynamic_cast<BShurikenItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = BShurikenI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											BShurikenI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_FIREITEM:
+						{
+							FireItem* FireI = dynamic_cast<FireItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = FireI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											FireI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HEALTHPOT:
+						{
+							HealthPot* HPot = dynamic_cast<HealthPot*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = HPot->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											HPot->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HOURGLASS:
+						{
+							Hourglass* HGlass = dynamic_cast<Hourglass*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = HGlass->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											HGlass->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						}
+
+
+						//PointsBag* BCom = dynamic_cast<PointsBag*>(container->item);
+						//Commando->RefreshListBullet();
+						
+					}
+					
+				}
+				//else
+
+
+
+			}
+			else if (enemy->GetTypeEnemy() == CONTAINER_MINITYPE_BIRD)
+			{
+				Bird* container = dynamic_cast<Bird*>(gameObj);
+				if (container) //c != nullptr //downcast thành công
+				{
+					//unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
+
+					if (container->item)
+					{
+						switch (container->GetItemType())
+						{
+						case ITEM_MINITYPE_BAGBLUE:
+						{
+							PointsBag* PBagBlue = dynamic_cast<PointsBag*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = PBagBlue->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											PBagBlue->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BAGRED:
+						{
+							PointsBagRed* PBagRed = dynamic_cast<PointsBagRed*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = PBagRed->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											PBagRed->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULBLUE:
+						{
+							SoulBlue* SBlue = dynamic_cast<SoulBlue*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SBlue->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SBlue->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SOULRED:
+						{
+							SoulRed* SRed = dynamic_cast<SoulRed*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SRed->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SRed->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_SMALLSHURIKEN:
+						{
+							SShurikenItem* SShurikenI = dynamic_cast<SShurikenItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = SShurikenI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											SShurikenI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_BIGSHURIKEN:
+						{
+							BShurikenItem* BShurikenI = dynamic_cast<BShurikenItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = BShurikenI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											BShurikenI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_FIREITEM:
+						{
+							FireItem* FireI = dynamic_cast<FireItem*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = FireI->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											FireI->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HEALTHPOT:
+						{
+							HealthPot* HPot = dynamic_cast<HealthPot*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = HPot->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											HPot->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						case ITEM_MINITYPE_HOURGLASS:
+						{
+							Hourglass* HGlass = dynamic_cast<Hourglass*>(container->item);
+							for (UINT i = 0; i < listBackgroundObj.size(); i++)
+							{
+								CGameObject * gameObj = listBackgroundObj[i];
+								if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+								{
+									unsigned short int collisionCheck = HGlass->isCollitionObjectWithObject(gameObj);
+									if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
+									{
+										if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
+										{
+											HGlass->SetOnGround(true);
+											//DebugOut(L"Got here");
+										}
+									}
+								}
+							}
+							break;
+						}
+						}
+
+
+						//PointsBag* BCom = dynamic_cast<PointsBag*>(container->item);
+						//Commando->RefreshListBullet();
+
+					}
+
+				}
+				//else
+			}
 
 			//else
 
@@ -555,6 +1290,43 @@ void CGameSceneStage31::CheckCollisionEnemyWithGroundAndVuKhi()
 
 				//Sau nay xet neu khong phai la boss nua
 				ninja->ninjaSword->DanhChetEnemy();
+			}
+			else if (ninja->specialWeapon)
+			{
+				if (ninja->specialWeapon->GetMiniTypeWeapon() == WEAPON_MINITYPE_FIRES&&ninja->specialWeapon->GetActive())
+				{
+					CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(ninja->specialWeapon);
+					if (enemy->isCollitionObjectWithObject(fires->listFires[2]))
+					{
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						enemy->BeAttack(1);
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						fires->listFires[2]->DanhChetEnemy();
+					}
+					else if (enemy->isCollitionObjectWithObject(fires->listFires[1]))
+					{
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						enemy->BeAttack(1);
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						fires->listFires[1]->DanhChetEnemy();
+					}
+					else if (enemy->isCollitionObjectWithObject(fires->listFires[0]))
+					{
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						enemy->BeAttack(1);
+						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+						fires->listFires[0]->DanhChetEnemy();
+					}
+				}
+				else if (ninja->specialWeapon->GetActive() && enemy->isCollitionObjectWithObject(ninja->specialWeapon))
+				{
+					gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+					enemy->BeAttack(1);
+					gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
+
+					//Sau nay xet neu khong phai la boss nua
+					ninja->specialWeapon->DanhChetEnemy();
+				}
 			}
 			
 

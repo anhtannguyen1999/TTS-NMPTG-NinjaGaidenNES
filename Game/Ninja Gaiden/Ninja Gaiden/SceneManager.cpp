@@ -1,4 +1,5 @@
 ﻿#include "SceneManager.h"
+#include "Ninja.h"
 
 
 CSceneManager * CSceneManager::__instance = NULL;
@@ -19,15 +20,25 @@ CSceneManager::~CSceneManager()
 
 void CSceneManager::LoadScene(int sceneID)
 {
+	ninja = CNinja::GetInstance();
 	switch (sceneID)
 	{
 	case GAME_STAGE_31:
 		delete(gameScene);
+		
 		gameScene = new CGameSceneStage31();
+		//ninja->SetPositionX(2000);
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
+		//ninja->SetPositionX(3000);
+		ninja->SetPositionY(200);
+		break;
+	case GAME_STAGE_33:
+		delete(gameScene);
+		gameScene = new CGameSceneStage33();
+		ninja->SetPositionY(200);
 		break;
 	default:
 		break;
@@ -41,6 +52,18 @@ void CSceneManager::Render()
 
 void CSceneManager::Update(DWORD dt)
 {
+	if (ninja)
+	{
+		if (sceneID == GAME_STAGE_31&& ninja->GetPositionX() >= 2020)
+		{
+			this->NextScene();
+		}
+		if (sceneID == GAME_STAGE_32&& ninja->GetPositionX() >= 3040)
+		{
+			this->NextScene();
+		}
+	}
+	
 	gameScene->Update(dt);
 
 }
@@ -238,13 +261,13 @@ void CSceneManager::LoadResouceForNinja()
 	ani->Add(157);
 	animations->Add(111, ani);
 
-	ani = new CAnimation(70);	// throw right
+	ani = new CAnimation(25);	// throw right
 	ani->Add(160);
 	ani->Add(161);
 	ani->Add(162);
 	animations->Add(112, ani);
 
-	ani = new CAnimation(70);	// throw left
+	ani = new CAnimation(25);	// throw left
 	ani->Add(163);
 	ani->Add(164);
 	ani->Add(165);
@@ -319,13 +342,13 @@ void CSceneManager::LoadResourceForEnemies()
 	sprites->Add(204, 212 + 30, 50, 241 + 30, 93, texEnemy, zero, zero, scaleNguoc, 0);
 	sprites->Add(205, 212 + 60 + 8, 50, 300, 93, texEnemy, zero, zero, scaleNguoc, 0);
 
-	ani = new CAnimation(100);	// merc right
+	ani = new CAnimation(300);	// merc right
 	ani->Add(200);
 	ani->Add(201);
 	ani->Add(202);
 	animations->Add(200, ani);
 
-	ani = new CAnimation(100);//merc left
+	ani = new CAnimation(300);//merc left
 	ani->Add(203);
 	ani->Add(204);
 	ani->Add(205);
@@ -349,6 +372,7 @@ void CSceneManager::LoadResourceForEnemies()
 	ani->Add(243);
 	animations->Add(209, ani);
 	#pragma endregion
+
 	#pragma region Load resource cho Enemy Bat
 	sprites->Add(250, 323, 57, 343, 73, texEnemy, zero, zero, zero, 0);		// bat right
 	sprites->Add(251, 345, 57, 365, 73, texEnemy, zero, zero, zero, 0);
@@ -528,6 +552,40 @@ void CSceneManager::LoadResourceForEnemies()
 	animations->Add(207, ani);
 	#pragma endregion
 
+
+	#pragma region Load resource cho Boss
+
+	sprites->Add(290, 352, 252, 388, 302, texEnemy, zero, zero, zero, 0); //boss right
+	sprites->Add(291, 352, 252, 388, 302, texEnemy, zero, zero, scaleNguoc, 0); //boss left
+
+	sprites->Add(292, 397, 246, 436, 300, texEnemy, zero, zero, zero, 0); // boss fly right
+	sprites->Add(293, 397, 246, 436, 300, texEnemy, zero, zero, scaleNguoc, 0); //boss fly left
+	ani = new CAnimation(100); //boss right
+	ani->Add(290);
+	animations->Add(218, ani);
+
+	ani = new CAnimation(100); // boss left
+	ani->Add(291);
+	animations->Add(219, ani);
+
+	ani = new CAnimation(100); //boss fly right
+	ani->Add(292);
+	animations->Add(220, ani);
+
+	ani = new CAnimation(100); //boss fly left
+	ani->Add(293);
+	animations->Add(221, ani);
+
+#pragma endregion
+
+	#pragma region Load resource cho Bullet boss
+	sprites->Add(300, 433, 270, 450, 280, texEnemy, zero, zero, zero, 0);//bullet boss
+
+	ani = new CAnimation(100); //bullet boss
+	ani->Add(300);
+	animations->Add(230, ani);
+	#pragma endregion
+
 }
 
 void CSceneManager::LoadOtherResource()
@@ -546,15 +604,108 @@ void CSceneManager::LoadOtherResource()
 	textures->Add(ID_TEX_CONTAINERANDEFFECT, L"textures\\ContainerAndEffectTex.png", D3DCOLOR_XRGB(255, 163, 177));
 	//hieu ung no khi danh
 	LPDIRECT3DTEXTURE9 effectTex = textures->Get(ID_TEX_CONTAINERANDEFFECT);
-	sprites->Add(301, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(0.9f, 0.8f), 0);
-	sprites->Add(303, 317, 1, 349, 41, effectTex, zero, zero, zero, 0);
-	sprites->Add(304, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.2f, 1), 0);
-	sprites->Add(302, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.4f, 1.2f), 0);
-
+	sprites->Add(301, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(0.9f, 0.8f), 0);//0.9 0.8
+	sprites->Add(303, 317, 1, 349, 41, effectTex, zero, zero, zero, 0); // zero
+	//sprites->Add(304, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.2f, 1), 0);// 1.2 1
+	sprites->Add(302, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.4f, 1.2f), 0);// 1.4 1.2
 
 	ani = new CAnimation(25); //hieu ung no khi danh
-	ani->Add(301);
 	ani->Add(302);
+	ani->Add(301);
 	ani->Add(303);
 	animations->Add(301, ani);
+
+	#pragma region Container and Item
+
+	sprites->Add(310, 79, 50, 96, 70, effectTex, zero, zero, zero, 0);// butterfly 
+	sprites->Add(311, 96, 50, 114, 70, effectTex, zero, zero, zero, 0);
+
+	sprites->Add(312, 114, 50, 135, 70, effectTex, zero, zero, zero, 0);// bird 
+	sprites->Add(313, 136, 50, 157, 70, effectTex, zero, zero, zero, 0);
+
+	sprites->Add(320, 169, 8, 189, 26, effectTex, zero, zero, zero, 0);// bag 1
+
+	sprites->Add(321, 189, 8, 209, 26, effectTex, zero, zero, zero, 0);//bag 2
+
+	sprites->Add(322, 0, 8, 20, 26, effectTex, zero, zero, zero, 0);// soul 1
+
+	sprites->Add(323, 20, 8, 40, 26, effectTex, zero, zero, zero, 0);// soul 2
+
+	//Tan
+	sprites->Add(324, 46, 8, 66, 26, effectTex, zero, zero, zero, 0);// small shuriken item
+
+	sprites->Add(325, 66, 8, 86, 26, effectTex, zero, zero, zero, 0);// big shuriken item
+
+	sprites->Add(326, 106, 8, 126, 26, effectTex, zero, zero, zero, 0);// fire item
+
+	sprites->Add(327, 227, 8, 243, 26, effectTex, zero, zero, zero, 0);// Health pot
+
+	sprites->Add(328, 243, 8, 262, 26, effectTex, zero, zero, zero, 0);// Hour glass
+
+	sprites->Add(329, 263, 13, 273, 23, effectTex, zero, zero, zero, 0);// small shuriken
+
+	sprites->Add(330, 274, 6, 295, 25, effectTex, zero, zero, zero, 0);// big shuriken
+
+	sprites->Add(331, 296, 7, 309, 25, effectTex, zero, zero, zero, 0);// fire 
+
+	ani = new CAnimation(50);//butterfly
+	ani->Add(310);
+	ani->Add(311);
+	animations->Add(310, ani);
+
+	ani = new CAnimation(50);//bird
+	ani->Add(312);
+	ani->Add(313);
+	animations->Add(311, ani);
+
+	ani = new CAnimation(100);//Bag 1
+	ani->Add(320);
+	animations->Add(320, ani);
+
+	ani = new CAnimation(100);//Bag 2
+	ani->Add(321);
+	animations->Add(321, ani);
+
+	ani = new CAnimation(100);//soul 1
+	ani->Add(322);
+	animations->Add(322, ani);
+
+	ani = new CAnimation(100);//soul 2
+	ani->Add(323);
+	animations->Add(323, ani);
+
+	ani = new CAnimation(100);//small shuriken item
+	ani->Add(324);
+	animations->Add(324, ani);
+
+	ani = new CAnimation(100);//big shuriken item
+	ani->Add(325);
+	animations->Add(325, ani);
+
+	ani = new CAnimation(100);//fire item
+	ani->Add(326);
+	animations->Add(326, ani);
+
+	ani = new CAnimation(100);//health pot
+	ani->Add(327);
+	animations->Add(327, ani);
+
+	ani = new CAnimation(100);//hour glass
+	ani->Add(328);
+	animations->Add(328, ani);
+
+	ani = new CAnimation(100);//small shuriken
+	ani->Add(329);
+	animations->Add(329, ani);
+
+	ani = new CAnimation(100);//big shuriken
+	ani->Add(330);
+	animations->Add(330, ani);
+
+	ani = new CAnimation(100);//fire
+	ani->Add(331);
+	animations->Add(331, ani);
+
+	#pragma endregion
+
 }

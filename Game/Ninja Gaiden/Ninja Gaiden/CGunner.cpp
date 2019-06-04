@@ -30,18 +30,24 @@ CGunner::~CGunner()
 
 void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CNinja *ninja = CNinja::GetInstance();
+	if (hp <= 0)
+		return;
+	
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
 	/*if (daChamDat==0)
 		y += dy;*/
-	if (ninja->GetPositionX() - this->x >= 0)
+	//huong ve ninja
+	if (!isPause)
 	{
-		nx = 1;
+		if (ninja->GetPositionX() - this->x >= 0)
+		{
+			nx = 1;
+		}
+		else nx = -1;
+
+		timer++;
 	}
-	else nx = -1;
-	//ban dan
-	timer++;
 	if (timer >= 150)
 	{
 		timer = 0;
@@ -79,6 +85,8 @@ void CGunner::LoadResource()
 
 void CGunner::Render()
 {
+	if (hp <= 0)
+		return;
 	//Render dan
 	for (UINT i = 0; i < listProjectile.size(); i++)
 	{
@@ -117,6 +125,8 @@ void CGunner::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
 	this->RenderBoundingBox();
@@ -124,6 +134,8 @@ void CGunner::Render()
 
 void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
 	y = this->y;
 	width = this->width;
@@ -132,6 +144,12 @@ void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height
 
 void CGunner::BeAttack(int satThuong)
 {
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CGunner::DeActivate()
+{
 	hp = 0;
 	for (UINT i = 0; i < listProjectile.size(); i++)
 	{
@@ -139,8 +157,8 @@ void CGunner::BeAttack(int satThuong)
 	}
 	listProjectile.clear();
 	ResetVeTrangThaiDau();
-	//CGunner::~CGunner();
 }
+
 void CGunner::RefreshListBullet()
 {
 	int i = 0;
@@ -153,3 +171,5 @@ void CGunner::RefreshListBullet()
 		i++;
 	}
 }
+
+

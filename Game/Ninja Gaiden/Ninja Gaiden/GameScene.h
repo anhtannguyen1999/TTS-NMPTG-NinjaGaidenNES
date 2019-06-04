@@ -3,18 +3,23 @@
 #include "Grid.h"
 #include "Ninja.h"
 #include "NinjaSword.h"
+#include "Effect.h"
 
 static int score;
 class CGameScene
 {
 protected:
 	std::vector<CGameObject*> *listObject;
+	vector<CGameObject*> listBackgroundObj;//Luu may cai nhu ground, wall...
+	vector<CGameObject*> listOtherObj;
 	CCamera *camera = CCamera::GetInstance();
 	bool isChangingScene;
 	bool canUseKeyboard;
 	//static CNinja* ninja;
 	CNinja*ninja = CNinja::GetInstance();
 	D3DXVECTOR3 ninjaCheckpoint;
+	CEffect *effect = CEffect::GetInstance();
+	int pauseEnemyTimer = 0; 
 public:
 	CGameScene();
 	~CGameScene();

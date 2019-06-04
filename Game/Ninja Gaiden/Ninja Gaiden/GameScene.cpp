@@ -14,6 +14,41 @@ CGameScene::~CGameScene()
 
 void CGameScene::Update(DWORD dt)
 {
+	if (pauseEnemyTimer)
+	{
+		pauseEnemyTimer--;
+		
+		for (UINT j = 0; j < listOtherObj.size(); j++)
+		{
+			//CGameObject * obj = listOtherObj[j];
+			if (listOtherObj[j]->GetType() == TYPE_ENEMY)
+			{
+				CEnemy*ene = dynamic_cast<CEnemy*>(listOtherObj[j]);
+				if (ene->GetTypeEnemy() != CONTAINER_MINITYPE_BUTTERFLY&&ene->GetTypeEnemy() != CONTAINER_MINITYPE_BIRD)
+				{
+					
+						ene->SetIsPause(true);
+				}
+			}
+
+		}
+	}
+	else
+	{
+		for (UINT j = 0; j < listOtherObj.size(); j++)
+		{
+			//CGameObject * obj = listOtherObj[j];
+			if (listOtherObj[j]->GetType() == TYPE_ENEMY)
+			{
+				CEnemy*ene = dynamic_cast<CEnemy*>(listOtherObj[j]);
+				if (ene->GetTypeEnemy() != CONTAINER_MINITYPE_BUTTERFLY&&ene->GetTypeEnemy() != CONTAINER_MINITYPE_BIRD)
+				{
+					ene->SetIsPause(false);
+				}
+			}
+
+		}
+	}
 	//Xet de xoa toan bo enemy de load enemy man khac
 }
 

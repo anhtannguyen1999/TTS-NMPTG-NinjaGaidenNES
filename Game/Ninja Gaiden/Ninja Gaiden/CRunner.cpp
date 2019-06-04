@@ -32,6 +32,8 @@ CRunner::~CRunner()
 
 void CRunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (hp <= 0)
+		return;
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
 	
@@ -44,24 +46,6 @@ void CRunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (this->firstY != -1&&onGround)//Neu da cai dat firstY
 		this->y = this->firstY;
 	
-
-	//if (!onGround&&firstY != -1)//neu no di ra ngoai cai bien cua no thi quay dau
-	//{
-	//	//dy = 0;
-	//	if (this->x > rootX + 1)//Neu nam o bien ben phai thi quay dau di ve ben trai
-	//	{
-	//		vx = -0.1f;
-	//		nx = -1;
-
-	//	}
-	//	else
-	//	{
-	//		vx = 0.1f;
-	//		nx = 1;
-
-	//	}
-	//}
-
 	if (daChamDat<9 && daChamDat != 0) //Neu vua cham dat thi tim thang ninja
 	{
 		if (this->x > ninja->x)
@@ -100,6 +84,8 @@ void CRunner::LoadResource()
 
 void CRunner::Render()
 {
+	if (hp <= 0)
+		return;
 	int ani;
 	if (nx > 0)
 		ani = 0; //right
@@ -110,6 +96,8 @@ void CRunner::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	this->RenderBoundingBox();
 }
@@ -117,6 +105,8 @@ void CRunner::Render()
 
 void CRunner::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
 	y = this->y;
 	width = this->width;
@@ -124,6 +114,12 @@ void CRunner::GetBoundingBox(float & x, float & y, float & width, float & height
 }
 
 void CRunner::BeAttack(int satThuong)
+{
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CRunner::DeActivate()
 {
 	hp = 0;
 	ResetVeTrangThaiDau();

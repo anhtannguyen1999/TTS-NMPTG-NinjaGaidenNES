@@ -96,15 +96,15 @@ public:
 	//Xét xem cái này có va chạm với vật thể khác k
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void SweptAABB(float ml, float mt, float mr, float mb, float dx, float dy, float sl, float st, float sr, float sb, float & t, float & nx, float & ny);
-	void FilterCollision(
-		vector<LPCOLLISIONEVENT> &coEvents,
-		vector<LPCOLLISIONEVENT> &coEventsResult,
-		float &min_tx,
-		float &min_ty,
-		float &nx,
-		float &ny);
-	//Tính toán khả năng va chạm và trả ra mảng coEvent
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	//void FilterCollision(
+	//	vector<LPCOLLISIONEVENT> &coEvents,
+	//	vector<LPCOLLISIONEVENT> &coEventsResult,
+	//	float &min_tx,
+	//	float &min_ty,
+	//	float &nx,
+	//	float &ny);
+	////Tính toán khả năng va chạm và trả ra mảng coEvent
+	//void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void RenderBoundingBox(int alpha=70);
 	virtual void GetBoundingBox(float &x, float &y, float &width, float &height)=0;
 	unsigned short int isCollitionObjectWithObject(CGameObject * obj);// kiểm tra bằng AABB và Sweept AABB

@@ -9,10 +9,10 @@ CHawk::CHawk(int id, int x, int y)
 	this->x = x;
 	this->y = y;
 	this->dame = 3;
-	this->hp = 1;
+	this->hp = 0;
 	this->width = 20;
-	this->height = 20;
-	nx = -1; //ben trai
+	this->height = 15;
+	nx = rootNX; 
 	vy = -0.026f;
 	vx =-0.05f;
 	//startX = this->x;
@@ -42,11 +42,16 @@ void CHawk::LoadResource()
 
 void CHawk::Render()
 {
+	if (hp <= 0)
+		return;
 	int ani;
-	if (this->x-ninja->x > 0)//Neu nam ben phai ninja
-		nx = -1;
-	else if(this->x- ninja->x <0) //Neu nam ben trai ninja
-		nx = 1;
+	if (!isPause)
+	{
+		if (this->x - ninja->x > 0)//Neu nam ben phai ninja
+			nx = -1;
+		else if (this->x - ninja->x < 0) //Neu nam ben trai ninja
+			nx = 1;
+	}
 	if (nx > 0) //quay mat ben phai
 		ani = 0; //right
 	else
@@ -56,6 +61,8 @@ void CHawk::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	this->RenderBoundingBox(170);
 }
@@ -63,6 +70,10 @@ void CHawk::Render()
 void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
+	if (hp <= 0)
+		return;
+	CGameObject::Update(dt);
+	CEnemy::Update(dt);
 	if (vuaKhoiTao)
 	{
 		vuaKhoiTao = false;
@@ -74,8 +85,7 @@ void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y = rootY;
 	}
 	this->GiaoDongQuanhNinja();
-	CGameObject::Update(dt);
-	CEnemy::Update(dt);
+	
 
 	
 	
@@ -83,21 +93,30 @@ void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 	
 	//DebugOut(L"Hawk\n");
-	if (hp <= 0)
+	/*if (hp <= 0)
 	{
 		this->BeAttack(1);
-	}
+	}*/
 }
 
 void CHawk::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
-	y = this->y-6;
+	y = this->y-10;
 	width = this->width;
 	height = this->height;
 }
 
 void CHawk::BeAttack(int satThuong)
+{
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+	
+}
+
+void CHawk::DeActivate()
 {
 	hp = 0;
 	bienDoX = 100;
@@ -108,7 +127,7 @@ void CHawk::BeAttack(int satThuong)
 	moveDown = true;
 	//moveLeft = true;
 	//CHawk::~CHawk();
-	
+	//DebugOut(L"HP: %d\n", this->hp);
 }
 
 void CHawk::GiaoDongQuanhNinja()
@@ -147,9 +166,11 @@ void CHawk::GiaoDongQuanhNinja()
 	}
 
 	if (y > ninja->y-8)
-		vy = -0.03f;
+		vy = -0.04f;
 	else if (y < ninja->y-8)
 		vy = 0.03f;
 	else vy = 0;
 
 }
+
+

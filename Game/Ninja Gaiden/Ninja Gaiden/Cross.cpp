@@ -35,6 +35,8 @@ CCross::~CCross()
 
 void CCross::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (hp <= 0)
+		return;
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
 
@@ -69,6 +71,8 @@ void CCross::LoadResource()
 
 void CCross::Render()
 {
+	if (hp <= 0)
+		return;
 	int ani;
 	if (nx > 0)
 		ani = 0; //right
@@ -86,6 +90,8 @@ void CCross::Render()
 
 void CCross::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	if (this->nx >0)
 	{
 		x = this->x+8;
@@ -98,6 +104,12 @@ void CCross::GetBoundingBox(float & x, float & y, float & width, float & height)
 
 void CCross::BeAttack(int satThuong)
 {
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CCross::DeActivate()
+{
 	hp = 0;
-	//CCross::~CCross();
+	
 }

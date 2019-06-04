@@ -32,7 +32,9 @@ CCommando::~CCommando()
 
 void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CNinja *ninja = CNinja::GetInstance();
+	if (hp <= 0)
+		return;
+	
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
 	//DebugOut(L"onground: %d, first Y: %d\n", onGround,firstY);
@@ -47,15 +49,18 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	
 	//Huong toi ninja
-	if (this->x > ninja->x)
+	if (!isPause)
 	{
-		vx = -0.05f;
-		nx = -1;
-	}	
-	else
-	{
-		vx = 0.05f;
-		nx = 1;
+		if (this->x > ninja->x)
+		{
+			vx = -0.05f;
+			nx = -1;
+		}
+		else
+		{
+			vx = 0.05f;
+			nx = 1;
+		}
 	}
 	//neu no di ra ngoai cai bien cua no thi quay dau
 	if (!onGround&&firstY != -1)
@@ -75,8 +80,8 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	#pragma endregion
 
 
-
-	timer++;
+	if(!isPause)
+		timer++;
 	if (timer >= 150)
 	{
 		timer = 0;
@@ -131,28 +136,22 @@ void CCommando::LoadResource()
 
 void CCommando::Render()
 {
+	if (hp <= 0)
+		return;
 	int ani;
 	/*int ani2;*/
 	if (nx > 0)
 	{
 		ani = 0; //right
-		if (timer >= 100 && timer <200)
+		if (timer >= 50 && timer <90)
 		{
 			ani = 1;
 		}
 	}
 	else
 	{
-		ani = 2;//left
-				/*for (int t = 0; t < 2000000; t++)
-				{
-				if (t == 199999)
-				{
-				ani = 3;
-				t = 0;
-				}
-				}*/
-		if (timer >= 100 && timer <200)
+		ani = 2;
+		if (timer >= 50 && timer <90)
 		{
 			ani = 3;
 		}
@@ -162,6 +161,8 @@ void CCommando::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 
 	//Render dan
@@ -176,6 +177,8 @@ void CCommando::Render()
 
 void CCommando::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
 	y = this->y;
 	width = this->width;
@@ -184,6 +187,12 @@ void CCommando::GetBoundingBox(float & x, float & y, float & width, float & heig
 
 void CCommando::BeAttack(int satThuong)
 {
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CCommando::DeActivate()
+{
 	hp = 0;
 	for (UINT i = 0; i < listProjectile.size(); i++)
 	{
@@ -191,7 +200,6 @@ void CCommando::BeAttack(int satThuong)
 	}
 	listProjectile.clear();
 	ResetVeTrangThaiDau();
-	//CCommando::~CCommando();
 }
 
 void CCommando::RefreshListBullet()
@@ -206,3 +214,4 @@ void CCommando::RefreshListBullet()
 		i++;
 	}
 }
+

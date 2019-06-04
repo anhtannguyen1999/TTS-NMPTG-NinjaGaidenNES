@@ -14,12 +14,12 @@ CNinjaSword::CNinjaSword()
 {
 	this->x = 0;
 	this->y = 0;
-	width = 22;
-	height = 12;
-
+	this->width = 22;
+	this->height = 12;
+	this->minitypeWeapon = WEAPON_MINITYPE_SWORD;
 	//Load resource
 	//CAnimations * animations = CAnimations::GetInstance();
-	this->AddAnimation(301);//Hieu ung no
+	
 	
 }
 
@@ -55,35 +55,9 @@ void CNinjaSword::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CNinjaSword::Render()
 {
 	//this->RenderBoundingBox(180);
-	if (danhChetEnemy>0)
-	{
-		danhChetEnemy++;
-		D3DXVECTOR3 pos;
-		pos.x = this->x;
-		if (this->nx>0)
-			pos.x = this->x + this->width;
-		else
-			pos.x = this->x-this->width;
-		pos.y = this->y;
-		pos.z = 0;
-		pos = camera->SetPositionInViewPort(pos);
-		animations[0]->Render(pos.x, pos.y, ALPHA);
-
-		if (danhChetEnemy >= 3)
-		{
-			danhChetEnemy = 0;
-			animations[0]->ResetCurrentFrame();
-		}
-		//DebugOut(L"Render at: %f %f %f %f %d\n", x, y, pos.x, pos.y,danhChetEnemy);
-
-	}
 	
+	//CWeapon::Render();
 
 	
 }
 
-void CNinjaSword::SetPosition(float x, float y,int nx)
-{
-	this->x = x, this->y = y; 
-	this->nx = nx;
-}

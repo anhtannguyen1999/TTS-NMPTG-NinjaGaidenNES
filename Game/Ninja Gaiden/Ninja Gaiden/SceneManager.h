@@ -3,12 +3,14 @@
 #include "GameScene.h"
 #include "GameSceneStage31.h"
 #include "GameSceneStage32.h"
+#include "GameSceneStage33.h"
 class CSceneManager
 {
 private:
 	int sceneID;
 	CGameScene * gameScene;
 	static CSceneManager *__instance;
+	CNinja*ninja=NULL;
 public:
 	CSceneManager();
 	~CSceneManager();

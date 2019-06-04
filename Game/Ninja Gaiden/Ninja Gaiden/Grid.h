@@ -15,6 +15,9 @@
 #include "CGunner.h"
 #include "CRunner.h"
 #include "Wall.h"
+#include "Butterfly.h"
+#include "Bird.h"
+#include "Boss.h"
 using namespace std;
 
 class CGrid

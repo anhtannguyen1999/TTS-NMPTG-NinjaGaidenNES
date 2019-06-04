@@ -17,6 +17,7 @@ public:
 	void GetBoundingBox(float &x, float &y, float &width, float &height);
 	void SetOnGround(bool onGround);
 	virtual void BeAttack(int satThuong);
+	virtual void DeActivate();
 	void SetFirstY(int fY);
 };
 

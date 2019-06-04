@@ -11,6 +11,7 @@ class CGunner :public CEnemy
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 //	int startX;
 	int timer = 0;
+	CNinja *ninja = CNinja::GetInstance();
 public:
 	vector<CGameObject*> listProjectile;
 
@@ -26,6 +27,7 @@ public:
 	virtual void BeAttack(int satThuong);
 
 	void RefreshListBullet();
+	virtual void DeActivate();
 
 };
 

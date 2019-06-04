@@ -30,6 +30,7 @@ public:
 	//void SetOnGround(bool onGround) { this->onGround = onGround; if (onGround&&daChamDat<10) daChamDat++; }
 	virtual void BeAttack(int satThuong);
 	void GiaoDongQuanhNinja();
+	virtual void DeActivate();
 
 };
 

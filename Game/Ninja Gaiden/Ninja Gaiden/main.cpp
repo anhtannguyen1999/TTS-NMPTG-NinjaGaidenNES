@@ -123,10 +123,7 @@ void Update(DWORD dt)
 	
 	sceneManager->Update(dt);
 	//DebugOut(L"NinjaX: %f \n", ninja->x);
-	if (ninja->GetPositionX() >= 2020)
-	{
-		sceneManager->NextScene();
-	}
+	
 
 }
 

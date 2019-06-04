@@ -5,7 +5,7 @@
 
 
 
-CPanther::CPanther(int id, int x, int y)
+CPanther::CPanther(int id, int x, int y,int rootNX)
 {
 	this->id = id;
 	LoadResource();
@@ -13,12 +13,12 @@ CPanther::CPanther(int id, int x, int y)
 	this->x = x;
 	this->y = y;
 	this->dame = 1;
-	this->hp = 1;
+	this->hp = 0;
 	this->width = 34;
 	this->height = 20;
-	nx = 1;
+	nx = rootNX;
 	vy = -0.1f;
-	vx = 0.15f;
+	vx = 0.11f;
 	
 	//Luu diem ban dau
 	this->rootX = this->x;
@@ -35,9 +35,10 @@ CPanther::~CPanther()
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (hp <= 0)
+		return;
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
-
    // if (daChamDat == 0)
 	if(!onGround)
 		y += dy;
@@ -47,31 +48,18 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (this->x > ninja->x)
 		{
 			this->nx = -1;
-			vx = -0.15f;
+			vx = -0.11f;
 		}
 		else
 		{
-			vx = 0.15f;
+			vx = 0.11f;
 			this->nx = 1;
 		}
 
 	}
-	//if (!onGround&&daChamDat != 0)//neu no di ra ngoai cai bien cua no
-	//{
-	//	y += dy;
-	//}
-	if (rootX==890 || rootX ==1260)//con panther thu 2 va thu 4
-	{
-		nx = -1;
-		vx = -0.1f;
-		vy = -0.08f;
-	}
-	if (rootX ==940) //con panther thu 3
-		vx = 0.1f;
 	
 	x += dx;
 	if (y >= 170)//Bị rơi xuống đất
-
 	{
 		//hp = 0;
 		this->BeAttack(1);
@@ -98,6 +86,8 @@ void CPanther::LoadResource()
 
 void CPanther::Render()
 {
+	if (hp <= 0)
+		return;
 	int ani;
 	if (nx > 0)
 		ani = 0; //right
@@ -108,13 +98,18 @@ void CPanther::Render()
 	pos.y = this->y;
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
+	
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	if (isPause)
+		animations[ani]->ResetCurrentFrame();
+	//this->RenderBoundingBox();
 }
 
 
 void CPanther::GetBoundingBox(float & x, float & y, float & width, float & height)
 {
+	if (hp <= 0)
+		return;
 	x = this->x;
 	y = this->y-5;
 	width = this->width;
@@ -122,6 +117,12 @@ void CPanther::GetBoundingBox(float & x, float & y, float & width, float & heigh
 }
 
 void CPanther::BeAttack(int satThuong)
+{
+	this->effect->RenderEffect(0, this->x, this->y);
+	DeActivate();
+}
+
+void CPanther::DeActivate()
 {
 	hp = 0;
 	this->isHit = 0;
