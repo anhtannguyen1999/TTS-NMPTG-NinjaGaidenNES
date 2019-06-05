@@ -23,6 +23,7 @@ protected:
 	int pauseEnemyTimer = 0; 
 	CGrid * gridGame;
 	CTileMap *tileMap;
+	int endSceneTimer = 0;
 public:
 	CGameScene();
 	~CGameScene();
@@ -41,5 +42,6 @@ public:
 	void CheckCollisionNinjaWithBackGroundObj();
 	void CheckCollisionNinjaWidthEnemy();
 	void CheckCollisionEnemyWithGroundAndVuKhi();
+	void SetEndSceneEffect(bool&done );
 };
 

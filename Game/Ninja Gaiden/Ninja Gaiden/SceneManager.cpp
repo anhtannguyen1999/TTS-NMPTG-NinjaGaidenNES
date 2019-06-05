@@ -28,6 +28,7 @@ void CSceneManager::LoadScene(int sceneID)
 		
 		gameScene = new CGameSceneStage31();
 		//ninja->SetPositionX(2000);
+		
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
@@ -50,17 +51,30 @@ void CSceneManager::Render()
 	gameScene->Render();
 }
 
+bool endSceneEffectDone = true;
 void CSceneManager::Update(DWORD dt)
 {
+	
 	if (ninja)
 	{
 		if (sceneID == GAME_STAGE_31&& ninja->GetPositionX() >= 2020)
 		{
-			this->NextScene();
+			gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
+			if (endSceneEffectDone)
+			{
+				this->NextScene();
+			}
+				
 		}
 		if (sceneID == GAME_STAGE_32&& ninja->GetPositionX() >= 3040)
 		{
-			this->NextScene();
+			if(endSceneEffectDone)
+				DebugOut(L"Done: %d\n", endSceneEffectDone);
+			gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
+			if (endSceneEffectDone)
+			{
+				this->NextScene();
+			}
 		}
 	}
 	
@@ -72,6 +86,7 @@ void CSceneManager::NextScene()
 {
 	this->sceneID++;
 	this->LoadScene(sceneID);
+	CSprites::GetInstance()->SetSamMau(0);
 }
 
 void CSceneManager::PreScece()

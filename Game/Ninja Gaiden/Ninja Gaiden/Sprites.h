@@ -7,7 +7,7 @@ using namespace std;
 class CSprite
 {
 	int id;				// Sprite ID in the sprite database
-
+	int samMau=0;//saamx mauf
 	int left; 
 	int top;
 	int right;
@@ -29,6 +29,7 @@ public:
 
 	void Draw(float x, float y, float w, float h, int alpha);
 	
+	void SetSamMau(int samMau) { this->samMau = samMau; }
 };
 
 typedef CSprite * LPSPRITE;
@@ -45,6 +46,8 @@ class CSprites
 public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex, D3DXVECTOR2 rotationCenter, D3DXVECTOR2 translation, D3DXVECTOR2 scale, float rotation);
 	LPSPRITE Get(int id);
+
+	void SetSamMau(int samMau);
 
 	static CSprites * GetInstance();
 };

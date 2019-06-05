@@ -5,6 +5,7 @@
 
 CGameScene::CGameScene()
 {
+	
 }
 
 
@@ -14,6 +15,18 @@ CGameScene::~CGameScene()
 
 void CGameScene::Update(DWORD dt)
 {
+	if (endSceneTimer)
+	{
+		endSceneTimer--;
+		if (endSceneTimer==0)
+			CSprites::GetInstance()->SetSamMau(0);
+		else if (endSceneTimer<50)
+			CSprites::GetInstance()->SetSamMau(80);//130
+		else if (endSceneTimer<100)
+			CSprites::GetInstance()->SetSamMau(60);
+		else if (endSceneTimer<150)
+			CSprites::GetInstance()->SetSamMau(5); 
+	}
 	if (pauseEnemyTimer)
 	{
 		pauseEnemyTimer--;
@@ -54,7 +67,8 @@ void CGameScene::Update(DWORD dt)
 
 void CGameScene::KeyDown(unsigned short int const &key)
 {
-	
+	if (endSceneTimer != 0)
+		return;
 	switch (key)
 	{
 		case UP_KEY:
@@ -98,6 +112,8 @@ void CGameScene::KeyDown(unsigned short int const &key)
 
 void CGameScene::KeyUp(unsigned short int const &key)
 {
+	if (endSceneTimer != 0)
+		return;
 	switch (key)
 	{
 	case UP_KEY:
@@ -1465,4 +1481,20 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 
 
 	}
+}
+
+void CGameScene::SetEndSceneEffect(bool&done)
+{
+	if (endSceneTimer == 0)
+	{
+		if (done)
+		{
+			pauseEnemyTimer = 150;
+			endSceneTimer = 150;
+			ninja->SetState(NINJA_STATE_IDLE);
+		}
+		done = !done;
+		
+	}
+	
 }

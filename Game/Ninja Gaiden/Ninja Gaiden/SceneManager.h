@@ -14,7 +14,6 @@ private:
 public:
 	CSceneManager();
 	~CSceneManager();
-	//bool Initialize();
 	void LoadScene(int sceneID);
 	void Render();
 	void Update(DWORD dt);

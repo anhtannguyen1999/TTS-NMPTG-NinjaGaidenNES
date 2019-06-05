@@ -22,6 +22,7 @@ CGameSceneStage32::~CGameSceneStage32()
 
 void CGameSceneStage32::Update(DWORD dt)
 {
+	CGameScene::Update(dt);
 	gridGame->GetListObject(listBackgroundObj, listOtherObj, camera); // lấy hết các object "còn Alive" trong vùng camera;
 
 	ninja->Update(dt);

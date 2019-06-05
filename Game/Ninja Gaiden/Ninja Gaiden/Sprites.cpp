@@ -26,6 +26,8 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEX
 		mScale = D3DXVECTOR2(1, 1);
 
 	mRotation = rotation;
+
+	samMau = 0;
 }
 
 CSprites * CSprites::__instance = NULL;
@@ -41,7 +43,7 @@ CSprites *CSprites::GetInstance()
 //	CGame * game = CGame::GetInstance();
 //	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 //}
-void CSprite::Draw(float x, float y, int alpha)
+void CSprite::Draw(float x, float y, int alpha)//isSamMau lam cho mau cua game sam lai khi endgame
 {
 	D3DXVECTOR3 inPosition(x, y, 0);
 	RECT inSourceRect;
@@ -64,13 +66,18 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->GetSpriteHandler()->SetTransform(&mMatrix);
 
 	D3DXVECTOR3 center = D3DXVECTOR3((right - left) / 2.0, (bottom - top) / 2.0, 0);
-
-	game->GetSpriteHandler()->Draw(texture,
-		&inSourceRect,
-		&center,
-		&inPosition,
-		D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
-
+	if(samMau==0)
+		game->GetSpriteHandler()->Draw(texture,
+			&inSourceRect,
+			&center,
+			&inPosition,
+			D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
+	else
+		game->GetSpriteHandler()->Draw(texture,
+			&inSourceRect,
+			&center,
+			&inPosition,
+			D3DCOLOR_ARGB(alpha, 190 - samMau, 136 - samMau, 136 - samMau)); // nhung pixel nao co mau trang se duoc to mau nay len
 	game->GetSpriteHandler()->SetTransform(&oldMatrix); // set lai matrix cu~ de Sprite chi ap dung transfrom voi class nay
 	
 }
@@ -98,12 +105,18 @@ void CSprite::Draw(float x, float y,float w,float h, int alpha)
 	game->GetSpriteHandler()->SetTransform(&mMatrix);
 
 	D3DXVECTOR3 center = D3DXVECTOR3((right - left) / 2.0, (bottom - top) / 2.0, 0);
-
-	game->GetSpriteHandler()->Draw(texture,
-		&inSourceRect,
-		&center,
-		&inPosition,
-		D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
+	if (samMau == 0)
+		game->GetSpriteHandler()->Draw(texture,
+			&inSourceRect,
+			&center,
+			&inPosition,
+			D3DCOLOR_ARGB(alpha, alpha, alpha, alpha)); // nhung pixel nao co mau trang se duoc to mau nay len
+	else
+		game->GetSpriteHandler()->Draw(texture,
+			&inSourceRect,
+			&center,
+			&inPosition,
+			D3DCOLOR_ARGB(alpha, 190 - samMau, 136 - samMau, 136 - samMau)); // nhung pixel nao co mau trang se duoc to mau nay len
 
 	game->GetSpriteHandler()->SetTransform(&oldMatrix); // set lai matrix cu~ de Sprite chi ap dung transfrom voi class nay
 
@@ -118,6 +131,16 @@ void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DT
 LPSPRITE CSprites::Get(int id)
 {
 	return sprites[id];
+}
+
+void CSprites::SetSamMau(int samMau)
+{
+	for (auto& x : sprites)
+	{
+		CSprite *sprite = dynamic_cast<CSprite*>(x.second);
+		if (sprite)
+			sprite->SetSamMau(samMau);
+	}
 }
 
 
