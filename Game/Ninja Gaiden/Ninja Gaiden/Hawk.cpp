@@ -25,6 +25,7 @@ CHawk::CHawk(int id, int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 CHawk::~CHawk()
@@ -111,6 +112,7 @@ void CHawk::GetBoundingBox(float & x, float & y, float & width, float & height)
 
 void CHawk::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 	

@@ -1,6 +1,12 @@
 #include "Boss.h"
 
 
+CBoss *CBoss::__instance = NULL;
+CBoss *CBoss::GetInstance(int id, int x, int y)
+{
+	if (__instance == NULL) __instance = new CBoss(id,x,y);
+	return __instance;
+}
 
 CBoss::CBoss(int id, int x, int y)
 {
@@ -10,12 +16,12 @@ CBoss::CBoss(int id, int x, int y)
 	this->x = x;
 	this->y = y;
 	this->dame = 1;
-	this->hp = 1000;
+	this->hp = 16;
 	this->width = 30;
 	this->height = 40;
 	nx = -1;
 	vy = -0.05f;
-	vx = -0.1f;
+	vx = -0.15f;
 	startX = this->x;
 	TimePrevFly = GetTickCount();
 	CBulletBoss *bullet0 = new CBulletBoss(2, -50, 85, 1);
@@ -50,11 +56,15 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		timerRefreshAttack--;
 		if (timerRefreshAttack == 0)
+		{
 			hp--;
+			Sound::getInstance()->play(DirectSound_ENEMY_ATTACKED);
+		}
+			
 		if (hp <= 0)
 		{
 			//render effect no
-			CBoss::~CBoss();
+			DeActivate();
 		}
 	}
 	for (UINT i = 0; i < listProjectile.size(); i++)
@@ -67,7 +77,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// nx = -nx;
 		//y = 70;
 	}
-	
+	if (hp <= 0)
+		return;
 	if (onGround == 1)
 	{ 
 		//y = 70;
@@ -141,6 +152,7 @@ void CBoss::LoadResource()
 	this->AddAnimation(219);//left
 	this->AddAnimation(220);// fly right
 	this->AddAnimation(221);//fly left
+	this->AddAnimation(302);//hieu ung no khi die
 	animations = NULL;
 
 }
@@ -178,6 +190,45 @@ void CBoss::Render()
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	this->RenderBoundingBox(180);
+
+	
+	if (hp == -100)
+	{
+
+		//pos = camera->SetPositionInViewPort(pos);
+		D3DXVECTOR3 pos0, pos1, pos2, pos3;
+
+		pos0.x = this->x - 10;
+		pos0.y = this->y + 13;
+
+		pos1.x = this->x + 14;
+		pos1.y = this->y + 10;
+
+		pos2.x = this->x - 8;
+		pos2.y = this->y - 10;
+
+		pos3.x = this->x + 14;
+		pos3.y = this->y - 10;
+		pos0.z = pos1.z = pos2.z = pos3.z = 0;
+		pos0 = camera->SetPositionInViewPort(pos0);
+		pos1 = camera->SetPositionInViewPort(pos1);
+		pos2 = camera->SetPositionInViewPort(pos2);
+		pos3 = camera->SetPositionInViewPort(pos3);
+
+		animations[4]->Render(pos0.x, pos0.y, ALPHA);
+		animations[ani]->Render(pos.x, pos.y, ALPHA);
+		animations[4]->Render(pos1.x, pos1.y, ALPHA);
+
+		animations[ani]->Render(pos.x, pos.y, ALPHA);
+
+		animations[4]->Render(pos2.x, pos2.y, ALPHA);
+		animations[ani]->Render(pos.x, pos.y, ALPHA);
+		animations[4]->Render(pos3.x, pos3.y, ALPHA);
+		//animations[4]->Render(pos.x, pos.y, ALPHA);
+		//this->RenderBoundingBox();
+	}
+
+
 }
 
 
@@ -199,7 +250,7 @@ void CBoss::GetBoundingBox(float & x, float & y, float & width, float & height)
 void CBoss::BanBullet(int x)
 {
 	
-	if (GetTickCount() - TimePrevShoot >= 8000&& this->x<100)
+	if (GetTickCount() - TimePrevShoot >= 5000&& this->x<100)
 	{
 		if (onGround)
 		{
@@ -210,7 +261,7 @@ void CBoss::BanBullet(int x)
 			return;
 		}
 	}
-	if (GetTickCount() - TimePrevShoot >= 8000 && this->x > 100)
+	if (GetTickCount() - TimePrevShoot >= 5000 && this->x > 100)
 	{
 		if (onGround)
 		{
@@ -225,11 +276,15 @@ void CBoss::BanBullet(int x)
 void CBoss::BeAttack(int satThuong)
 {
 	
-	timerRefreshAttack = 10;
+	timerRefreshAttack = 10;//dung cai nay de -hp
+	
 }
 
 void CBoss::DeActivate()
 {
+	hp = -100;
+	ninja->CongDiem(1000);
+	//CBoss::~CBoss();
 }
 
 void CBoss::RefreshListBullet(int x)

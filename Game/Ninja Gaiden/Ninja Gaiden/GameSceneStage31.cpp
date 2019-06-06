@@ -1,5 +1,5 @@
 ﻿#include "GameSceneStage31.h"
-
+#include"Sound.h"
 
 
 CGameSceneStage31::CGameSceneStage31() :CGameScene() //gọi lại cái khởi tạo của gamescene để kt con ninja
@@ -12,6 +12,8 @@ CGameSceneStage31::CGameSceneStage31() :CGameScene() //gọi lại cái khởi t
 		gridGame = new CGrid();
 	gridGame->SetFile("ReSource/Map1-Objects.txt");
 	gridGame->LoadGrid();
+	scoreboard->SetStage(1);
+	Sound::getInstance()->play(DirectSound_BACKGROUND1, true, true);
 }
 
 
@@ -45,6 +47,7 @@ void CGameSceneStage31::Update(DWORD dt)
 
 void CGameSceneStage31::Render()
 {
+	CGameScene::Render();
 	tileMap->Render();
 
 	for (UINT i = 0; i < listBackgroundObj.size(); i++)

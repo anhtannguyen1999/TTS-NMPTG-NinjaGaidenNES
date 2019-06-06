@@ -1,5 +1,9 @@
-﻿  SceneManager.cpp
-e:\hoctap\hk4\nmptg\doan\39_changesceneeffect\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\39_changesceneeffect\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\39_ChangeSceneEffect\Ninja Gaiden\Debug\Ninja Gaiden.exe
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\39_ChangeSceneEffect\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)
+﻿  Ninja.cpp
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\wavefile.h(10): warning C4005: 'SAFE_DELETE': macro redefinition
+  e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\define.h(199): note: see previous definition of 'SAFE_DELETE'
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(55): warning C4806: '!=': unsafe operation: no value of type 'bool' promoted to type 'int' can equal the given constant
+e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\ninja.cpp(90): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)

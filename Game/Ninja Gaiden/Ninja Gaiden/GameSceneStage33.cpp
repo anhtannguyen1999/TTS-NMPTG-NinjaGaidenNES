@@ -14,7 +14,8 @@ CGameSceneStage33::CGameSceneStage33() :CGameScene() //gọi lại cái khởi t
 
 	//Update lại tọa độ camera
 	camera->Update(DWORD(15) , 0, 0, tileMap->GetMapWidth(), tileMap->GetMapHeight());
-
+	scoreboard->SetStage(3);
+	Sound::getInstance()->play(DirectSound_Background3, true, true);
 }
 
 
@@ -45,6 +46,7 @@ void CGameSceneStage33::Update(DWORD dt)
 
 void CGameSceneStage33::Render()
 {
+	CGameScene::Render();
 	tileMap->Render();
 
 	for (UINT i = 0; i < listBackgroundObj.size(); i++)
@@ -92,7 +94,7 @@ void CGameSceneStage33::CheckCollisionNinjaWidthBossAndBullet()
 		{
 
 			CBoss* boss = dynamic_cast<CBoss*>(gameObj);
-			if (boss) //c != nullptr //downcast thành công
+			if (boss && boss->GetHP()>0) //c != nullptr //downcast thành công
 			{
 				unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
 				if (collisionCheck != OBJ_NO_COLLISION) //Neu co va cham
@@ -100,7 +102,8 @@ void CGameSceneStage33::CheckCollisionNinjaWidthBossAndBullet()
 					ninja->BeAttacked(boss->GetDame(), gameObj->x);
 				}
 			}
-			else{}// check voi dan cua boss
+			else{}
+			// check voi dan cua boss
 			for (UINT i = 0; i < boss->listProjectile.size(); i++)
 			{
 				CBulletBoss* BBoss = dynamic_cast<CBulletBoss*>(boss->listProjectile[i]);

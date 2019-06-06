@@ -27,7 +27,7 @@ class CNinja : public CGameObject
 	//bool isSpecialHit = isUp&&isHit
 	bool onGround = false;
 	int preY = 0;
-
+	int hpMax = 16;
 	int mana = 0;
 	int timeResetHit = 0;
 	int point;//So diem 
@@ -40,7 +40,7 @@ public:
 		this->LoadResource();
 		this->x = 10;
 		this->y = 200;
-		this->hp = 20;
+		this->hp = hpMax;
 		this->id = 0;
 		this->mana = 1000;
 		this->point = 0;
@@ -76,6 +76,9 @@ public:
 	void CongMana(int luongMana);
 	void CongDiem(int luongPoint);
 	void SetSpecialWeapon(int minitype);
+	int GetMana() { return this->mana; }
+	int GetPoint() { return this->point; }
+	int GetTypeItem();
 };
 
 

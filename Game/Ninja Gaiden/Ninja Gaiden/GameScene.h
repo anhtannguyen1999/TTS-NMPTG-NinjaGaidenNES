@@ -5,7 +5,8 @@
 #include "NinjaSword.h"
 #include "Effect.h"
 #include "TileMap.h"
-
+#include "ScoreBoard.h"
+#include"Sound.h"
 static int score;
 class CGameScene
 {
@@ -24,10 +25,11 @@ protected:
 	CGrid * gridGame;
 	CTileMap *tileMap;
 	int endSceneTimer = 0;
+	CScoreBoard *scoreboard = CScoreBoard::GetInstance();
 public:
 	CGameScene();
 	~CGameScene();
-	virtual void Render() {};
+	virtual void Render();
 	virtual void Update(DWORD dt);
 	virtual void DestroyAll() {};
 	

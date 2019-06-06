@@ -11,6 +11,8 @@ CGameSceneStage32::CGameSceneStage32() :CGameScene() //gọi lại cái khởi t
 	gridGame->SetFile("ReSource/Map2-Objects.txt");
 	gridGame->LoadGrid();
 	ninja->SetPosition(5, 60);
+	scoreboard->SetStage(2);
+	Sound::getInstance()->play(DirectSound_Background2, true, true);
 }
 
 
@@ -43,6 +45,7 @@ void CGameSceneStage32::Update(DWORD dt)
 
 void CGameSceneStage32::Render()
 {
+	CGameScene::Render();
 	tileMap->Render();
 
 	for (UINT i = 0; i < listBackgroundObj.size(); i++)

@@ -1,6 +1,5 @@
 ﻿#include "GameScene.h"
 
-
 //CNinja* CGameScene::ninja = NULL;
 
 CGameScene::CGameScene()
@@ -11,6 +10,11 @@ CGameScene::CGameScene()
 
 CGameScene::~CGameScene()
 {
+}
+
+void CGameScene::Render()
+{
+	scoreboard->Render();
 }
 
 void CGameScene::Update(DWORD dt)
@@ -63,6 +67,8 @@ void CGameScene::Update(DWORD dt)
 		}
 	}
 	//Xet de xoa toan bo enemy de load enemy man khac
+
+	scoreboard->Update(dt);
 }
 
 void CGameScene::KeyDown(unsigned short int const &key)
@@ -419,24 +425,40 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 						{
 							PointsBag* PBagBlue = dynamic_cast<PointsBag*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(PBagBlue);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongDiem(PBagBlue->GetSoDiem());
+							}
 							break;
 						}
 						case ITEM_MINITYPE_BAGRED:
 						{
 							PointsBagRed* PBagRed = dynamic_cast<PointsBagRed*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(PBagRed);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongDiem(PBagRed->GetSoDiem());
+							}
 							break;
 						}
 						case ITEM_MINITYPE_SOULBLUE:
 						{
 							SoulBlue* SBlue = dynamic_cast<SoulBlue*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(SBlue);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongMana(SBlue->GetLuongMana());
+							}
 							break;
 						}
 						case ITEM_MINITYPE_SOULRED:
 						{
 							SoulRed* SRed = dynamic_cast<SoulRed*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(SRed);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongMana(SRed->GetLuongMana());
+							}
 							break;
 
 						}
@@ -444,12 +466,20 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 						{
 							SShurikenItem* SShurikenI = dynamic_cast<SShurikenItem*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(SShurikenI);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->SetSpecialWeapon(WEAPON_MINITYPE_SMALL_SHURIKEN);
+							}
 							break;
 						}
 						case ITEM_MINITYPE_BIGSHURIKEN:
 						{
 							BShurikenItem* BShurikenI = dynamic_cast<BShurikenItem*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(BShurikenI);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->SetSpecialWeapon(WEAPON_MINITYPE_BIG_SHURIKEN);
+							}
 							break;
 						}
 						case ITEM_MINITYPE_FIREITEM:
@@ -461,18 +491,26 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 								ninja->SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
 							}
 							break;
-							break;
 						}
 						case ITEM_MINITYPE_HEALTHPOT:
 						{
 							HealthPot* HPot = dynamic_cast<HealthPot*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(HPot);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								ninja->CongHP(HPot->GetSoHP());
+							}
 							break;
 						}
 						case ITEM_MINITYPE_HOURGLASS:
 						{
 							Hourglass* HGlass = dynamic_cast<Hourglass*>(container->item);
 							collisionCheck = ninja->isCollitionObjectWithObject(HGlass);
+							if (collisionCheck != OBJ_NO_COLLISION)
+							{
+								this->pauseEnemyTimer = 500;
+
+							}
 							break;
 						}
 
@@ -483,7 +521,14 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 						{
 							//DebugOut(L"Cham Item pointBag\n");
 							//Cong mau cho ninja
-							//Huy 
+							//Huy
+							if (container->GetItemType() == ITEM_MINITYPE_HEALTHPOT)
+							{
+								Sound::getInstance()->play(DirectSound_OBTAIN_HEALTHPOT);
+							}
+							else {
+								Sound::getInstance()->play(DirectSound_OBTAIN_ITEM);
+							}
 							container->~Butterfly();
 							SAFE_DELETE(container);
 							gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
@@ -612,7 +657,14 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 						{
 							//DebugOut(L"Cham Item pointBag\n");
 							//Cong mau cho ninja
-							//Huy 
+							//Huy
+							if (container->GetItemType() == ITEM_MINITYPE_HEALTHPOT)
+							{
+								Sound::getInstance()->play(DirectSound_OBTAIN_HEALTHPOT);
+							}
+							else {
+								Sound::getInstance()->play(DirectSound_OBTAIN_ITEM);
+							}
 							container->~Bird();
 							SAFE_DELETE(container);
 							gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
@@ -1436,11 +1488,13 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 				//Sau nay xet neu khong phai la boss nua
 				//if(enemy->GetTypeEnemy!=ENEMY_MINITYPE_BOSS)
 				ninja->ninjaSword->DanhChetEnemy();
+				ninja->CongDiem(enemy->GetSoDiem());
 			}
 			else if (ninja->specialWeapon)
 			{
 				if (ninja->specialWeapon->GetMiniTypeWeapon() == WEAPON_MINITYPE_FIRES&&ninja->specialWeapon->GetActive())
 				{
+					
 					CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(ninja->specialWeapon);
 					if (enemy->isCollitionObjectWithObject(fires->listFires[2]))
 					{
@@ -1448,6 +1502,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 						enemy->BeAttack(3);
 						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 						fires->listFires[2]->DanhChetEnemy();
+						ninja->CongDiem(enemy->GetSoDiem());
 					}
 					else if (enemy->isCollitionObjectWithObject(fires->listFires[1]))
 					{
@@ -1455,6 +1510,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 						enemy->BeAttack(3);
 						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 						fires->listFires[1]->DanhChetEnemy();
+						ninja->CongDiem(enemy->GetSoDiem());
 					}
 					else if (enemy->isCollitionObjectWithObject(fires->listFires[0]))
 					{
@@ -1462,15 +1518,18 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 						enemy->BeAttack(3);
 						gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 						fires->listFires[0]->DanhChetEnemy();
+						ninja->CongDiem(enemy->GetSoDiem());
 					}
 				}
 				else if (ninja->specialWeapon->GetActive() && enemy->isCollitionObjectWithObject(ninja->specialWeapon))
 				{
+			
 					gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 					enemy->BeAttack(1);
 					gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 
 					ninja->specialWeapon->DanhChetEnemy();
+					ninja->CongDiem(enemy->GetSoDiem());
 				}
 			}
 

@@ -92,6 +92,7 @@ void Bird::GetBoundingBox(float & x, float & y, float & width, float & height)
 
 void Bird::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }

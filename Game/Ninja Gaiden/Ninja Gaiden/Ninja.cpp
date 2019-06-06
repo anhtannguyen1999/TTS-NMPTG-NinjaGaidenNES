@@ -3,6 +3,8 @@
 //#include "Game.h"
 #include <algorithm>
 #include "Textures.h"
+#include"Sound.h"
+
 
 CNinja * CNinja::__instance = NULL;
 
@@ -129,7 +131,8 @@ void CNinja::CalNinjaSword()
 		{
 			return;
 		}
-
+		if(ninjaSword->GetActive()==false)//Neu cay kiem chua duoc danh ra thi play sound
+			Sound::getInstance()->play(DirectSound_ATTACK_ENEMY);
 		if (isSit || isJump)
 		{
 			if (nx > 0)
@@ -168,6 +171,7 @@ void CNinja::CalNinjaSword()
 			{
 			case WEAPON_MINITYPE_SMALL_SHURIKEN:
 			{
+				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
 				CSmallShuriken* smallShuriken = dynamic_cast<CSmallShuriken*>(specialWeapon);
 				if (smallShuriken&&smallShuriken->GetManaTieuHao() <= this->mana)
 				{
@@ -209,6 +213,7 @@ void CNinja::CalNinjaSword()
 			}
 			case WEAPON_MINITYPE_BIG_SHURIKEN:
 			{
+				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
 				CBigShuriken* bigShuriken = dynamic_cast<CBigShuriken*>(specialWeapon);
 				if (bigShuriken&&bigShuriken->GetManaTieuHao() <= this->mana)
 				{
@@ -247,6 +252,7 @@ void CNinja::CalNinjaSword()
 			}
 			case WEAPON_MINITYPE_FIRES:
 			{
+				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
 				CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(specialWeapon);
 				if (fires&&fires->GetManaTieuHao() <= this->mana)
 				{
@@ -320,6 +326,8 @@ void CNinja::BeAttacked(int dame, int xObj) //Toa do x cua Obj
 void CNinja::CongHP(int luongHP)
 {
 	this->hp += luongHP;
+	if (hp > hpMax)
+		hp = hpMax;
 	if (hp < 0)
 		hp = 0;
 }
@@ -376,6 +384,14 @@ void CNinja::SetSpecialWeapon(int minitype)
 		}
 	}
 	*/
+}
+
+int CNinja::GetTypeItem()
+{
+	if (specialWeapon)
+		return specialWeapon->GetMiniTypeWeapon();
+	else
+		return 0;
 }
 
 #pragma region Render
@@ -484,6 +500,7 @@ void CNinja::Jump(int & ani)
 				ani = NINJA_ANI_ATTACK_LEFT;
 			else
 				ani = NINJA_ANI_ATTACK_RIGHT;
+			
 		}
 		/*isHit++;
 		if (isHit >= 8)
@@ -507,6 +524,7 @@ void CNinja::Sit(int &ani)
 			ani = NINJA_ANI_SITATTACK_LEFT;
 		else
 			ani = NINJA_ANI_SITATTACK_RIGHT;
+		
 		/*isHit++;
 		if (isHit >= 8)
 			isHit = 0;*/
@@ -577,6 +595,7 @@ void CNinja::Stand(int & ani)
 				ani = NINJA_ANI_ATTACK_LEFT;
 			else
 				ani = NINJA_ANI_ATTACK_RIGHT;
+			
 		}
 		/*isHit++;
 		if (isHit >= 8)
@@ -717,6 +736,7 @@ void CNinja::SetState(int state)
 	case NINJA_STATE_JUMP:
 		if (canJump)
 		{
+			Sound::getInstance()->play(DirectSound_NINJA_JUMP);
 			if (isOnWall)
 				vy = +NINJA_JUMP_FORCE_ONWALL;
 			else
@@ -792,6 +812,7 @@ void CNinja::SetState(int state)
 		//canMoveRight = false;
 		break;
 	case NINJA_STATE_ATTACKED:
+		Sound::getInstance()->play(NINJA_ATTACKED);
 		isHit = false;
 		canJump = false;
 		ninjaSword->SetActive(false);

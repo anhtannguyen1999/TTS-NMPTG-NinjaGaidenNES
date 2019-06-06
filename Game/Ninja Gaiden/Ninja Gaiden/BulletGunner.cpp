@@ -89,6 +89,7 @@ void CBulletGunner::GetBoundingBox(float & x, float & y, float & width, float & 
 
 void CBulletGunner::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }

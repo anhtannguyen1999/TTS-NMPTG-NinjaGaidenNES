@@ -4,7 +4,7 @@
 #define WINDOW_CLASS_NAME L"NinjaGame"
 #define MAIN_WINDOW_TITLE L"NinjaGame"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define SCREEN_WIDTH 260 //320
 #define SCREEN_HEIGHT 250
 
@@ -89,6 +89,7 @@
 #define ID_TEX_BOX 2 //box collision
 #define ID_TEX_ENEMY 3
 #define ID_TEX_CONTAINERANDEFFECT 4
+#define ID_TEX_HP 5//hp cho ninja tren scoreboard
 
 #define ID_TILES_MAP1 10000
 

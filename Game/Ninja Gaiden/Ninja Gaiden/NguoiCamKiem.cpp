@@ -24,6 +24,7 @@ CNguoiCamKiem::CNguoiCamKiem(int id,int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 
@@ -131,6 +132,7 @@ void CNguoiCamKiem::SetOnGround(bool onGround)
 
 void CNguoiCamKiem::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();	
 }

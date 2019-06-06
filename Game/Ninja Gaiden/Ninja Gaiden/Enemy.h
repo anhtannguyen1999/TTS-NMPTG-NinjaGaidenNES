@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Ninja.h"
 #include "Effect.h"
+#include"Sound.h"
 class CEnemy :public CGameObject
 {
 protected:
@@ -12,6 +13,7 @@ protected:
 	CNinja *ninja = CNinja::GetInstance();
 	CEffect *effect = CEffect::GetInstance();
 	bool isPause;
+	int soDiem=0;
 public:
 	CEnemy();
 	~CEnemy();
@@ -23,10 +25,11 @@ public:
 
 	int GetTypeEnemy();
 	int GetDame();
-	virtual void BeAttack(int satThuong) =0;
+	virtual void BeAttack(int satThuong);
 	virtual void DeActivate() =0;
 	float GetRootX();
 	float GetRootY();
 	void SetIsPause(bool isPause);
+	int GetSoDiem() { return this->soDiem; }
 };
 

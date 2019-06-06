@@ -121,7 +121,7 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 		case CONTAINER_MINITYPE_BIRD:
 			return new Bird(id, x, y, other);
 		case ENEMY_MINITYPE_BOSS:
-			return new CBoss(id, x, y);
+			return  CBoss::GetInstance(id,x,y);
 		}
 
 		return NULL;
@@ -168,7 +168,7 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 		for (int j = left; j <= right; j++)
 			for (UINT k = 0; k < cells[i][j].size(); k++) //Duyệt từng obj trong cell đó
 			{
-				if (cells[i][j].at(k)->GetHP() > 0) // còn tồn tại
+				if (cells[i][j].at(k)->GetHP() > 0|| cells[i][j].at(k)->GetHP() == -100) // còn tồn tại&& -100 de xet trang thay boss khi chet chua bien mat
 				{
 					if (cells[i][j].at(k)->typeObj == TYPE_GROUND)
 						listBackgroundObj.push_back(cells[i][j].at(k));
@@ -206,7 +206,8 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 				}
 			}
 	
-	/*
+#pragma region Deactivate
+
 	//Duyệt và deavtive từng object ở cell trước		
 	for (UINT k = 0; k < cells[bottom][left-1].size(); k++) //Duyệt từng obj trong cell ở trước
 	{
@@ -217,7 +218,7 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 			if (cells[bottom][left - 1].at(k)->GetHP() > 0)
 			{
 				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][left - 1].at(k));
-				enemy->BeAttack(1);
+				enemy->DeActivate();
 			}
 		}
 	}
@@ -231,9 +232,11 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 			if (cells[bottom][right + 1].at(k)->GetHP() > 0)
 			{
 				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][right + 1].at(k));
-				enemy->BeAttack(1);
+				enemy->DeActivate();
 			}
 		}
 	}
-	*/
+
+#pragma endregion
+
 }

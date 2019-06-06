@@ -116,6 +116,7 @@ void CBulletBoss::BulletWait()
 }
 void CBulletBoss::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }

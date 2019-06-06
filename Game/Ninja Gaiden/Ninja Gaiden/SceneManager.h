@@ -27,5 +27,6 @@ public:
 	void LoadResouceForNinja();
 	void LoadResourceForEnemies();
 	void LoadOtherResource();
+	void DisableSoundWhenChangeScene();
 };
 

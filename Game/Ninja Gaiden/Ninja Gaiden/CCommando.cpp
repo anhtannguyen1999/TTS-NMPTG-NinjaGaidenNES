@@ -1,9 +1,10 @@
 #include "CCommando.h"
-
+#include "Sound.h"
 
 
 CCommando::CCommando(int id, int x, int y)
 {
+
 	this->id = id;
 	LoadResource();
 	this->typeEnemy = ENEMY_MINITYPE_COMMANDO;
@@ -23,6 +24,7 @@ CCommando::CCommando(int id, int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 
@@ -94,6 +96,7 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			CBulletCommando *Cbu = new CBulletCommando(3, this->x, this->y, this->nx);
 			listProjectile.push_back(Cbu);
+			Sound::getInstance()->play(DIRECTSOUND_ENEMY_COMMANDO);
 		}
 		else if (timer == 62)
 		{
@@ -187,6 +190,7 @@ void CCommando::GetBoundingBox(float & x, float & y, float & width, float & heig
 
 void CCommando::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }

@@ -26,6 +26,7 @@ CPanther::CPanther(int id, int x, int y,int rootNX)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 
@@ -118,6 +119,7 @@ void CPanther::GetBoundingBox(float & x, float & y, float & width, float & heigh
 
 void CPanther::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }

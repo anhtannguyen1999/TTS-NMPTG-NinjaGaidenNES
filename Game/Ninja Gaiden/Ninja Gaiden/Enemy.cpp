@@ -55,6 +55,11 @@ int CEnemy::GetDame()
 	return this->dame;
 }
 
+void CEnemy::BeAttack(int satThuong)
+{
+	Sound::getInstance()->play(DirectSound_ENEMY_ATTACKED);
+}
+
 float CEnemy::GetRootX()
 {
 	return this->rootX;

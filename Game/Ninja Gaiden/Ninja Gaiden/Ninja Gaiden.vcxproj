@@ -34,6 +34,7 @@
     <ClCompile Include="Cross.cpp" />
     <ClCompile Include="CRunner.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="DirectSound.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FireItem.cpp" />
@@ -58,15 +59,18 @@
     <ClCompile Include="PointsBag.cpp" />
     <ClCompile Include="PointsBagRed.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="SmallShuriken.cpp" />
     <ClCompile Include="SoulBlue.cpp" />
     <ClCompile Include="SoulRed.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="SShurikenItem.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +90,7 @@
     <ClInclude Include="CRunner.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="DirectSound.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FireItem.h" />
@@ -109,15 +114,18 @@
     <ClInclude Include="PointsBag.h" />
     <ClInclude Include="PointsBagRed.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="SmallShuriken.h" />
     <ClInclude Include="SoulBlue.h" />
     <ClInclude Include="SoulRed.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="SShurikenItem.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WaveFile.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

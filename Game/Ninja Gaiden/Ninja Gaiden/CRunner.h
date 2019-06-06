@@ -3,11 +3,13 @@
 class CRunner :public CEnemy
 {
 	bool onGround = false;
+	float JumpModifiers = 0.2f;
+	int timer;
 	int isHit = 0;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	//int startX;
-	int firstY = -1; //Diem Y cham dat
-
+	bool vuaKhoiTao = true;//tung cham dat khi vua khoi tao// dung de cho runner roi khi vua sinh ra
+	
 public:
 	CRunner(int id, int x, int y);
 	~CRunner();

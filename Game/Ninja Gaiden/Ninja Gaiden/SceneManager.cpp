@@ -1,7 +1,6 @@
 ﻿#include "SceneManager.h"
 #include "Ninja.h"
 
-
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager::CSceneManager()
@@ -25,7 +24,6 @@ void CSceneManager::LoadScene(int sceneID)
 	{
 	case GAME_STAGE_31:
 		delete(gameScene);
-		
 		gameScene = new CGameSceneStage31();
 		//ninja->SetPositionX(2000);
 		
@@ -33,7 +31,7 @@ void CSceneManager::LoadScene(int sceneID)
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
-		//ninja->SetPositionX(3000);
+		ninja->SetPositionX(3000);
 		ninja->SetPositionY(200);
 		break;
 	case GAME_STAGE_33:
@@ -84,6 +82,7 @@ void CSceneManager::Update(DWORD dt)
 
 void CSceneManager::NextScene()
 {
+	DisableSoundWhenChangeScene();
 	this->sceneID++;
 	this->LoadScene(sceneID);
 	CSprites::GetInstance()->SetSamMau(0);
@@ -91,6 +90,7 @@ void CSceneManager::NextScene()
 
 void CSceneManager::PreScece()
 {
+	DisableSoundWhenChangeScene();
 	this->sceneID--;
 	this->LoadScene(sceneID);
 }
@@ -575,6 +575,7 @@ void CSceneManager::LoadResourceForEnemies()
 
 	sprites->Add(292, 397, 246, 436, 300, texEnemy, zero, zero, zero, 0); // boss fly right
 	sprites->Add(293, 397, 246, 436, 300, texEnemy, zero, zero, scaleNguoc, 0); //boss fly left
+																		
 	ani = new CAnimation(100); //boss right
 	ani->Add(290);
 	animations->Add(218, ani);
@@ -591,7 +592,7 @@ void CSceneManager::LoadResourceForEnemies()
 	ani->Add(293);
 	animations->Add(221, ani);
 
-#pragma endregion
+	#pragma endregion
 
 	#pragma region Load resource cho Bullet boss
 	sprites->Add(300, 433, 270, 450, 280, texEnemy, zero, zero, zero, 0);//bullet boss
@@ -617,18 +618,31 @@ void CSceneManager::LoadOtherResource()
 	sprites->Add(ID_SPRITE_BOXCOLLISION, 2, 4, 19 + 2, 34 + 4, texBoxCollision, D3DXVECTOR2(0, 0), D3DXVECTOR2(0, 0), D3DXVECTOR2(0, 0), 0);
 
 	textures->Add(ID_TEX_CONTAINERANDEFFECT, L"textures\\ContainerAndEffectTex.png", D3DCOLOR_XRGB(255, 163, 177));
+
+
+	#pragma region Effect
 	//hieu ung no khi danh
 	LPDIRECT3DTEXTURE9 effectTex = textures->Get(ID_TEX_CONTAINERANDEFFECT);
 	sprites->Add(301, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(0.9f, 0.8f), 0);//0.9 0.8
-	sprites->Add(303, 317, 1, 349, 41, effectTex, zero, zero, zero, 0); // zero
+	sprites->Add(303, 317, 1, 349, 41, effectTex, zero, zero, zero, 0); 
 	//sprites->Add(304, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.2f, 1), 0);// 1.2 1
-	sprites->Add(302, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.4f, 1.2f), 0);// 1.4 1.2
+	sprites->Add(302, 317, 1, 349, 41, effectTex, zero, zero, D3DXVECTOR2(1.4f, 1.2f), 0);
+
+	//hieu ung no khi boss chet
+	sprites->Add(304, 355, 12, 373, 30, effectTex, zero, zero, zero, 0);
+	sprites->Add(305, 382, 2, 416, 38, effectTex, zero, zero, zero, 0);
 
 	ani = new CAnimation(25); //hieu ung no khi danh
 	ani->Add(302);
 	ani->Add(301);
 	ani->Add(303);
 	animations->Add(301, ani);
+
+	ani = new CAnimation(100);	//hieu ung no khi boss chet
+	ani->Add(304);
+	ani->Add(305);
+	animations->Add(302, ani);
+	#pragma endregion
 
 	#pragma region Container and Item
 
@@ -727,4 +741,23 @@ void CSceneManager::LoadOtherResource()
 
 	#pragma endregion
 
+}
+
+void CSceneManager::DisableSoundWhenChangeScene()
+{
+	switch (sceneID)
+	{
+	case GAME_STAGE_31:
+		Sound::getInstance()->stop(DirectSound_BACKGROUND1);
+		break;
+	case GAME_STAGE_32:
+		Sound::getInstance()->stop(DirectSound_Background2);
+		break;
+	case GAME_STAGE_33:
+		Sound::getInstance()->stop(DirectSound_Background3);
+		break;
+	default:
+		break;
+	}
+	
 }

@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
-
+#include"Sound.h"
 #include"TileMap.h"
 #include "Camera.h"
 
@@ -247,6 +247,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	Sound::getInstance()->initialize(hWnd);
 	game = CGame::GetInstance();
 	game->Init(hWnd);
 

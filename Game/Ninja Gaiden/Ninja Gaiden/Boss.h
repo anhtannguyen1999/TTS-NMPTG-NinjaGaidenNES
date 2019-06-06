@@ -12,9 +12,11 @@ class CBoss :public CEnemy
 	DWORD TimePrevFly=0;
 	DWORD TimePrevShoot = 0;//thời gian bắn lần trước
 	int timerRefreshAttack = 0;
+	static CBoss *__instance;
 public:
 	CBoss(int id, int x, int y);
 	~CBoss();
+	static CBoss * GetInstance(int id=2, int x=190, int y=100);
 	vector<CGameObject*> listProjectile;
 	void LoadResource();
 	virtual void Render();
@@ -28,5 +30,4 @@ public:
 	virtual void DeActivate();
 	
 };
-
 

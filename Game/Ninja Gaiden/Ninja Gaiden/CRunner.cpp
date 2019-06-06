@@ -15,14 +15,15 @@ CRunner::CRunner(int id, int x, int y)
 	this->height = 30;
 	nx = -1;
 	vy = -0.2f;
-	vx = -0.1f;
-
+	vx = -0.12f;
+	timer = 0;
 	//Gan diem ban dau
 	this->rootX = this->x;
 	this->rootY = this->y;
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 
@@ -36,31 +37,71 @@ void CRunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	CGameObject::Update(dt);
 	CEnemy::Update(dt);
-	
-	#pragma region Va cham dat va di chuyen
-	if (!onGround)
-		y += dy;
 
-	if (onGround == true && this->firstY == -1)
-		this->firstY = this->y;
-	if (this->firstY != -1&&onGround)//Neu da cai dat firstY
-		this->y = this->firstY;
-	
+#pragma region Va cham dat va di chuyen
+	if (!onGround)
+	{
+		timer++;
+	}
+	if (timer)
+	{
+		timer++;
+		if (timer>3 && timer < 30&&!vuaKhoiTao)
+		{
+			vy = JumpModifiers;// +0.2f;
+		}
+		else if(!onGround)
+		{
+			vy = -0.2f;
+		}
+		y += dy;
+		if (vy < 0 && onGround)
+		{
+			timer = 0;
+			vuaKhoiTao = false;
+		}
+			
+	}
+	//y += dy;
+	//if (onGround == true && this->firstY == -1)
+	//{
+	//	int temp;
+	//	temp= this->y;
+	//	this->firstY = temp;
+	//}
+	//if (this->firstY != -1 && onGround)//Neu da cai dat firstY
+	//{
+	//	int temp;
+	//	temp = this->firstY;
+	//	this->y = temp;
+	//}
 	if (daChamDat<9 && daChamDat != 0) //Neu vua cham dat thi tim thang ninja
 	{
 		if (this->x > ninja->x)
 		{
 			this->nx = -1;
-			vx = -0.1f;
+			vx = -0.135f;
 		}
-		else 
+		else
 		{
-			vx = 0.1f;
+			vx = 0.135f;
 			this->nx = 1;
 		}
 	}
+
+	//timer++;
+	/*	if (timer < 30)
+	{
+	vy = JumpModifiers;
+	}
+	else
+	{
+	vy = -0.2f;
+	}*/
+
+
 	x += dx;
-	#pragma endregion
+#pragma endregion
 
 
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
@@ -115,6 +156,7 @@ void CRunner::GetBoundingBox(float & x, float & y, float & width, float & height
 
 void CRunner::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }
@@ -122,10 +164,12 @@ void CRunner::BeAttack(int satThuong)
 void CRunner::DeActivate()
 {
 	hp = 0;
+	timer = 0;
 	ResetVeTrangThaiDau();
 	this->daChamDat = 0;
 	this->onGround = false;
 	this->ResetVeTrangThaiDau();
+	vuaKhoiTao = true;
 	//this->firstY = -1;
 	//CRunner::~CRunner();
 }

@@ -1,5 +1,5 @@
 #include "CGunner.h"
-
+#include "Sound.h"
 CGunner::CGunner(int id,int x, int y)
 {
 	this->id = id;
@@ -21,6 +21,7 @@ CGunner::CGunner(int id,int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
+	this->soDiem = 100;
 }
 
 
@@ -54,6 +55,7 @@ void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (timer == 95)
 	{
+		Sound::getInstance()->play(DIRECTSOUND_ENEMY_GUNNER);
 		CBulletGunner *bullet = new CBulletGunner(2, this->x, this->y, this->nx);
 		listProjectile.push_back(bullet);
 	}
@@ -144,6 +146,7 @@ void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height
 
 void CGunner::BeAttack(int satThuong)
 {
+	CEnemy::BeAttack(satThuong);
 	this->effect->RenderEffect(0, this->x, this->y);
 	DeActivate();
 }
