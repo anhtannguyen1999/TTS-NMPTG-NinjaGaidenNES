@@ -388,6 +388,7 @@ unsigned short int CGameObject::isCollitionObjectWithObject(CGameObject * obj)
 	//return checkAABB(obj);
 }
 
+
 void CGameObject::ResetVeTrangThaiDau()
 {
 	this->x = this->rootX;

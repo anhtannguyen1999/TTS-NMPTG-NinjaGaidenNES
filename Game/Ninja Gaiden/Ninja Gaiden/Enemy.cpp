@@ -75,3 +75,17 @@ void CEnemy::SetIsPause(bool isPause)
 	if (this->isPause != isPause) this->isPause = isPause;
 }
 
+int CEnemy::isNamTaiMepGround(CGameObject * ground)
+{
+	float gX, gY, gW, gH;
+	ground->GetBoundingBox(gX, gY, gW, gH);
+	if (this->x > gX - this->width && this->x <= gX) //Sat mep trai
+	{
+		return -1;
+	}
+	else if (this->x >= gX + gW - this->width && this->x < gX + gW)//mep phai
+		return 1;
+	else 
+		return 0;
+}
+

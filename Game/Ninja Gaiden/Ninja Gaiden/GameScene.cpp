@@ -174,10 +174,20 @@ void CGameScene::CheckCollisionNinjaWithBackGroundObj()
 
 					//cham 1 it o tren moi tinh
 					// &&Nếu có rơi xuống thì mới tin va chạm với đất nhé!!!
-					if (ninja->y - NINJA_HEIGHT_TMP > objY - 10 && ninja->vy<0)
+					if (ninja->y - NINJA_HEIGHT_TMP > objY - 10 && ninja->vy<0&& ground->GetMiniTypeGround()!= GROUND_MINITYPE_GREEN_SPECIAL)
 					{
 						ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
 						grounded = true;
+					}
+					//Neu cham vao mieng go mau xanh
+					else if (ninja->y - NINJA_HEIGHT_TMP > objY - 10 && ninja->vy < 0 && ground->GetMiniTypeGround() == GROUND_MINITYPE_GREEN_SPECIAL)
+					{
+						//Neu khong leo tuong thi moi xet cham dat
+						if (!ninja->GetOnWall())
+						{
+							ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
+							grounded = true;
+						}
 					}
 
 				}
@@ -720,6 +730,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 							if (collisionCheck == OBJ_COLLISION_BOTTOM) //Neu co va cham voi dat
 							{
 								grounded = true;
+								nguoiCamKiem->SetChamBien(nguoiCamKiem->isNamTaiMepGround(gameObj));
 							}
 						}
 					}
@@ -754,6 +765,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 								{
 									grounded = true;
+									panther->SetChamBien(panther->isNamTaiMepGround(gameObj));
 								}
 
 							}
@@ -783,6 +795,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 								{
 									grounded = true;
+									Cloak->SetChamBien(Cloak->isNamTaiMepGround(gameObj));
 								}
 							}
 						}
@@ -855,6 +868,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 								{
 									grounded = true;
+									Commando->SetChamBien(Commando->isNamTaiMepGround(gameObj));
 								}
 							}
 						}
@@ -959,7 +973,9 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 					for (UINT i = 0; i < listBackgroundObj.size(); i++)
 					{
 						CGameObject * gameObj = listBackgroundObj[i];
-						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
+						CGround *ground = dynamic_cast<CGround*>(gameObj);
+						if (listBackgroundObj[i]->GetType() == TYPE_GROUND 
+							&& dynamic_cast<CGround*>(gameObj)->GetMiniTypeGround()!= GROUND_MINITYPE_GREEN_SPECIAL)
 						{
 							unsigned short int collisionCheck = CRunner1->isCollitionObjectWithObject(gameObj);
 							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
@@ -967,6 +983,7 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
 								{
 									grounded = true;
+									CRunner1->SetChamBien(CRunner1->isNamTaiMepGround(gameObj));
 								}
 							}
 						}

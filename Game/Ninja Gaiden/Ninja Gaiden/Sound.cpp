@@ -28,8 +28,8 @@ void Sound::play(string soundLink, bool repeat /*= false*/, bool playFromStart /
 {
 	try
 	{
-		if (playFromStart)
-			loadedSound_.at(soundLink)->stop();
+		/*if (playFromStart)
+		loadedSound_.at(soundLink)->stop();*/
 		//	stop(soundLink);
 
 		loadedSound_.at(soundLink)->play(repeat);

@@ -108,6 +108,9 @@ public:
 	void RenderBoundingBox(int alpha=70);
 	virtual void GetBoundingBox(float &x, float &y, float &width, float &height)=0;
 	unsigned short int isCollitionObjectWithObject(CGameObject * obj);// kiểm tra bằng AABB và Sweept AABB
+
+	
+
 	void SetHP(int HP) { this->hp = HP; }
 
 	void ResetVeTrangThaiDau();

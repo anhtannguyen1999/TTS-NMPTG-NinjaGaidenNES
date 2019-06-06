@@ -64,7 +64,7 @@ public:
 	void SetOnGround(bool onGround);
 	bool GetOnGround() { return this->onGround; }
 	void SetOnWall(bool onWall);
-
+	bool GetOnWall() { return this->isOnWall; }
 	bool GetIsDeadth() { return this->hp <= 0; };
 
 	void GetBoundingBox(float & x, float & y, float & width, float & height);

@@ -250,7 +250,7 @@ void CBoss::GetBoundingBox(float & x, float & y, float & width, float & height)
 void CBoss::BanBullet(int x)
 {
 	
-	if (GetTickCount() - TimePrevShoot >= 5000&& this->x<100)
+	if (GetTickCount() - TimePrevShoot >= 8000&& this->x<100)
 	{
 		if (onGround)
 		{
@@ -261,7 +261,7 @@ void CBoss::BanBullet(int x)
 			return;
 		}
 	}
-	if (GetTickCount() - TimePrevShoot >= 5000 && this->x > 100)
+	if (GetTickCount() - TimePrevShoot >= 8000 && this->x > 100)
 	{
 		if (onGround)
 		{

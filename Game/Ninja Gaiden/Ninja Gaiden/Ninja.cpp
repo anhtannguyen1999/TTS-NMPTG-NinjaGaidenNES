@@ -171,13 +171,14 @@ void CNinja::CalNinjaSword()
 			{
 			case WEAPON_MINITYPE_SMALL_SHURIKEN:
 			{
-				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
+				
 				CSmallShuriken* smallShuriken = dynamic_cast<CSmallShuriken*>(specialWeapon);
 				if (smallShuriken&&smallShuriken->GetManaTieuHao() <= this->mana)
 				{
 					//Neu chua active thi tien hanh tru mana va active
 					if (smallShuriken->GetActive() == false)
 					{
+						Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
 						this->mana -= smallShuriken->GetManaTieuHao();
 					}
 					//DebugOut(L"Mana: %d\n", mana);
@@ -213,13 +214,14 @@ void CNinja::CalNinjaSword()
 			}
 			case WEAPON_MINITYPE_BIG_SHURIKEN:
 			{
-				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
+				
 				CBigShuriken* bigShuriken = dynamic_cast<CBigShuriken*>(specialWeapon);
 				if (bigShuriken&&bigShuriken->GetManaTieuHao() <= this->mana)
 				{
 					//Neu chua active thi tien hanh tru mana va active
 					if (bigShuriken->GetActive() == false)
 					{
+						Sound::getInstance()->play(DIRECTSOUND_SUBWEAPON_BIG_SHURIKEN);
 						this->mana -= bigShuriken->GetManaTieuHao();
 					}
 					//DebugOut(L"Mana: %d\n", mana);
@@ -252,13 +254,13 @@ void CNinja::CalNinjaSword()
 			}
 			case WEAPON_MINITYPE_FIRES:
 			{
-				Sound::getInstance()->play(DIRECTSOUND_NINJA_THROW);
 				CFiresWeapon* fires = dynamic_cast<CFiresWeapon*>(specialWeapon);
 				if (fires&&fires->GetManaTieuHao() <= this->mana)
 				{
 					//Neu chua active thi tien hanh tru mana va active
 					if (fires->GetActive() == false)
 					{
+						Sound::getInstance()->play(DIRECTSOUND_SUBWEAPON_FIRE);
 						this->mana -= fires->GetManaTieuHao();
 					}
 					//DebugOut(L"Mana: %d\n", mana);

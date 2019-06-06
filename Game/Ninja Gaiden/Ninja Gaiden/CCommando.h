@@ -12,6 +12,7 @@ class CCommando :public CEnemy
 	int timer = 0;
 	int firstY = -1; //Diem Y cham dat
 	CNinja *ninja = CNinja::GetInstance();
+	int chamBienGround = 0; //=-1 bien trai, 0: k nam o bien, =1 bien phai
 public:
 	vector<CGameObject*> listProjectile;
 
@@ -27,7 +28,7 @@ public:
 	virtual void BeAttack(int satThuong);
 	void RefreshListBullet();
 	virtual void DeActivate();
-
+	void SetChamBien(int chamBien) { this->chamBienGround = chamBien; }
 };
 
 

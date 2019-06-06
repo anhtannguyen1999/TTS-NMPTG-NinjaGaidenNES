@@ -54,26 +54,30 @@ void CCloak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (this->firstY != -1)//Neu da cai dat firstY
 		this->y = this->firstY;
 
-	if (!onGround&&firstY != -1)//neu no di ra ngoai cai bien cua no thi quay dau
-	{
-		//dy = 0;
-		if (this->x > rootX + 1)//Neu nam o bien ben phai thi quay dau di ve ben trai
-		{
-			vx = -0.05f;
-		}
-		else
-		{
-			vx = 0.05f;
-		}
-	}
 	
-	//if (daChamDat<9 && daChamDat != 0) //Neu vua cham dat thi tim thang ninja
+	if (chamBienGround==1)//Neu nam o bien ben phai thi quay dau di ve ben trai
+	{
+		vx = -0.05f;
+	}
+	else if(chamBienGround==-1)
+	{
+		vx = 0.05f;
+	}
+
+	//if (!onGround&&firstY != -1)//neu no di ra ngoai cai bien cua no thi quay dau
 	//{
-	//	if (this->x > ninja->x)
+	//	//dy = 0;
+	//	if (this->x > rootX + 1)//Neu nam o bien ben phai thi quay dau di ve ben trai
+	//	{
 	//		vx = -0.05f;
+	//	}
 	//	else
+	//	{
 	//		vx = 0.05f;
+	//	}
 	//}
+	
+	
 	x += dx;
 	#pragma endregion
 

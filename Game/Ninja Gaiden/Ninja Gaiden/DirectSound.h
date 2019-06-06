@@ -12,14 +12,14 @@
 #define DirectSound_NINJA_JUMP "Sound/Jump.wav"
 #define NINJA_ATTACKED "Sound/Attacked.wav"
 #define DirectSound_Background2 "Sound/stage32.wav"
-#define DirectSound_Background3 "Sound/boss.wav"
-#define DirectSound_OBTAIN_HEALTHPOT "Sound/HealthPot.wav"
+#define DirectSound_Background3 "Sound/SoundMap3.wav" //"Sound/boss.wav"
+#define DirectSound_OBTAIN_HEALTHPOT "Sound/HealthPot.wav" 
 #define DirectSound_ENEMY_ATTACKED "Sound/EnemyDeath.wav"
 #define DIRECTSOUND_NINJA_THROW "Sound/Throw.wav"
 #define DIRECTSOUND_ENEMY_COMMANDO "Sound/Commando.wav"
 #define DIRECTSOUND_ENEMY_GUNNER "Sound/GunnerShoot.wav"
 #define DIRECTSOUND_SUBWEAPON_FIRE "Sound/FireShoot.wav"
-
+#define DIRECTSOUND_SUBWEAPON_BIG_SHURIKEN "Sound/BigShurikenWeapon.wav"
 
 #define AUDIO_BLOCK_ALIGN(bitPerSample, nChannels)		(WORD)(bitPerSample / 8 * nChannels)
 #define AUDIO_AVERAGE_BPS(samplesPerSec, blockAlign)	(DWORD)(samplesPerSec * blockAlign)

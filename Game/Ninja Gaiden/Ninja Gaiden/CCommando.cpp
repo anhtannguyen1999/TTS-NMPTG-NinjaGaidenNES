@@ -13,7 +13,7 @@ CCommando::CCommando(int id, int x, int y)
 	this->dame = 1;
 	this->hp = 1;
 	this->width = 20;
-	this->height = 35;
+	this->height = 30;
 	nx = -1;
 	vy = -0.3f;
 	vx = -0.05f;
@@ -64,19 +64,28 @@ void CCommando::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			nx = 1;
 		}
 	}
-	//neu no di ra ngoai cai bien cua no thi quay dau
-	if (!onGround&&firstY != -1)
+
+	//Neu nam o bien thi dung lai
+	if ((chamBienGround == 1 && nx>0)|| (chamBienGround == -1&&nx<0))
 	{
-		//dy = 0;
-		if (this->x > rootX + 1)//Neu nam o bien ben phai thi quay dau di ve ben trai
-		{
-			vx = 0;// -0.05f;
-		}
-		else
-		{
-			vx = 0;//0.05f;
-		}
+		vx = 0;// -0.05f;
 	}
+
+	//neu no di ra ngoai cai bien cua no thi quay dau
+	//if (!onGround&&firstY != -1)
+	//{
+	//	//dy = 0;
+	//	if (chamBienGround == 1)//Neu nam o bien ben phai thi quay dau di ve ben trai
+	//	{
+	//		vx = 0;// -0.05f;
+	//	}
+	//	else if(chamBienGround == -1)
+	//	{
+	//		vx = 0;//0.05f;
+	//	}
+	//}
+
+
 
 	x += dx;
 	#pragma endregion
@@ -183,7 +192,7 @@ void CCommando::GetBoundingBox(float & x, float & y, float & width, float & heig
 	if (hp <= 0)
 		return;
 	x = this->x;
-	y = this->y;
+	y = this->y-2;
 	width = this->width;
 	height = this->height;
 }

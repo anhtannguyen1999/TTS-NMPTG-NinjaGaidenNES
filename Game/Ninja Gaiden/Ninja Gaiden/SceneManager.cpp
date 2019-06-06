@@ -25,13 +25,13 @@ void CSceneManager::LoadScene(int sceneID)
 	case GAME_STAGE_31:
 		delete(gameScene);
 		gameScene = new CGameSceneStage31();
-		//ninja->SetPositionX(2000);
-		
+		ninja->SetPositionX(2000);
+		NextScene();
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
-		ninja->SetPositionX(3000);
+		ninja->SetPositionX(1700);
 		ninja->SetPositionY(200);
 		break;
 	case GAME_STAGE_33:
@@ -749,12 +749,15 @@ void CSceneManager::DisableSoundWhenChangeScene()
 	{
 	case GAME_STAGE_31:
 		Sound::getInstance()->stop(DirectSound_BACKGROUND1);
+		//Sound::getInstance()->deleteSound(DirectSound_BACKGROUND1);
 		break;
 	case GAME_STAGE_32:
 		Sound::getInstance()->stop(DirectSound_Background2);
+		//Sound::getInstance()->deleteSound(DirectSound_Background2);
 		break;
 	case GAME_STAGE_33:
 		Sound::getInstance()->stop(DirectSound_Background3);
+		//Sound::getInstance()->deleteSound(DirectSound_Background3);
 		break;
 	default:
 		break;

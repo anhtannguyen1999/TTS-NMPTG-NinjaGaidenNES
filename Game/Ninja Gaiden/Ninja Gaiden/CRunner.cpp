@@ -39,29 +39,29 @@ void CRunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CEnemy::Update(dt);
 
 #pragma region Va cham dat va di chuyen
-	if (!onGround)
+	if (chamBienGround)
 	{
-		timer++;
+		timer=23;
+		chamBienGround = 0;
 	}
 	if (timer)
 	{
-		timer++;
-		if (timer>3 && timer < 30&&!vuaKhoiTao)
-		{
-			vy = JumpModifiers;// +0.2f;
-		}
-		else if(!onGround)
-		{
-			vy = -0.2f;
-		}
+		timer--;
+		vy = JumpModifiers;
 		y += dy;
-		if (vy < 0 && onGround)
+		if (timer == 0)
 		{
-			timer = 0;
-			vuaKhoiTao = false;
+			dy = 0;
 		}
 			
+			
 	}
+	else if (!onGround)
+	{
+		vy = -0.2f;
+		y += dy;
+	}
+	
 	//y += dy;
 	//if (onGround == true && this->firstY == -1)
 	//{

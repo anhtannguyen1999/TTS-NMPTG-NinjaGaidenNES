@@ -14,6 +14,7 @@ protected:
 	CEffect *effect = CEffect::GetInstance();
 	bool isPause;
 	int soDiem=0;
+
 public:
 	CEnemy();
 	~CEnemy();
@@ -31,5 +32,6 @@ public:
 	float GetRootY();
 	void SetIsPause(bool isPause);
 	int GetSoDiem() { return this->soDiem; }
+	int isNamTaiMepGround(CGameObject*ground); //=-1 mep trai, =0 k co, =1 mep phai
 };
 

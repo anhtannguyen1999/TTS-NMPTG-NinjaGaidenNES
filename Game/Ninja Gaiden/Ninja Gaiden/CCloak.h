@@ -12,7 +12,7 @@ class CCloak :public CEnemy
 	//int startX;
 	int timer = 0;
 	int firstY = -1; //Diem Y cham dat
-
+	int chamBienGround = 0; //=-1 bien trai, 0: k nam o bien, =1 bien phai
 public:
 	vector<CGameObject*> listProjectile; //list cac cross
 
@@ -29,7 +29,7 @@ public:
 	void ClearListCross();
 	void RefreshListCross();
 	virtual void DeActivate();
-
+	void SetChamBien(int chamBien) { this->chamBienGround = chamBien; }
 };
 
 

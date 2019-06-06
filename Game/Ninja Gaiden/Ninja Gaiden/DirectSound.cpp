@@ -7,6 +7,7 @@
 WAVEFORMATEX DirectSound::bufferFormat_;
 DSBUFFERDESC DirectSound::bufferDescription_;
 LPDIRECTSOUND8 DirectSound::audioHandler_;
+LPDIRECTSOUNDNOTIFY lpdNot;
 HWND DirectSound::windowsHandler_;
 
 // -----------------------------------------------
@@ -22,8 +23,14 @@ DirectSound::DirectSound(const char* audioPath)
 
 DirectSound::~DirectSound(void)
 {
-	
-	DirectSoundBuffer_->Stop();
+	if (lpdNot != NULL)
+	{
+		lpdNot->Release();
+	}
+	if (DirectSoundBuffer_ != NULL)
+	{
+		DirectSoundBuffer_->Release();
+	}
 }
 
 
@@ -106,9 +113,9 @@ HRESULT DirectSound::loadAudio(const char* audioPath_)
 
 	// error if wn == size_t(-1)
 	//wchar_t* buf = convert(audioPath_);
-	 // successful conversion
+	// successful conversion
 
-						// result now in buf, return e.g. as std::wstring
+	// result now in buf, return e.g. as std::wstring
 
 	result = audioObject.Open(buf, 0, 1);
 
@@ -146,7 +153,11 @@ HRESULT DirectSound::loadAudio(const char* audioPath_)
 // Desc: Play loaded audio, may choose loop or no.
 // -----------------------------------------------
 HRESULT DirectSound::play(bool isLoop, DWORD priority)
-{
+{/*
+ if (restore)
+ {
+ DirectSoundBuffer_->Restore();
+ }*/
 	if (DirectSoundBuffer_ != NULL)
 	{
 		return DirectSoundBuffer_->Play(0, priority, isLoop & DSBPLAY_LOOPING);
@@ -161,6 +172,8 @@ HRESULT DirectSound::play(bool isLoop, DWORD priority)
 HRESULT DirectSound::stop()
 {
 	HRESULT result = DirectSoundBuffer_->Stop();
+
 	DirectSoundBuffer_->SetCurrentPosition(0);
+	DirectSound::~DirectSound();
 	return result;
 }

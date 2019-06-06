@@ -17,7 +17,7 @@ CPanther::CPanther(int id, int x, int y,int rootNX)
 	this->width = 34;
 	this->height = 20;
 	nx = rootNX;
-	vy = -0.1f;
+	vy = -0.2f;
 	vx = 0.11f;
 	
 	//Luu diem ban dau
@@ -59,11 +59,26 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}
 	
+	if (onGround&&chamBienGround != 0)
+	{
+		jumpTimer = 10;
+		y += 1;
+	}
+	if (jumpTimer)
+	{
+		jumpTimer--;
+		this->vy = 0.1f;
+		if (jumpTimer == 0)
+		{
+			this->vy = -0.2f;
+		}
+	}
+
 	x += dx;
 	if (y >= 170)//Bị rơi xuống đất
 	{
 		//hp = 0;
-		this->BeAttack(1);
+		this->DeActivate();
 		 //DebugOut(L"Panther died");
 	}
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
