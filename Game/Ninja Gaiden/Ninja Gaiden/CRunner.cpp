@@ -140,7 +140,7 @@ void CRunner::Render()
 	if (isPause)
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 }
 
 

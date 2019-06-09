@@ -25,7 +25,7 @@ void CGround::GetBoundingBox(float &x, float &y, float &width, float &height)
 
 void CGround::Render()
 {
-	//this->RenderBoundingBox(180);
+	this->RenderBoundingBox(180);
 }
 
 int CGround::GetMiniTypeGround()

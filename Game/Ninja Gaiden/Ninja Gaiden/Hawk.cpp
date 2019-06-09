@@ -65,7 +65,7 @@ void CHawk::Render()
 	if (isPause)
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	//this->RenderBoundingBox(170);
+	this->RenderBoundingBox(170);
 }
 
 void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -197,7 +197,7 @@ void CCloak::Render()
 			listProjectile[i]->Render();
 	}
 
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 }
 
 //void CCloak::RenderShoot()
@@ -235,7 +235,7 @@ void CCloak::Render()
 //	pos = camera->SetPositionInViewPort(pos);
 //	animations[ani]->Render(pos.x, pos.y, ALPHA);
 //	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
-//	//this->RenderBoundingBox();
+//	this->RenderBoundingBox();
 //}
 
 

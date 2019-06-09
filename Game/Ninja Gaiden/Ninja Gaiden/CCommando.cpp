@@ -184,7 +184,7 @@ void CCommando::Render()
 		//DebugOut(L"Render sucess");
 	}
 
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 }
 
 void CCommando::GetBoundingBox(float & x, float & y, float & width, float & height)

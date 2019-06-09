@@ -82,7 +82,7 @@ void CBulletBoss::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[0]->Render(pos.x, pos.y, ALPHA);
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 }
 
 

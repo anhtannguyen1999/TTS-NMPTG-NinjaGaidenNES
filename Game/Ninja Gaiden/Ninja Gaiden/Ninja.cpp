@@ -530,7 +530,7 @@ void CNinja::Render()
 	}
 	
 	//DebugOut(L"%d\n", attacked);
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 	ninjaSword->Render();
 	if (specialWeapon)
 		specialWeapon->Render();

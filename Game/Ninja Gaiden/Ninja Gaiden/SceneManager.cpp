@@ -30,12 +30,11 @@ void CSceneManager::LoadScene(int sceneID)
 		delete(gameScene);
 		gameScene = new CGameSceneStage31();
 		//ninja->SetPositionX(2000);
-		//NextScene();
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
-		//ninja->SetPositionX(2600);
+		//ninja->SetPositionX(3000);
 		break;
 	case GAME_STAGE_33:
 		delete(gameScene);

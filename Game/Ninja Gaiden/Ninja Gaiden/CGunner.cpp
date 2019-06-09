@@ -131,7 +131,7 @@ void CGunner::Render()
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
-	//this->RenderBoundingBox();
+	this->RenderBoundingBox();
 }
 
 void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height)

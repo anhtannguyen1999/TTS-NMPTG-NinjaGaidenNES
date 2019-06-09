@@ -124,7 +124,7 @@ void CNguoiCamKiem::Render()
 	if (isPause)
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	//this->RenderBoundingBox(180);
+	this->RenderBoundingBox(180);
 }
 
 
