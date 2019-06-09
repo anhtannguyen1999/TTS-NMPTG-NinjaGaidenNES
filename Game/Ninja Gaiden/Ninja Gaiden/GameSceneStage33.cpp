@@ -2,6 +2,7 @@
 
 CGameSceneStage33::CGameSceneStage33() :CGameScene() //gọi lại cái khởi tạo của gamescene để kt con ninja
 {
+	//CGameScene::CGameScene();
 	if (tileMap == NULL)
 		tileMap = new CTileMap(L"ReSource\\Map3-Matrix.txt", L"ReSource\\Map3-Tiles.png");
 	if (camera == NULL)
@@ -16,6 +17,11 @@ CGameSceneStage33::CGameSceneStage33() :CGameScene() //gọi lại cái khởi t
 	camera->Update(DWORD(15) , 0, 0, tileMap->GetMapWidth(), tileMap->GetMapHeight());
 	scoreboard->SetStage(3);
 	Sound::getInstance()->play(DirectSound_Background3, true, true);
+	//readyForNextScene = false;
+	isChangingScene = false;
+	boss->Reset();
+	ninja->SetPositionX(125);
+	ninja->SetPositionY(70);
 }
 
 
@@ -27,6 +33,7 @@ CGameSceneStage33::~CGameSceneStage33()
 
 void CGameSceneStage33::Update(DWORD dt)
 {
+	CGameScene::Update(dt);
 	gridGame->GetListObject(listBackgroundObj, listOtherObj, camera); // lấy hết các object "còn Alive" trong vùng camera;
 
 	ninja->Update(dt);
@@ -41,6 +48,30 @@ void CGameSceneStage33::Update(DWORD dt)
 	//if (!ninja->GetIsDeadth())//chưa chết thì xét va chạm
 	{
 		CheckCollision();
+	}
+
+	if (boss->GetHP() <= 0)
+	{
+		tick++;
+		if (tick % 2 == 0)
+		{
+			tick = 0;
+			scoreboard->PauseTimer(true);
+			if (scoreboard->GetTimer() > 0)
+			{
+				//DebugOut(L"Timer: %d\n", scoreboard->GetTimer());
+				ninja->CongDiem(1000);
+				//if (scoreboard->GetTimer() - 1 < 0)
+				scoreboard->SetTimer(scoreboard->GetTimer() - 1);
+			}
+			else
+			{
+				//readyForNextScene = true;
+				isChangingScene = true;
+			}
+		}
+		
+		
 	}
 }
 
@@ -124,128 +155,8 @@ void CGameSceneStage33::CheckCollisionNinjaWidthBossAndBullet()
 	}
 }
 
-/*
-void CGameSceneStage33::CheckCollisionNinjaWithGround()
+void CGameSceneStage33::PauseBackgroundSound()
 {
-	bool grounded = false;
-	//DebugOut(L"Obj collision Size: %d\n", listObj.size());
-	CGameObject * gameObj;
-	for (UINT i = 0; i < listBackgroundObj.size(); i++)
-	{
-		gameObj = listBackgroundObj[i];
-		if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-		{
-			unsigned short int collisionCheck = ninja->isCollitionObjectWithObject(gameObj);
-			if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-			{
-				if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-				{
-					ninja->vx *= 0.1;
-					ninja->vy = -0.1f;
-
-					float objX, objY, objW, objH;
-					gameObj->GetBoundingBox(objX, objY, objW, objH);
-					if (ninja->vy < 0)// Nếu có rơi xuống thì bố mới tin va chạm với đất nhé!!!Thân
-						grounded = true;
-					if (ninja->y - NINJA_HEIGHT_TMP > objY - 16) //cham 1 it o tren moi tinh
-						ninja->SetPositionY(objY + NINJA_HEIGHT_TMP);
-				}
-				//DebugOut(L"%d \n", collisionCheck);
-				else if (collisionCheck == OBJ_COLLISION_LEFT)
-				{
-					float objX, objY, objW, objH;
-					gameObj->GetBoundingBox(objX, objY, objW, objH);
-					//ninja->SetSpeedX(0);
-					ninja->SetPositionX(objX + objW);
-				}
-				else if (collisionCheck == OBJ_COLLISION_RIGHT)
-				{
-					float objX, objY, objW, objH;
-					gameObj->GetBoundingBox(objX, objY, objW, objH);
-					ninja->SetPositionX(objX - NINJA_WIDTH_TMP);
-					//ninja->SetSpeedX(0.001f);
-				}
-				else {}
-				if (collisionCheck == OBJ_COLLISION_TOP)
-				{
-					float objX, objY, objW, objH;
-					gameObj->GetBoundingBox(objX, objY, objW, objH);
-					//ninja->SetState(NINJA_STATE_JUMP);
-				}
-			}
-		}
-
-	}
-	ninja->SetOnGround(grounded);
-
+	Sound::getInstance()->stop(DirectSound_Background3);
 }
-*/
-/*
-void CGameSceneStage33::CheckCollisionEnemyWithGroundAndVuKhi()
-{
-	for (UINT i = 0; i < listOtherObj.size(); i++)
-	{
-		int type = listOtherObj[i]->GetType();
-		CGameObject * gameObj = listOtherObj[i];
-		//check va cham voi enemy
-		if (type = TYPE_ENEMY)
-		{
-			//Xet enemy
-			CEnemy* enemy = dynamic_cast<CEnemy*>(gameObj);
-			//Neu la Boss
-			if (enemy->GetTypeEnemy() == ENEMY_MINITYPE_BOSS)
-			{
-				CBoss* boss = dynamic_cast<CBoss*>(enemy);
-				if (boss) //c != nullptr //downcast thành công
-				{
-					bool grounded = false;
-
-					for (UINT i = 0; i < listBackgroundObj.size(); i++)
-					{
-						CGameObject * gameObj = listBackgroundObj[i];
-						if (listBackgroundObj[i]->GetType() == TYPE_GROUND)
-						{
-							unsigned short int collisionCheck = boss->isCollitionObjectWithObject(gameObj);
-							if (!collisionCheck == OBJ_NO_COLLISION) //Neu co va cham
-							{
-								if (collisionCheck == OBJ_COLLISION_BOTTOM) // có va chạm xảy ra với nền đất
-								{
-									grounded = true;
-								}
-							}
-						}
-
-					}
-					boss->SetOnGround(grounded);
-					for (UINT i = 0; i < boss->listProjectile.size(); i++)
-					{
-						CBulletBoss* BBoss = dynamic_cast<CBulletBoss*>(boss->listProjectile[i]);
-
-						if (ninja->ninjaSword->GetActive() && BBoss->isCollitionObjectWithObject(ninja->ninjaSword))
-						{
-							BBoss->BeAttack(1);
-							ninja->ninjaSword->DanhChetEnemy();
-						}
-					}
-				}
-				//else {}
-				//SAFE_DELETE();
-			}
-
-
-
-
-			//XetVaChamEnemy voi vu khi
-			if (ninja->ninjaSword->GetActive() && enemy->isCollitionObjectWithObject(ninja->ninjaSword))
-			{
-				enemy->BeAttack(1);
-				gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
-			}
-
-		}
-
-	}
-}
-*/
-
 

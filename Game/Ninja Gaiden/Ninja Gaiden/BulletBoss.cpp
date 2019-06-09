@@ -1,6 +1,6 @@
 #include "BulletBoss.h"
 
-CBulletBoss::CBulletBoss(int id, int x, int y, int nx)
+CBulletBoss::CBulletBoss(int id, int x, int y, int nx, int rootX, int Delay)
 {
 	this->id = id;
 	LoadResource();
@@ -11,15 +11,18 @@ CBulletBoss::CBulletBoss(int id, int x, int y, int nx)
 	this->hp = 1;
 	this->width = 12;
 	this->height = 10;
+	this->rootX = rootX;
 	this->nx = nx;
+	this->Delay = Delay;
 	if (nx >= 1)
 	{
-		vx = 0.05f;//0.05f;
+		vx = 0.1f;//0.05f;
 	}
 	else
 	{
-		vx = -0.05f;
+		vx = -0.1f;
 	}
+	this->rootVX = vx;
 	//vy = 0;
 	//vx = -0.05f;
 	//startX = this->x;
@@ -32,14 +35,17 @@ CBulletBoss::~CBulletBoss()
 
 void CBulletBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//CGameObject::Update(dt);
-	//CEnemy::Update(dt);
-	/*if (daChamDat == 0)
-	y += dy;*/
+	if (GetTickCount() - prevDelay >= Delay)
+	{
+		vx = this->rootVX;
+	}
+	else
+	{
+		vx = 0;
+	}
 
-	x += vx*dt;
-	//y += dy;
-	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n", daChamDat,onGround,vx,nx);
+	x += vx * dt;
+
 	if (x < 0)
 		x = -50;
 	if (x > 255)
@@ -76,7 +82,7 @@ void CBulletBoss::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[0]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 
@@ -93,15 +99,18 @@ void CBulletBoss::GetBoundingBox(float & x, float & y, float & width, float & he
 }
 void CBulletBoss::Reset()
 {
+	prevDelay = GetTickCount();
+
 	if (nx < 0)
 	{
-		x = 200;
-		vx = -0.15f;
+
+		this->x = this->rootX;
+		//vx =this->rootVX ;
 	}
 	else
 	{
-		x = 50;
-		vx = 0.15f;
+		this->x = this->rootX;
+		//vx = this->rootVX;
 	}
 }
 void CBulletBoss::BulletWait()

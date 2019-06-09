@@ -1,6 +1,6 @@
 #include "Boss.h"
 
-
+int satThuongNhanVao = 0;
 CBoss *CBoss::__instance = NULL;
 CBoss *CBoss::GetInstance(int id, int x, int y)
 {
@@ -15,26 +15,29 @@ CBoss::CBoss(int id, int x, int y)
 	this->typeEnemy = ENEMY_MINITYPE_BOSS;
 	this->x = x;
 	this->y = y;
-	this->dame = 1;
+	this->dame = 2;
 	this->hp = 16;
 	this->width = 30;
 	this->height = 40;
 	nx = -1;
 	vy = -0.05f;
-	vx = -0.15f;
+	vx = -0.25f;//-0.15f;
 	startX = this->x;
+	rootX = this->x;
+	rootY = this->y;
+
 	TimePrevFly = GetTickCount();
-	CBulletBoss *bullet0 = new CBulletBoss(2, -50, 85, 1);
-	CBulletBoss *bullet1 = new CBulletBoss(2, -50, 70, 1);
-	CBulletBoss *bullet2 = new CBulletBoss(2, -50, 60, 1);
+	CBulletBoss *bullet0 = new CBulletBoss(2, -50, 85, 1, 50, 400);
+	CBulletBoss *bullet1 = new CBulletBoss(2, -50, 70, 1, 40, 600);
+	CBulletBoss *bullet2 = new CBulletBoss(2, -50, 60, 1, 30, 800);
 
 	//CBulletBoss *bullet3 = new CBulletBoss(2, 280, 70, -1);
 	//CBulletBoss *bullet4 = new CBulletBoss(2, 280, 60, -1);
 	//CBulletBoss *bullet5 = new CBulletBoss(2, 280, 50, -1);
 
-	CBulletBoss *bullet3 = new CBulletBoss(2, 280, 85, -1);
-	CBulletBoss *bullet4 = new CBulletBoss(2, 280, 70, -1);
-	CBulletBoss *bullet5 = new CBulletBoss(2, 280, 60, -1);
+	CBulletBoss *bullet3 = new CBulletBoss(2, 280, 85, -1, 195, 400);
+	CBulletBoss *bullet4 = new CBulletBoss(2, 280, 70, -1, 205, 600);
+	CBulletBoss *bullet5 = new CBulletBoss(2, 280, 60, -1, 215, 800);
 	listProjectile.push_back(bullet0);
 	listProjectile.push_back(bullet1);
 	listProjectile.push_back(bullet2);
@@ -57,7 +60,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		timerRefreshAttack--;
 		if (timerRefreshAttack == 0)
 		{
-			hp--;
+			hp-=satThuongNhanVao;
 			Sound::getInstance()->play(DirectSound_ENEMY_ATTACKED);
 		}
 			
@@ -79,6 +82,19 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (hp <= 0)
 		return;
+
+	if (x < 47.54f)
+	{
+		x = 47.54f;
+		y = 70;
+	}
+	if (x > 202.46f)
+	{
+		x = 202.46f;
+		y = 70;
+	}
+
+
 	if (onGround == 1)
 	{ 
 		//y = 70;
@@ -133,8 +149,9 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}
 	
-	BanBullet(1);
-	DebugOut(L"HP= %d, timer= %d\n", hp,timerRefreshAttack);
+	//BanBullet(1);
+	BanBullet(8000);
+	//DebugOut(L"HP= %d, timer= %d\n", hp,timerRefreshAttack);
 	//DebugOut(L"cham dat %d; onground %d ; vx %f ; nx %d\n; x:%f; y:%f", daChamDat,onGround,vx,nx,x,y);
 }
 
@@ -189,7 +206,7 @@ void CBoss::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox(180);
+	//this->RenderBoundingBox(180);
 
 	
 	if (hp == -100)
@@ -250,9 +267,9 @@ void CBoss::GetBoundingBox(float & x, float & y, float & width, float & height)
 void CBoss::BanBullet(int x)
 {
 	
-	if (GetTickCount() - TimePrevShoot >= 8000&& this->x<100)
+	if (GetTickCount() - TimePrevShoot >= x && this->x<100)
 	{
-		if (onGround)
+		if (onGround&&this->nx >= 0)
 		{
 			RefreshListBullet(0);
 			RefreshListBullet(1);
@@ -261,9 +278,9 @@ void CBoss::BanBullet(int x)
 			return;
 		}
 	}
-	if (GetTickCount() - TimePrevShoot >= 8000 && this->x > 100)
+	if (GetTickCount() - TimePrevShoot >= x && this->x > 100)
 	{
-		if (onGround)
+		if (onGround&&this->nx<0)
 		{
 			RefreshListBullet(3);
 			RefreshListBullet(4);
@@ -273,11 +290,13 @@ void CBoss::BanBullet(int x)
 		}
 	}
 }
+
+
 void CBoss::BeAttack(int satThuong)
 {
 	
 	timerRefreshAttack = 10;//dung cai nay de -hp
-	
+	satThuongNhanVao = satThuong;
 }
 
 void CBoss::DeActivate()
@@ -285,6 +304,25 @@ void CBoss::DeActivate()
 	hp = -100;
 	ninja->CongDiem(1000);
 	//CBoss::~CBoss();
+}
+
+void CBoss::Reset()
+{
+	onGround = false;
+	isHit = 0;
+	daChamDat = 0;
+	CanFly = 1;
+	TimePerFly = 3000;
+	TimePrevFly = 0;
+	TimePrevShoot = 0;
+	timerRefreshAttack = 0;
+	this->x = rootX;
+	this->y = rootY;
+	//this->dame = 1;
+	this->hp = 16;
+	nx = -1;
+	vy = -0.05f;
+	vx = -0.15f;
 }
 
 void CBoss::RefreshListBullet(int x)

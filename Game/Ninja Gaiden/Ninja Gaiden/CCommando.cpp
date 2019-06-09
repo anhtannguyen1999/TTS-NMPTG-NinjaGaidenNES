@@ -24,7 +24,7 @@ CCommando::CCommando(int id, int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
-	this->soDiem = 100;
+	this->soDiem = 200;
 }
 
 
@@ -184,7 +184,7 @@ void CCommando::Render()
 		//DebugOut(L"Render sucess");
 	}
 
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 void CCommando::GetBoundingBox(float & x, float & y, float & width, float & height)

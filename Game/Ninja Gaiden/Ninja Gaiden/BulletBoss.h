@@ -6,8 +6,10 @@ class CBulletBoss :public CEnemy
 	int isHit = 0;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	int startX;
+	int Delay = 0;
+	int prevDelay = 0;
 public:
-	CBulletBoss(int id, int x, int y, int nx);
+	CBulletBoss(int id, int x, int y, int nx, int rootX, int Delay);
 	~CBulletBoss();
 	void Reset();
 	void LoadResource();

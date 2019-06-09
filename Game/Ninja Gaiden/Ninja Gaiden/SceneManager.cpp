@@ -6,7 +6,7 @@ CSceneManager * CSceneManager::__instance = NULL;
 CSceneManager::CSceneManager()
 {
 	LoadResource();
-	sceneID = 1;
+	sceneID = 0;
 	//__instance = NULL;
 }
 
@@ -22,22 +22,34 @@ void CSceneManager::LoadScene(int sceneID)
 	ninja = CNinja::GetInstance();
 	switch (sceneID)
 	{
+	case GAME_SCENE_INTRO:
+		delete(gameScene);
+		gameScene = new IntroScene();
+		break;
 	case GAME_STAGE_31:
 		delete(gameScene);
 		gameScene = new CGameSceneStage31();
-		ninja->SetPositionX(2000);
-		NextScene();
+		//ninja->SetPositionX(2000);
+		//NextScene();
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
-		ninja->SetPositionX(1700);
-		ninja->SetPositionY(200);
+		//ninja->SetPositionX(2600);
 		break;
 	case GAME_STAGE_33:
 		delete(gameScene);
 		gameScene = new CGameSceneStage33();
-		ninja->SetPositionY(200);
+		//ninja->SetPositionX(150);
+		//ninja->SetPositionY(70);
+		break;
+	case GAME_SCENE_GAMEOVER:
+		delete(gameScene);
+		gameScene = new CGameSceneGameOver();
+		break;
+	case GAME_SCENE_OUTTRO:
+		delete(gameScene);
+		gameScene = new OuttroScene();
 		break;
 	default:
 		break;
@@ -60,7 +72,8 @@ void CSceneManager::Update(DWORD dt)
 			gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
 			if (endSceneEffectDone)
 			{
-				this->NextScene();
+				//this->NextScene();
+				this->PlayScene(GAME_STAGE_32);
 			}
 				
 		}
@@ -71,13 +84,74 @@ void CSceneManager::Update(DWORD dt)
 			gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
 			if (endSceneEffectDone)
 			{
-				this->NextScene();
+				//this->NextScene();
+				this->PlayScene(GAME_STAGE_33);
+			}
+		}
+		if (sceneID == GAME_STAGE_33)
+		{
+			CGameSceneStage33* scene3 = dynamic_cast<CGameSceneStage33*>(gameScene);
+			if (scene3->GetIsChangingScene())
+			{
+				if (endSceneEffectDone)
+					DebugOut(L"Done: %d\n", endSceneEffectDone);
+				gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
+				if (endSceneEffectDone)
+				{
+					ninja->SetSoMang(2);
+					ninja->ResetVeTrangThaiDau();
+					ninja->SetPoint(0);
+					this->PlayScene(GAME_SCENE_OUTTRO);
+					
+				}
+			}
+		}
+		if (sceneID == GAME_SCENE_GAMEOVER)
+		{
+			if (gameScene->GetIsChangingScene())
+			{
+				ninja->SetSoMang(2);
+				ninja->ResetVeTrangThaiDau();
+				//sceneID = GAME_STAGE_31;
+				//LoadScene(sceneID);
+				PlayScene(GAME_STAGE_31);
+			}
+		}
+		if (sceneID == GAME_SCENE_INTRO)
+		{
+			if (gameScene->GetIsChangingScene())
+			{
+				//DisableSoundWhenChangeScene();
+				//sceneID = GAME_STAGE_31;
+				ninja->SetSoMang(2);
+				ninja->ResetVeTrangThaiDau();
+				//LoadScene(sceneID);
+				PlayScene(GAME_STAGE_31);
+			}
+		}
+		if (sceneID == GAME_SCENE_OUTTRO)
+		{
+
+			if (gameScene->GetIsChangingScene())
+			{
+				ninja->SetSoMang(2);
+				ninja->ResetVeTrangThaiDau();
+				PlayScene(GAME_STAGE_31);
 			}
 		}
 	}
 	
 	gameScene->Update(dt);
 
+	if (gameScene->GetResetScene())
+	{
+		LoadScene(sceneID);
+	}
+
+	if (ninja->GetSoMang() < 0)
+	{
+		PlayGameOverScene();
+	}
 }
 
 void CSceneManager::NextScene()
@@ -93,7 +167,86 @@ void CSceneManager::PreScece()
 	DisableSoundWhenChangeScene();
 	this->sceneID--;
 	this->LoadScene(sceneID);
+	CSprites::GetInstance()->SetSamMau(0);
 }
+
+void CSceneManager::PlayGameOverScene()
+{
+	if (sceneID != GAME_SCENE_GAMEOVER)
+	{
+		DisableSoundWhenChangeScene();
+		sceneID = GAME_SCENE_GAMEOVER;
+		LoadScene(sceneID);
+	}
+}
+
+void CSceneManager::PlayIntroScene()
+{
+	if (sceneID != GAME_SCENE_INTRO)
+	{
+		DisableSoundWhenChangeScene();
+		sceneID = GAME_SCENE_INTRO;
+		LoadScene(sceneID);
+	}
+}
+
+void CSceneManager::PlayScene(int id)
+{
+	switch (id)
+	{
+	case GAME_SCENE_INTRO:
+		if (sceneID != GAME_SCENE_INTRO)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_SCENE_INTRO;
+			LoadScene(sceneID);
+		}
+		break;
+	case GAME_STAGE_31:
+		if (sceneID != GAME_STAGE_31)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_STAGE_31;
+			LoadScene(sceneID);
+		}
+		break;
+	case GAME_STAGE_32:
+		if (sceneID != GAME_STAGE_32)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_STAGE_32;
+			LoadScene(sceneID);
+		}
+		break;
+	case GAME_STAGE_33:
+		if (sceneID != GAME_STAGE_33)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_STAGE_33;
+			LoadScene(sceneID);
+		}
+		break;
+	case GAME_SCENE_GAMEOVER:
+		if (sceneID != GAME_SCENE_GAMEOVER)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_SCENE_GAMEOVER;
+			LoadScene(sceneID);
+		}
+		break;
+	case GAME_SCENE_OUTTRO:
+		if (sceneID != GAME_SCENE_OUTTRO)
+		{
+			DisableSoundWhenChangeScene();
+			sceneID = GAME_SCENE_OUTTRO;
+			LoadScene(sceneID);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 
 void CSceneManager::KeyDown(unsigned short int const & key)
 {
@@ -619,6 +772,12 @@ void CSceneManager::LoadOtherResource()
 
 	textures->Add(ID_TEX_CONTAINERANDEFFECT, L"textures\\ContainerAndEffectTex.png", D3DCOLOR_XRGB(255, 163, 177));
 
+	#pragma region Scene
+	textures->Add(10, L"ReSource\\Intro.png", D3DCOLOR_XRGB(120, 220, 130));
+	LPDIRECT3DTEXTURE9 intro = textures->Get(10);
+	sprites->Add(400, 0, 0, 260, 250, intro, zero, zero, zero, 0);// intro scene
+	#pragma endregion
+
 
 	#pragma region Effect
 	//hieu ung no khi danh
@@ -748,15 +907,15 @@ void CSceneManager::DisableSoundWhenChangeScene()
 	switch (sceneID)
 	{
 	case GAME_STAGE_31:
-		Sound::getInstance()->stop(DirectSound_BACKGROUND1);
+		Sound::getInstance()->deleteSound(DirectSound_BACKGROUND1);
 		//Sound::getInstance()->deleteSound(DirectSound_BACKGROUND1);
 		break;
 	case GAME_STAGE_32:
-		Sound::getInstance()->stop(DirectSound_Background2);
+		Sound::getInstance()->deleteSound(DirectSound_Background2);
 		//Sound::getInstance()->deleteSound(DirectSound_Background2);
 		break;
 	case GAME_STAGE_33:
-		Sound::getInstance()->stop(DirectSound_Background3);
+		Sound::getInstance()->deleteSound(DirectSound_Background3);
 		//Sound::getInstance()->deleteSound(DirectSound_Background3);
 		break;
 	default:

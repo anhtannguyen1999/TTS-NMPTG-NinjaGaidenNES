@@ -70,8 +70,10 @@ void CGrid::LoadGrid()
 					break;
 				case 6:
 					miniType = stoi(number);
+					break;//
 				case 7:
 					other = stoi(number);
+					break;//
 				default:
 					break;
 				}
@@ -103,7 +105,7 @@ CGameObject * CGrid::CreateNewObject(int id, int type, int x, int y, int w, int 
 		case ENEMY_MINITYPE_NGUOICAMKIEM:
 			return new CNguoiCamKiem(id,x, y);
 		case ENEMY_MINITYPE_HAWK:
-			return new CHawk(id, x, y);
+			return new CHawk(id, x, y,other);
 		case ENEMY_MINITYPE_BAT:
 			return new CBat(id, x, y,other);
 		case ENEMY_MINITYPE_PANTHER:
@@ -188,14 +190,18 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 						if (cells[i][j].at(k)->typeObj == TYPE_ENEMY)
 						{
 							CEnemy* enemy = dynamic_cast<CEnemy*>(cells[i][j].at(k));
-							if (enemy->GetTypeEnemy() != ENEMY_MINITYPE_PANTHER&&enemy->GetTypeEnemy() != ENEMY_MINITYPE_BAT)
+							if ((enemy->GetTypeEnemy() != ENEMY_MINITYPE_PANTHER&&enemy->GetTypeEnemy() != ENEMY_MINITYPE_BAT
+								&&enemy->GetTypeEnemy() != ENEMY_MINITYPE_HAWK) //Khong phai bao, doi, chim ung, hoac la chim ung co nx=0
+								||(enemy->GetTypeEnemy() == ENEMY_MINITYPE_HAWK && enemy->rootNX==0))
 							{
+								
 								cells[i][j].at(k)->SetHP(1);
 								listOtherObj.push_back(cells[i][j].at(k));
 							}
 							else if (enemy->rootNX > 0 && ninja->x > enemy->x
 								|| enemy->rootNX < 0 && ninja->x < enemy->x)//neu la panther or Bat va ninja nam dung huong root
 							{
+								
 								cells[i][j].at(k)->SetHP(1);
 								listOtherObj.push_back(cells[i][j].at(k));
 							}
@@ -205,17 +211,20 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 					}
 				}
 			}
-	
+
+
 #pragma region Deactivate
 
 	//Duyệt và deavtive từng object ở cell trước		
-	for (UINT k = 0; k < cells[bottom][left-1].size(); k++) //Duyệt từng obj trong cell ở trước
+	for (UINT k = 0; k < cells[bottom][left - 1].size(); k++) //Duyệt từng obj trong cell ở trước
 	{
 		if (left - 1< 0)
 			break;
 		if (cells[bottom][left - 1].at(k)->typeObj == TYPE_ENEMY) // nếu là enemy thì hủy nó đi
 		{
-			if (cells[bottom][left - 1].at(k)->GetHP() > 0)
+			CEnemy* enemy = dynamic_cast<CEnemy*>(cells[bottom][left - 1].at(k));
+			if (cells[bottom][left - 1].at(k)->GetHP() > 0
+				&& enemy->GetTypeEnemy() != CONTAINER_MINITYPE_BIRD &&enemy->GetTypeEnemy() != CONTAINER_MINITYPE_BUTTERFLY)
 			{
 				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][left - 1].at(k));
 				enemy->DeActivate();
@@ -223,13 +232,15 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 		}
 	}
 	//Duyệt và deavtive từng object ở cell sau
-	for (UINT k = 0; k < cells[bottom][right+ 1].size(); k++) 
+	for (UINT k = 0; k < cells[bottom][right + 1].size(); k++)
 	{
 		if (cells[bottom][right + 1].size() <= 0)
 			break;
 		if (cells[bottom][right + 1].at(k)->typeObj == TYPE_ENEMY) // nếu là enemy thì hủy nó đi
 		{
-			if (cells[bottom][right + 1].at(k)->GetHP() > 0)
+			CEnemy* enemy = dynamic_cast<CEnemy*>(cells[bottom][right + 1].at(k));
+			if (cells[bottom][right + 1].at(k)->GetHP() > 0
+				&& enemy->GetTypeEnemy() != CONTAINER_MINITYPE_BIRD &&enemy->GetTypeEnemy() != CONTAINER_MINITYPE_BUTTERFLY)
 			{
 				CEnemy*enemy = dynamic_cast<CEnemy*>(cells[bottom][right + 1].at(k));
 				enemy->DeActivate();
@@ -238,5 +249,7 @@ void CGrid::GetListObject(vector<CGameObject*> & listBackgroundObj, vector<CGame
 	}
 
 #pragma endregion
+
+
 
 }

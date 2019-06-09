@@ -6,7 +6,6 @@
 #include <vector>
 #include "Sprites.h"
 #include "Camera.h"
-
 struct EffectElement
 {
 	//LPANIMATION animations;
@@ -20,13 +19,17 @@ class CEffect
 	vector<LPANIMATION>animations;
 	vector<EffectElement> arrEffect;
 	CCamera *camera = CCamera::GetInstance();
+
 public:
 	static CEffect * GetInstance();
 	void RenderEffect(int effectID, int x,int y,int time=-1);
 	void Render();
+	
 	CEffect();
 	~CEffect();
 	void LoadResource();
 	void AddAnimation(int aniId);
+
 };
+
 

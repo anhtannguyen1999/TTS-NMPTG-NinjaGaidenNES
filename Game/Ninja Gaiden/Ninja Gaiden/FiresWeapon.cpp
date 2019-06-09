@@ -13,6 +13,7 @@ CFireWeapon::CFireWeapon(float vy)
 	//Load resource
 	this->AddAnimation(331); //Animation 0
 	this->vy = vy;
+	
 }
 
 CFireWeapon::~CFireWeapon()

@@ -13,6 +13,8 @@ CGameSceneStage32::CGameSceneStage32() :CGameScene() //gọi lại cái khởi t
 	ninja->SetPosition(5, 60);
 	scoreboard->SetStage(2);
 	Sound::getInstance()->play(DirectSound_Background2, true, true);
+	ninja->SetPositionX(50);
+	ninja->SetPositionY(100);
 }
 
 
@@ -80,6 +82,11 @@ void CGameSceneStage32::CheckCollision()
 	CheckCollisionNinjaWidthEnemy();
 	CheckCollisionNinjaWithBackGroundObj();
 	CheckCollisionEnemyWithGroundAndVuKhi();
+}
+
+void CGameSceneStage32::PauseBackgroundSound()
+{
+	Sound::getInstance()->stop(DirectSound_Background2);
 }
 
 

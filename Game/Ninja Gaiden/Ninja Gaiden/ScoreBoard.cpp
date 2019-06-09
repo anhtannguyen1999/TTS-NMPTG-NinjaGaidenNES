@@ -27,18 +27,30 @@ void CScoreBoard::Update(DWORD dt)
 	//score = ninja->GetHP();
 	if (GetTickCount() - prevTimer >= 1000)
 	{
-		timer--;
-		prevTimer = GetTickCount();
+		if (!pauseTimer)
+		{
+			timer--;
+			prevTimer = GetTickCount();
+			if (timer <= 5 && timer > 0)
+				Sound::getInstance()->play(DIRECTSOUND_TICK_END_TIME);
+		}
 	}
 	score = ninja->GetPoint();
 	int Mana = ninja->GetMana();
-	messenge = " SCORE - " + std::to_string(score)
-		+ "\n" + " TIMER - " + std::to_string(timer)
-
-		+ "\n P0-2      "+std::to_string(Mana);
 
 	messenge2= "STAGE: " + stageInGame + "\n" +"NINJA -"   + "\nENEMY-";
-	
+
+	if (timer < 0)
+		messenge = " SCORE - " + std::to_string(score)
+		+ "\n" + " TIMER - 0" 
+
+		+ "\n P0-" + std::to_string(ninja->GetSoMang()) + "      " + std::to_string(Mana);
+	else
+		messenge = " SCORE - " + std::to_string(score)
+		+ "\n" + " TIMER - " + std::to_string(timer)
+
+		+ "\n P0-" + std::to_string(ninja->GetSoMang()) + "      " + std::to_string(Mana);
+
 }
 
 void CScoreBoard::Render()

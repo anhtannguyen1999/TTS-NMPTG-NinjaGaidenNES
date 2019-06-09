@@ -195,6 +195,15 @@
     <ClCompile Include="WaveFile.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="GameSceneGameOver.cpp">
+      <Filter>QuanLyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>QuanLyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="OuttroScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -355,6 +364,15 @@
     </ClInclude>
     <ClInclude Include="WaveFile.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneGameOver.h">
+      <Filter>QuanLyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>QuanLyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="OuttroScene.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

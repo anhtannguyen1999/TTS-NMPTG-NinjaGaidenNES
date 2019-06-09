@@ -174,6 +174,14 @@ HRESULT DirectSound::stop()
 	HRESULT result = DirectSoundBuffer_->Stop();
 
 	DirectSoundBuffer_->SetCurrentPosition(0);
+	//DirectSound::~DirectSound();
+	return result;
+}
+HRESULT DirectSound::deleteSound()
+{
+	HRESULT result = DirectSoundBuffer_->Stop();
+
+	DirectSoundBuffer_->SetCurrentPosition(0);
 	DirectSound::~DirectSound();
 	return result;
 }

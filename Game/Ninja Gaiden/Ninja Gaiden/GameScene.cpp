@@ -4,7 +4,9 @@
 
 CGameScene::CGameScene()
 {
-	
+	resetScene = false;
+	scoreboard->PauseTimer(false);
+	ninja->SetIsPauseWhenDie(false);
 }
 
 
@@ -19,17 +21,25 @@ void CGameScene::Render()
 
 void CGameScene::Update(DWORD dt)
 {
+	//pauseEnemyTimer = 1; //xoa cai nay
 	if (endSceneTimer)
 	{
 		endSceneTimer--;
-		if (endSceneTimer==0)
+		if (endSceneTimer == 0)
+		{
 			CSprites::GetInstance()->SetSamMau(0);
+		}
+			
 		else if (endSceneTimer<50)
 			CSprites::GetInstance()->SetSamMau(80);//130
 		else if (endSceneTimer<100)
 			CSprites::GetInstance()->SetSamMau(60);
-		else if (endSceneTimer<150)
-			CSprites::GetInstance()->SetSamMau(5); 
+		else if (endSceneTimer < 150)
+		{
+			CSprites::GetInstance()->SetSamMau(5);
+			scoreboard->PauseTimer(true);
+		}
+			
 	}
 	if (pauseEnemyTimer)
 	{
@@ -50,6 +60,7 @@ void CGameScene::Update(DWORD dt)
 
 		}
 	}
+	///*
 	else
 	{
 		for (UINT j = 0; j < listOtherObj.size(); j++)
@@ -66,9 +77,39 @@ void CGameScene::Update(DWORD dt)
 
 		}
 	}
+	//*/
 	//Xet de xoa toan bo enemy de load enemy man khac
 
 	scoreboard->Update(dt);
+
+	if ((ninja->GetHP() <= 0 || ninja->y < -5 || (scoreboard->GetTimer() <= 0 && !scoreboard->GetPauseTimer()))
+		&& resetScene == false)
+	{
+		if (resetSceneTimer == 0)
+		{
+			this->PauseBackgroundSound();
+			Sound::getInstance()->play(DIRECTSOUND_NINJA_DIE);
+			
+			pauseEnemyTimer = 150;
+			resetSceneTimer = 150;
+			ninja->SetIsPauseWhenDie(true);
+		}
+		else
+		{
+			resetSceneTimer--;
+			if (resetSceneTimer == 0)
+			{
+				ninja->SetSoMang(ninja->GetSoMang() - 1);
+				pauseEnemyTimer = 0;
+				ninja->ResetVeTrangThaiDau();
+				ninja->SetIsPauseWhenDie(false);
+				resetScene = true;
+			}
+		}
+		
+	}
+	
+
 }
 
 void CGameScene::KeyDown(unsigned short int const &key)
@@ -108,6 +149,13 @@ void CGameScene::KeyDown(unsigned short int const &key)
 			break;
 		case D_KEY:
 			ninja->SetState(NINJA_STATE_ATTACKED);
+			break;
+		case DIK_S:
+			ninja->CongHP(2);
+			break;
+		case DIK_RETURN:
+			if(!keyEntered)
+				this->keyEntered = true;
 			break;
 		default:
 			ninja->SetState(NINJA_STATE_IDLE);
@@ -276,6 +324,8 @@ void CGameScene::CheckCollisionNinjaWithBackGroundObj()
 
 void CGameScene::CheckCollisionNinjaWidthEnemy()
 {
+	if (isChangingScene)
+		return;
 	//Enemy được lưu trong list other obj
 	for (UINT i = 0; i < listOtherObj.size(); i++)
 	{
@@ -518,7 +568,7 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 							collisionCheck = ninja->isCollitionObjectWithObject(HGlass);
 							if (collisionCheck != OBJ_NO_COLLISION)
 							{
-								this->pauseEnemyTimer = 500;
+								this->pauseEnemyTimer = 300;
 
 							}
 							break;
@@ -654,7 +704,7 @@ void CGameScene::CheckCollisionNinjaWidthEnemy()
 							collisionCheck = ninja->isCollitionObjectWithObject(HGlass);
 							if (collisionCheck != OBJ_NO_COLLISION)
 							{
-								this->pauseEnemyTimer = 500;
+								this->pauseEnemyTimer = 300;
 
 							}
 							break;
@@ -1503,9 +1553,11 @@ void CGameScene::CheckCollisionEnemyWithGroundAndVuKhi()
 				gridGame->GetListObject(listBackgroundObj, listOtherObj, camera);
 
 				//Sau nay xet neu khong phai la boss nua
-				//if(enemy->GetTypeEnemy!=ENEMY_MINITYPE_BOSS)
+				//
 				ninja->ninjaSword->DanhChetEnemy();
-				ninja->CongDiem(enemy->GetSoDiem());
+				if (enemy->GetTypeEnemy() != ENEMY_MINITYPE_BOSS)
+					ninja->CongDiem(enemy->GetSoDiem());
+				
 			}
 			else if (ninja->specialWeapon)
 			{

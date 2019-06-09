@@ -66,3 +66,16 @@ void Sound::stop(string soundLink)
 void Sound::Stop(int id)
 {
 }
+
+void Sound::deleteSound(string soundLink)
+{
+	try
+	{
+		loadedSound_.at(soundLink)->deleteSound();
+		loadedSound_.erase(soundLink);
+	}
+	catch (exception)
+	{
+
+	}
+}

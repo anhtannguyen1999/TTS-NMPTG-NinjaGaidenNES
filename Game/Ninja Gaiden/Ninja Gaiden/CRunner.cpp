@@ -23,7 +23,7 @@ CRunner::CRunner(int id, int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
-	this->soDiem = 100;
+	this->soDiem = 300;
 }
 
 
@@ -140,7 +140,7 @@ void CRunner::Render()
 	if (isPause)
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 

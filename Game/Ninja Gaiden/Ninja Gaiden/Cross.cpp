@@ -84,7 +84,7 @@ void CCross::Render()
 	pos.z = 0;
 	pos = camera->SetPositionInViewPort(pos);
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 

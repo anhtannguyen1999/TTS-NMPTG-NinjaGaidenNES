@@ -22,8 +22,8 @@ private:
 	std::string messenge,messenge2, stageInGame;
 	int score = 0, timer = 150;
 	int prevTimer = GetTickCount();
-	
-
+	bool pauseTimer = false;
+	int soMang = 0;
 public:
 
 	CScoreBoard();
@@ -32,7 +32,10 @@ public:
 	void Render();
 	void SetStage(int stage);
 	void LoadResourceHp();
-
+	int GetTimer() { return this->timer; }
+	void SetTimer(int time) { this->timer = time; }
+	void PauseTimer(bool pause) { this->pauseTimer = pause; }
+	bool GetPauseTimer() { return this->pauseTimer; }
 	~CScoreBoard();
 };
 

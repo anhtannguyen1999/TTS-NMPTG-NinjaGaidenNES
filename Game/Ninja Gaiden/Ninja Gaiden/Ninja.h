@@ -31,23 +31,13 @@ class CNinja : public CGameObject
 	int mana = 0;
 	int timeResetHit = 0;
 	int point;//So diem 
+	int soMang;//So mangj con lai
+	bool isPauseWhenDie = false;
 public:
 	static CNinja * GetInstance();
 	CNinjaSword *ninjaSword=CNinjaSword::GetInstance();
 	CWeapon *specialWeapon=NULL;
-	CNinja() : CGameObject()
-	{
-		this->LoadResource();
-		this->x = 10;
-		this->y = 200;
-		this->hp = hpMax;
-		this->id = 0;
-		this->mana = 1000;
-		this->point = 0;
-		//ninjaSword = new CNinjaSword();
-		SetSpecialWeapon(WEAPON_MINITYPE_SMALL_SHURIKEN);
-
-	}
+	CNinja();
 	~CNinja();
 	void LoadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
@@ -78,7 +68,12 @@ public:
 	void SetSpecialWeapon(int minitype);
 	int GetMana() { return this->mana; }
 	int GetPoint() { return this->point; }
+	void SetPoint(int point) { this->point = point; }
 	int GetTypeItem();
+	int GetSoMang() { return this->soMang; }
+	void SetSoMang(int soMang) { this->soMang = soMang; }
+	void SetIsPauseWhenDie(bool pause) { this->isPauseWhenDie = pause; }
+	void ResetVeTrangThaiDau();
 };
 
 

@@ -13,6 +13,6 @@ public:
 	void SetIsChangingScene(bool status);
 	void DestroyAll();
 	void CheckCollision();
-
+	virtual void PauseBackgroundSound();
 };
 

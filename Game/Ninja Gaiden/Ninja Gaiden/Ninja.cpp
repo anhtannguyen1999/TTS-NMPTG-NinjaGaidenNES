@@ -16,6 +16,21 @@ CNinja * CNinja::GetInstance()
 }
 
 
+CNinja::CNinja() : CGameObject()
+{
+	this->LoadResource();
+	this->x = this->rootX = 20;
+	this->y = this->rootY = 200;
+	this->hp = hpMax;
+	this->id = 0;
+	this->mana = 0;
+	this->point = 0;
+	this->soMang = 2;
+	//ninjaSword = new CNinjaSword();
+	//SetSpecialWeapon(WEAPON_MINITYPE_FIRES);
+	//isPauseWhenDie = true;
+}
+
 CNinja::~CNinja()
 {
 }
@@ -26,8 +41,12 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//DebugOut(L"HP: %d\n", hp);
 	CGameObject::Update(dt);
 	//preY = y;
+	if (!isPauseWhenDie)
+	{
+		y += dy;
+	}
+	//DebugOut(L"IS PAUSE: %d\n", isPauseWhenDie);
 	
-	y += dy;
 	//Nếu đang đánh(đánh ở trạng thái đứng chứ k phải nhảy hay ngồi) thì dừng lại trục x.
 	//Nếu đang leo tường thì dừng lại trục x
 	if (!(isHit != 0 && !isJump && !isSit) && !isOnWall && canMove)
@@ -35,7 +54,8 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//Neu khong (bi khoa ben trai va di ve ben trai) va tuong tu ben phai
 		if (!(dx >= 0 && !canMoveRight) && !(dx <= 0 && !canMoveLeft))
 		{
-			x += dx;
+			if (!isPauseWhenDie)
+				x += dx;
 		}
 	}
 	
@@ -65,7 +85,7 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//DebugOut(L"Ninja Khong Cham dat\n");
 		
 	}
-	if (this->y < 8) //xet cho khoi rot gay bug thoi 9 // Rot xuong thi ve vach xuat phat
+	if (this->y < -30) //xet cho khoi rot gay bug thoi 9 // Rot xuong thi ve vach xuat phat
 	{
 		//this->y = 8;
 		SetPosition(10, 200);
@@ -119,6 +139,8 @@ void CNinja::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (timeResetHit > 10)
 			timeResetHit = 0;
 	}
+
+	
 }
 
 void CNinja::CalNinjaSword()
@@ -396,6 +418,32 @@ int CNinja::GetTypeItem()
 		return 0;
 }
 
+void CNinja::ResetVeTrangThaiDau()
+{
+	this->x = this->rootX;
+	this->y = this->rootY;
+	this->hp = hpMax;
+	canMove = true;
+	canMoveLeft = true;
+	canMoveRight = true;
+	canJump = true;
+	isJump = false;
+	isSit = false;
+	canClimbUpDown = false; //Co 2 loai wall, 1 loai cho leo 1 loai k cho leo
+	isOnWall = false;
+	canClingOnClimbWall = true;// khi nhay xong co the bam len tuong, khi ngoi xuong thi k the
+	isUp = false;//is KeyUp
+	isDown = false;
+	isHit = 0;
+	attacked = 0; //attacked =0 la k bi danh => co the bi danh; attack 0->12: trang thai bay khi bi danh, 12->40: trang thai nhap nhay sau do
+	huongAttacked = true; // false la huong con enemy di nguoc Ox => ninja bay ve phia trai
+	onGround = false;
+	vy = 0;
+	vx = 0;
+	dy = 0;
+	dx = 0;
+}
+
 #pragma region Render
 
 void CNinja::Render()
@@ -445,7 +493,14 @@ void CNinja::Render()
 	if (isSit)
 		pos.y += 5;
 
-	if (attacked != 0 && attacked<20) //Nếu ĐANG bị đánh thì render(k xet trang thai nhap nhay sau danh)
+	if (isPauseWhenDie)
+	{
+		if (nx < 0)
+			ani = NINJA_ANI_ATTACKED_LEFT;
+		else ani = NINJA_ANI_ATTACKED_RIGHT;
+		animations[ani]->Render(pos.x, pos.y, 200);
+	}
+	else if (attacked != 0 && attacked<20) //Nếu ĐANG bị đánh thì render(k xet trang thai nhap nhay sau danh)
 	{
 		Attacked(ani);
 		animations[ani]->Render(pos.x, pos.y, ALPHA);
@@ -473,9 +528,9 @@ void CNinja::Render()
 		else//trang thai binh thuong
 			animations[ani]->Render(pos.x, pos.y, ALPHA);
 	}
-		
+	
 	//DebugOut(L"%d\n", attacked);
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 	ninjaSword->Render();
 	if (specialWeapon)
 		specialWeapon->Render();
@@ -707,7 +762,8 @@ void CNinja::SetOnWall(bool onWall)
 void CNinja::SetState(int state)
 {
 	CGameObject::SetState(state);
-
+	if (isPauseWhenDie)
+		return;
 	//isUp = false;
 	switch (state)
 	{
@@ -738,7 +794,7 @@ void CNinja::SetState(int state)
 	case NINJA_STATE_JUMP:
 		if (canJump)
 		{
-			Sound::getInstance()->play(DirectSound_NINJA_JUMP);
+			//Sound::getInstance()->play(DirectSound_NINJA_JUMP);
 			if (isOnWall)
 				vy = +NINJA_JUMP_FORCE_ONWALL;
 			else
@@ -751,6 +807,8 @@ void CNinja::SetState(int state)
 			vy = 0;
 			dy = 0;
 		}
+		if(canJump&&vy>0) //Xet de play sound
+			Sound::getInstance()->play(DirectSound_NINJA_JUMP);
 		onGround = false;
 		isJump = 1;
 		canJump = false;

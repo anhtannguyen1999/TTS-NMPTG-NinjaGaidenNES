@@ -28,7 +28,7 @@ void CWall::GetBoundingBox(float & x, float & y, float & width, float & height)
 
 void CWall::Render()
 {
-	this->RenderBoundingBox(180);
+	//this->RenderBoundingBox(180);
 }
 
 int CWall::GetMiniTypeWall()

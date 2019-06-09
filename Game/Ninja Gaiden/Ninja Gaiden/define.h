@@ -118,10 +118,12 @@
 #define L_KEY 6
 #define D_KEY 7
 //Scene
+#define GAME_SCENE_INTRO 0
 #define GAME_STAGE_31 1
 #define GAME_STAGE_32 2
 #define GAME_STAGE_33 3
-
+#define GAME_SCENE_GAMEOVER 4
+#define GAME_SCENE_OUTTRO 5
 //Grid
 #define GRID_CELL_HEIGHT CAMERA_HEIGHT/2
 #define GRID_CELL_WIDTH CAMERA_WIDTH/2

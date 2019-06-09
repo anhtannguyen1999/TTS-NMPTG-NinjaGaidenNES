@@ -15,5 +15,6 @@ public:
 	//void CheckCollisionNinjaWithGround();
 	//void CheckCollisionNinjaWidthEnemy();
 	//void CheckCollisionEnemyWithGroundAndVuKhi();
+	virtual void PauseBackgroundSound();
 };
 

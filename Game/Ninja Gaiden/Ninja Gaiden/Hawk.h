@@ -19,7 +19,7 @@ class CHawk :public CEnemy
 	bool vuaKhoiTao = true; //Vuawf khoiwr taoj neu vua khoi tao thi xet no move left hay move right
 
 public:
-	CHawk(int id, int x, int y);
+	CHawk(int id, int x, int y, int rootNX=0);
 	~CHawk();
 
 	void LoadResource();

@@ -49,6 +49,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_D:
 		sceneManager->KeyDown(D_KEY);
 		break;
+	case DIK_S:
+		sceneManager->KeyDown(DIK_S);
+		break;
+	case DIK_RETURN:
+		sceneManager->KeyDown(DIK_RETURN);
+		break;
 	default:
 		break;
 	}
@@ -110,7 +116,7 @@ void LoadResources()
 	
 	//sceneManager = new CSceneManager();
 	sceneManager = CSceneManager::GetInstance();
-	sceneManager->LoadScene(GAME_STAGE_31);
+	sceneManager->LoadScene(GAME_SCENE_INTRO);
 	ninja= CNinja::GetInstance();
 }
 

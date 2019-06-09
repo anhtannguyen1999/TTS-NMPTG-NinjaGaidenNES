@@ -1,7 +1,7 @@
 #include "Hawk.h"
 
 
-CHawk::CHawk(int id, int x, int y)
+CHawk::CHawk(int id, int x, int y, int rootNX)
 {
 	this->id = id;
 	LoadResource();
@@ -12,6 +12,7 @@ CHawk::CHawk(int id, int x, int y)
 	this->hp = 0;
 	this->width = 20;
 	this->height = 15;
+	this->rootNX = rootNX;
 	nx = rootNX; 
 	vy = -0.026f;
 	vx =-0.05f;
@@ -22,10 +23,9 @@ CHawk::CHawk(int id, int x, int y)
 	//Gan diem ban dau
 	this->rootX = x;
 	this->rootY = y;
-	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
-	this->soDiem = 100;
+	this->soDiem = 300;
 }
 
 CHawk::~CHawk()
@@ -65,12 +65,12 @@ void CHawk::Render()
 	if (isPause)
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
-	this->RenderBoundingBox(170);
+	//this->RenderBoundingBox(170);
 }
 
 void CHawk::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+	//DebugOut(L" Root: %d\n", rootNX);
 	if (hp <= 0)
 		return;
 	CGameObject::Update(dt);

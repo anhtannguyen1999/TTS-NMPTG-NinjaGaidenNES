@@ -20,6 +20,8 @@
 #define DIRECTSOUND_ENEMY_GUNNER "Sound/GunnerShoot.wav"
 #define DIRECTSOUND_SUBWEAPON_FIRE "Sound/FireShoot.wav"
 #define DIRECTSOUND_SUBWEAPON_BIG_SHURIKEN "Sound/BigShurikenWeapon.wav"
+#define DIRECTSOUND_NINJA_DIE "Sound/NinjaDie.wav"
+#define DIRECTSOUND_TICK_END_TIME "Sound/TickWhenEndTime.wav"
 
 #define AUDIO_BLOCK_ALIGN(bitPerSample, nChannels)		(WORD)(bitPerSample / 8 * nChannels)
 #define AUDIO_AVERAGE_BPS(samplesPerSec, blockAlign)	(DWORD)(samplesPerSec * blockAlign)
@@ -65,7 +67,7 @@ public:
 
 	HRESULT play(bool isLoop = false, DWORD priority = 0);
 	HRESULT stop();
-
+	HRESULT deleteSound();
 
 private:
 	HRESULT loadAudio(const char* audioPath);

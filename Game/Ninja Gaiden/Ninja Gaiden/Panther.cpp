@@ -26,7 +26,7 @@ CPanther::CPanther(int id, int x, int y,int rootNX)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
-	this->soDiem = 100;
+	this->soDiem = 200;
 }
 
 

@@ -21,6 +21,8 @@ public:
 
 	void Stop(int id);
 
+	void deleteSound(string soundLink);
+
 	void stop(string soundLink);
 
 	static Sound* getInstance();

@@ -7,12 +7,14 @@ class CBoss :public CEnemy
 	int isHit = 0;
 	int daChamDat = 0;//Xet xem no da cham dat lan dau tien chua (de xet di chuyen cho enemy nay quanh cai ground)
 	int startX;
+	int startY;
 	int CanFly=1;
 	DWORD TimePerFly = 3000 ;
 	DWORD TimePrevFly=0;
 	DWORD TimePrevShoot = 0;//thời gian bắn lần trước
 	int timerRefreshAttack = 0;
 	static CBoss *__instance;
+	
 public:
 	CBoss(int id, int x, int y);
 	~CBoss();
@@ -28,6 +30,6 @@ public:
 	void BanBullet(int x);
 	void RefreshListBullet(int x);
 	virtual void DeActivate();
-	
+	void Reset();
 };
 

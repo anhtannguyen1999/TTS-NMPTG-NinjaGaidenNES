@@ -21,7 +21,7 @@ CGunner::CGunner(int id,int x, int y)
 	this->rootNX = this->nx;
 	this->rootVX = this->vx;
 	this->rootVY = this->vy;
-	this->soDiem = 100;
+	this->soDiem = 200;
 }
 
 
@@ -49,7 +49,7 @@ void CGunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		timer++;
 	}
-	if (timer >= 150)
+	if (timer >= 100)
 	{
 		timer = 0;
 	}
@@ -131,7 +131,7 @@ void CGunner::Render()
 		animations[ani]->ResetCurrentFrame();
 	animations[ani]->Render(pos.x, pos.y, ALPHA);
 	/*animations[ani2]->Render(pos.x, pos.y, ALPHA);*/
-	this->RenderBoundingBox();
+	//this->RenderBoundingBox();
 }
 
 void CGunner::GetBoundingBox(float & x, float & y, float & width, float & height)

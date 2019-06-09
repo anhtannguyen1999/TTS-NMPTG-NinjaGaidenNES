@@ -64,6 +64,8 @@ void CEffect::Render()
 		}
 		i++;
 	}
+
+	
 }
 
 CEffect::CEffect()

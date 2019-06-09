@@ -165,8 +165,8 @@ void CGame::ProcessKeyboard()
 			return;
 		}
 	}
-
-	keyHandler->KeyState((BYTE *)&keyStates);
+	if(keyHandler)
+		keyHandler->KeyState((BYTE *)&keyStates);
 
 
 

@@ -14,6 +14,9 @@ CGameSceneStage31::CGameSceneStage31() :CGameScene() //gọi lại cái khởi t
 	gridGame->LoadGrid();
 	scoreboard->SetStage(1);
 	Sound::getInstance()->play(DirectSound_BACKGROUND1, true, true);
+	ninja->SetPositionX(50);
+	ninja->SetPositionY(100);
+
 }
 
 
@@ -81,6 +84,11 @@ void CGameSceneStage31::CheckCollision()
 	CheckCollisionNinjaWidthEnemy();
 	CheckCollisionNinjaWithBackGroundObj();
 	CheckCollisionEnemyWithGroundAndVuKhi();
+}
+
+void CGameSceneStage31::PauseBackgroundSound()
+{
+	Sound::getInstance()->stop(DirectSound_BACKGROUND1);
 }
 
 

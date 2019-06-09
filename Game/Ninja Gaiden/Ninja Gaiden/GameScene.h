@@ -26,6 +26,9 @@ protected:
 	CTileMap *tileMap;
 	int endSceneTimer = 0;
 	CScoreBoard *scoreboard = CScoreBoard::GetInstance();
+	int resetSceneTimer = 0;//reset khi ninja die
+	bool resetScene = false;
+	bool keyEntered = false;
 public:
 	CGameScene();
 	~CGameScene();
@@ -45,5 +48,8 @@ public:
 	void CheckCollisionNinjaWidthEnemy();
 	void CheckCollisionEnemyWithGroundAndVuKhi();
 	void SetEndSceneEffect(bool&done );
+	//virtual void ResetScene()=0;
+	bool GetResetScene() { return this->resetScene; }
+	virtual void PauseBackgroundSound() = 0;
 };
 
