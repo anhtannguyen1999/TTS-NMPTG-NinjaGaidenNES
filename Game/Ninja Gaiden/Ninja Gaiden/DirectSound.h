@@ -22,6 +22,8 @@
 #define DIRECTSOUND_SUBWEAPON_BIG_SHURIKEN "Sound/BigShurikenWeapon.wav"
 #define DIRECTSOUND_NINJA_DIE "Sound/NinjaDie.wav"
 #define DIRECTSOUND_TICK_END_TIME "Sound/TickWhenEndTime.wav"
+#define DIRECTSOUND_CONG_DIEM_BOSS_DIE "Sound/CongDiemBossDie.wav"
+#define DIRECTSOUND_CONG_DIEM_BOSS_DIE_END "Sound/CongDiemBossDie_End.wav"
 
 #define AUDIO_BLOCK_ALIGN(bitPerSample, nChannels)		(WORD)(bitPerSample / 8 * nChannels)
 #define AUDIO_AVERAGE_BPS(samplesPerSec, blockAlign)	(DWORD)(samplesPerSec * blockAlign)

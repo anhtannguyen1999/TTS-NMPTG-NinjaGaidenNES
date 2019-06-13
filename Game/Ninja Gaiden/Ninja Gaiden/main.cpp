@@ -43,12 +43,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_A:
 		sceneManager->KeyDown(A_KEY);
 		break;
-	case DIK_L:
+	/*case DIK_L:
 		sceneManager->KeyDown(L_KEY);
 		break;
 	case DIK_D:
 		sceneManager->KeyDown(D_KEY);
-		break;
+		break;*/
 	case DIK_S:
 		sceneManager->KeyDown(DIK_S);
 		break;

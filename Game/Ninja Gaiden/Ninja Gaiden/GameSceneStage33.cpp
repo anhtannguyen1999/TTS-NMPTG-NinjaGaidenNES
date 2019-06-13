@@ -57,12 +57,17 @@ void CGameSceneStage33::Update(DWORD dt)
 		{
 			tick = 0;
 			scoreboard->PauseTimer(true);
-			if (scoreboard->GetTimer() > 0)
+			int tickTimer = scoreboard->GetTimer();
+			if (tickTimer> 0)
 			{
 				//DebugOut(L"Timer: %d\n", scoreboard->GetTimer());
-				ninja->CongDiem(1000);
+				ninja->CongDiem(100);
 				//if (scoreboard->GetTimer() - 1 < 0)
 				scoreboard->SetTimer(scoreboard->GetTimer() - 1);
+				if (tickTimer == 1)
+					Sound::getInstance()->play(DIRECTSOUND_CONG_DIEM_BOSS_DIE_END);
+				else// if(tickTimer%2==0)
+					Sound::getInstance()->play(DIRECTSOUND_CONG_DIEM_BOSS_DIE);
 			}
 			else
 			{

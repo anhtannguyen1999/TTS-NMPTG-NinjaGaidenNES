@@ -35,7 +35,8 @@ void CSceneManager::LoadScene(int sceneID)
 	case GAME_STAGE_32:
 		delete(gameScene);
 		gameScene = new CGameSceneStage32();
-		//ninja->SetPositionX(2600);
+		//ninja->SetPositionX(3000);
+		//ninja->SetPositionY(300);
 		break;
 	case GAME_STAGE_33:
 		delete(gameScene);
@@ -79,8 +80,8 @@ void CSceneManager::Update(DWORD dt)
 		}
 		if (sceneID == GAME_STAGE_32&& ninja->GetPositionX() >= 3040)
 		{
-			if(endSceneEffectDone)
-				DebugOut(L"Done: %d\n", endSceneEffectDone);
+			//if(endSceneEffectDone)
+			//	DebugOut(L"Done: %d\n", endSceneEffectDone);
 			gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
 			if (endSceneEffectDone)
 			{
@@ -93,8 +94,8 @@ void CSceneManager::Update(DWORD dt)
 			CGameSceneStage33* scene3 = dynamic_cast<CGameSceneStage33*>(gameScene);
 			if (scene3->GetIsChangingScene())
 			{
-				if (endSceneEffectDone)
-					DebugOut(L"Done: %d\n", endSceneEffectDone);
+				//if (endSceneEffectDone)
+				//	DebugOut(L"Done: %d\n", endSceneEffectDone);
 				gameScene->SetEndSceneEffect(endSceneEffectDone);//Set hieu ung khi chuyen canh
 				if (endSceneEffectDone)
 				{
@@ -245,6 +246,7 @@ void CSceneManager::PlayScene(int id)
 	default:
 		break;
 	}
+	CSprites::GetInstance()->SetSamMau(0);
 }
 
 
