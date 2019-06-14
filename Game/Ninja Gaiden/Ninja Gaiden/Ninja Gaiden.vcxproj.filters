@@ -202,7 +202,7 @@
       <Filter>QuanLyScene</Filter>
     </ClCompile>
     <ClCompile Include="OuttroScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>QuanLyScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,7 +372,7 @@
       <Filter>QuanLyScene</Filter>
     </ClInclude>
     <ClInclude Include="OuttroScene.h">
-      <Filter>Header Files</Filter>
+      <Filter>QuanLyScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

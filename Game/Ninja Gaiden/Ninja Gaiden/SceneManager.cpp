@@ -30,7 +30,7 @@ void CSceneManager::LoadScene(int sceneID)
 		delete(gameScene);
 		gameScene = new CGameSceneStage31();
 		//ninja->SetPositionX(2000);
-		//NextScene();
+		
 		break;
 	case GAME_STAGE_32:
 		delete(gameScene);
@@ -924,4 +924,9 @@ void CSceneManager::DisableSoundWhenChangeScene()
 		break;
 	}
 	
+}
+
+void CSceneManager::ResetScene()
+{
+	LoadScene(sceneID);
 }

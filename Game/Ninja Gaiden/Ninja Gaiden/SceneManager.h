@@ -34,5 +34,6 @@ public:
 	void LoadResourceForEnemies();
 	void LoadOtherResource();
 	void DisableSoundWhenChangeScene();
+	void ResetScene();
 };
 

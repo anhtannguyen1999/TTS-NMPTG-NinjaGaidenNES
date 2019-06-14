@@ -1,7 +1,8 @@
-﻿  SceneManager.cpp
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\wavefile.h(10): warning C4005: 'SAFE_DELETE': macro redefinition
-  e:\hoctap\hk4\nmptg\doan\next\ninja gaiden\ninja gaiden\define.h(202): note: see previous definition of 'SAFE_DELETE'
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.exe
-  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\DoAn\Next\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)
+﻿  main.cpp
+e:\hoctap\hk4\nmptg\baocao\ninjagaiden\ninja gaiden\ninja gaiden\gameobject.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\baocao\ninjagaiden\ninja gaiden\ninja gaiden\gameobject.h(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\hk4\nmptg\baocao\ninjagaiden\ninja gaiden\ninja gaiden\wavefile.h(10): warning C4005: 'SAFE_DELETE': macro redefinition
+  e:\hoctap\hk4\nmptg\baocao\ninjagaiden\ninja gaiden\ninja gaiden\define.h(202): note: see previous definition of 'SAFE_DELETE'
+e:\hoctap\hk4\nmptg\baocao\ninjagaiden\ninja gaiden\ninja gaiden\main.cpp(155): warning C4018: '<': signed/unsigned mismatch
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\BaoCao\NinjaGaiden\Ninja Gaiden\Debug\Ninja Gaiden.exe
+  Ninja Gaiden.vcxproj -> E:\HocTap\HK4\NMPTG\BaoCao\NinjaGaiden\Ninja Gaiden\Debug\Ninja Gaiden.pdb (Partial PDB)

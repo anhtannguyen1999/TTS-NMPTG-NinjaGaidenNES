@@ -22,6 +22,7 @@ CGameSceneStage33::CGameSceneStage33() :CGameScene() //gọi lại cái khởi t
 	boss->Reset();
 	ninja->SetPositionX(125);
 	ninja->SetPositionY(70);
+	pauseEnemyTimer = 1;
 }
 
 

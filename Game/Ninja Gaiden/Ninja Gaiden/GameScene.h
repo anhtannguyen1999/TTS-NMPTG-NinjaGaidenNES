@@ -16,10 +16,7 @@ protected:
 	vector<CGameObject*> listOtherObj;
 	CCamera *camera = CCamera::GetInstance();
 	bool isChangingScene;
-	bool canUseKeyboard;
-	//static CNinja* ninja;
 	CNinja*ninja = CNinja::GetInstance();
-	D3DXVECTOR3 ninjaCheckpoint;
 	CEffect *effect = CEffect::GetInstance();
 	int pauseEnemyTimer = 0; 
 	CGrid * gridGame;
